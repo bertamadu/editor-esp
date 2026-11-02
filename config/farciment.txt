@@ -1,13 +1,13 @@
-# Llista de farciment de tallat.
-# Una expressió per línia (pot ser de més d'una paraula). Les majúscules, la puntuació
-# i les lletres allargades no compten: «Mmmm…» és el mateix que «mmm».
-# Pots editar la teva còpia a ~/.tallat/farciment.txt
+# Lista de muletillas de tallat-es.
+# Una expresión por línea (puede ser de más de una palabra). Las mayúsculas, la puntuación
+# y las letras alargadas no cuentan: «Mmmm…» es lo mismo que «mmm».
+# Puedes editar tu copia en ~/.tallat-es/farciment.txt
 
 [treu]
-# Sons de dubte: tallat els treu sols (es poden recuperar)
-# (no hi posis «em»: en català també és un pronom, com a «em satura»)
+# Sonidos de duda: tallat-es los quita solo (se pueden recuperar)
 eh
 ehm
+em
 ahm
 mmm
 hmm
@@ -15,16 +15,21 @@ uh
 um
 
 [proposa]
-# Paraules que de vegades són farciment i de vegades no: tallat només les proposa
+# Palabras que a veces son muletilla y a veces no: tallat-es solo las propone
 ah
-vale
-saps
-o sigui
-bueno
-pues
-a veure
+este
+o sea
 en plan
-# Amb una coma al final: només quan la paraula va seguida de coma («Bé, doncs…», «Doncs, mira»).
-# Sense coma solen ser paraules de debò («molt bé», «doncs ho farem»).
-doncs,
-bé,
+tipo
+vale
+pues
+digamos
+a ver
+sabes
+o sea que
+# Con una coma al final: solo cuando la palabra va seguida de coma («Bueno, pues…», «Entonces, mira»).
+# Sin coma suelen ser palabras de verdad («muy bueno», «entonces lo haremos»).
+bueno,
+entonces,
+nada,
+claro,

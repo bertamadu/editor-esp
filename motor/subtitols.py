@@ -46,17 +46,19 @@ def _neteja_text(text: str, puntuacio: bool) -> str:
 
 GENERIQUES = {"system-ui", "sans-serif", "serif", "monospace", "cursive", "fantasy"}
 CONFIG = Path(__file__).resolve().parent.parent / "config"
-EMOJIS_USUARI = Path.home() / ".tallat" / "emojis.json"
+EMOJIS_USUARI = Path.home() / ".tallat-es" / "emojis.json"
 
 # Paraules que no poden ser «clau» (les que fan de pont: articles, preposicions, pronoms, verbs comuns…).
 PARAULES_PONT = set("""
-a al als amb ara així aquí aquest aquesta aquests aquestes aquell aquella aquells aquelles allò això
-bé com con contra d de del dels des després doncs durant e el ella elles ells els em en encara entre
-era eren es és et fa fan fer fins ha han hagi hauria havia he hem heu hi i ja jo l la les li llavors
-lo m me mes més meu meva meus meves molt molta molts moltes n ne ni no nosaltres o on però per perquè
-poc pot puc què qual quan que qui s sa se seu seva seus seves si sí sigui sóc sobre som són també tan
-tant te tenen tenir tens tinc tot tota tots totes tu un una uns unes us va vam van vaig vosaltres vull
-estar estic està estan ser sé sap saps dir dic diu cal pas gens res algú alguna algun alguns algunes
+a al ante bajo con contra de del desde durante en entre hacia hasta mediante para por segun sin so sobre tras
+el la los las lo un una unos unas y e o u ni que pero sino porque pues como cuando donde quien cual cuales
+yo tu te ti me mi mis tus su sus se nos os le les nosotros nosotras vosotros vosotras ellos ellas ella el
+usted ustedes este esta esto estos estas ese esa eso esos esas aquel aquella aquello aquellos aquellas
+aqui ahi alli ahora asi ya mas menos muy mucho mucha muchos muchas poco poca pocos pocas tan tanto todo toda
+todos todas algo alguien algun alguna algunos algunas nada nadie no si sí también tambien solo luego entonces
+es son era eran fue ser estar estoy esta están estan estaba he ha han hay habia había hemos haber hace hacer
+hago tengo tiene tienen tener voy va van vamos puedo puede pueden quiero quiere sé sabe sabes digo dice decir
+qué cómo dónde cuándo quién más está así aquí allí ahí después despues antes bueno pues vale o sea eh
 """.split())
 
 
@@ -69,7 +71,7 @@ def _pla(paraula: str) -> str:
 
 @functools.lru_cache(maxsize=1)
 def _emojis() -> tuple[dict, list]:
-    """(paraula → emoji, [(prefix, emoji)]) de config/emojis.json i ~/.tallat/emojis.json."""
+    """(paraula → emoji, [(prefix, emoji)]) de config/emojis.json i ~/.tallat-es/emojis.json."""
     exactes, prefixos = {}, []
     for path in (CONFIG / "emojis.json", EMOJIS_USUARI):
         try:
@@ -307,7 +309,7 @@ def composicio(linies: list[dict], estil: dict, durada: float, fonts: list[dict]
                      if es.get("ombra", True) else "")
 
     return f"""<!doctype html>
-<html lang="ca">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width={amplada}, height={alcada}" />
@@ -410,14 +412,14 @@ def renderitza(linies: list[dict], estil: dict, durada: float, carpeta: Path, qu
     if escala == "4k":
         ordre += ["--resolution", "portrait-4k"]
     if avis:
-        avis("Dibuixant subtítols, gràfics i stickers amb HyperFrames…")
+        avis("Dibujando subtítulos, gráficos y stickers con HyperFrames…")
     r = subprocess.run(ordre, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0 and "Chrome cannot start" in r.stderr + r.stdout:
         # El primer cop que s'obre el navegador de HyperFrames, el Mac el revisa i HyperFrames no l'espera
         # prou. Un segon intent ja el troba revisat.
         r = subprocess.run(ordre, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0 or not temporal.exists():
-        raise RuntimeError("HyperFrames no ha pogut dibuixar els subtítols:\n" + (r.stderr or r.stdout)[-2000:])
+        raise RuntimeError("HyperFrames no ha podido dibujar los subtítulos:\n" + (r.stderr or r.stdout)[-2000:])
     temporal.replace(sortida)
     for vell in base.glob(f"subtitols_{escala}_*.mov"):  # només en guardem un per mida
         if vell != sortida:

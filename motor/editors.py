@@ -394,61 +394,61 @@ def xmeml(nom: str, video: Path, pla: dict, capa: Path | None = None) -> str:
             "</sequence></xmeml>\n")
 
 
-LLEGEIX_ME = """Projecte de «{nom}» per acabar-lo en un altre editor
-====================================================
+LLEGEIX_ME = """Proyecto de «{nom}» para acabarlo en otro editor
+================================================
 
-Aquesta carpeta té el muntatge de tallat: els talls, els zooms, el b-roll i els stickers,
-cadascun a la seva pista. El b-roll i els stickers són a «recursos». Els talls fan servir el
+Esta carpeta tiene el montaje de tallat-es: los cortes, los zooms, el b-roll y los stickers,
+cada uno en su pista. El b-roll y los stickers están en «recursos». Los cortes usan el
 vídeo original:
 
     {video}
 
-No el moguis ni li canviïs el nom. Si l'has de moure, l'editor et demanarà on és
-(«tornar a enllaçar» o «relink»).
+No lo muevas ni le cambies el nombre. Si lo tienes que mover, el editor te pedirá dónde está
+(«volver a vincular» o «relink»).
 
 Premiere Pro
-  1. Fitxer → Importa… → tria «{nom}.xml».
-  2. Al panell Projecte surt la seqüència «{nom}». Fes-hi DOBLE CLIC per obrir-la: cada tall és un
-     clip a part, i el pots allargar o escurçar (el vídeo original hi és sencer).
-     No l'arrosseguis a una seqüència nova: el Premiere la convertiria en un sol clip.
-  3. Subtítols: Fitxer → Importa… → «{nom}.srt», i arrossega'l a la seqüència.
+  1. Archivo → Importar… → elige «{nom}.xml».
+  2. En el panel Proyecto sale la secuencia «{nom}». Haz DOBLE CLIC para abrirla: cada corte es un
+     clip aparte, y lo puedes alargar o acortar (el vídeo original está entero).
+     No la arrastres a una secuencia nueva: Premiere la convertiría en un solo clip.
+  3. Subtítulos: Archivo → Importar… → «{nom}.srt», y arrástralo a la secuencia.
 
 Final Cut Pro
-  1. Fitxer → Importa → XML… → tria «{nom}.fcpxml».
-  2. Subtítols: Fitxer → Importa → Subtítols… → «{nom}.srt».
+  1. Archivo → Importar → XML… → elige «{nom}.fcpxml».
+  2. Subtítulos: Archivo → Importar → Subtítulos… → «{nom}.srt».
 
 DaVinci Resolve
-  1. File → Import → Timeline… → tria «{nom}.fcpxml».
-  2. Subtítols: importa «{nom}.srt» a la Media Pool i arrossega'l a la línia de temps.
+  1. File → Import → Timeline… → elige «{nom}.fcpxml».
+  2. Subtítulos: importa «{nom}.srt» en la Media Pool y arrástralo a la línea de tiempo.
 
 CapCut
-  CapCut no deixa importar projectes d'altres editors. A la pàgina de revisió de tallat, fes
-  Final… → «Trossos per a CapCut o iMovie»: tindràs cada tros com un clip a part, en ordre.
+  CapCut no deja importar proyectos de otros editores. En la página de revisión de tallat-es, haz
+  Final… → «Trozos para CapCut o iMovie»: tendrás cada trozo como un clip aparte, en orden.
 {fons}{capa}
-Els subtítols animats de tallat (estil, colors, animacions) no passen a cap editor amb el
-.srt: només el text i els temps. El títol del ganxo i els gràfics del pla només hi van amb
-la capa animada (a la pàgina, «Inclou-hi els subtítols i els gràfics de tallat»).
+Los subtítulos animados de tallat-es (estilo, colores, animaciones) no pasan a ningún editor con el
+.srt: solo el texto y los tiempos. El título gancho y los gráficos del plan solo van con
+la capa animada (en la página, «Incluye los subtítulos y los gráficos de tallat»).
 """
 
 AMB_FONS = """
-Fons difuminat («recursos/fons-difuminat.mp4»)
-  El vídeo és horitzontal i hi va sencer, al mig. El fons difuminat de dalt i de baix és a
-  la pista de sota del vídeo, tallat igual. Si allargues o escurces un tall, fes el mateix
-  al fons (n'hi ha {marge} segons de més a cada banda).
+Fondo difuminado («recursos/fons-difuminat.mp4»)
+  El vídeo es horizontal y va entero, en medio. El fondo difuminado de arriba y de abajo está en
+  la pista de debajo del vídeo, cortado igual. Si alargas o acortas un corte, haz lo mismo
+  en el fondo (hay {marge} segundos de más a cada lado).
 """
 
 AMB_CAPA = """
-Subtítols i gràfics animats («subtitols.mov»)
-  Són els subtítols, el títol del ganxo i els gràfics de tallat tal com surten al vídeo
-  final, amb el fons transparent. Ja són a la pista de dalt de tot del projecte. Si no els
-  vols, esborra aquesta pista; si fas servir el .srt, no posis tots dos alhora.
+Subtítulos y gráficos animados («subtitols.mov»)
+  Son los subtítulos, el título gancho y los gráficos de tallat-es tal como salen en el vídeo
+  final, con el fondo transparente. Ya están en la pista de arriba del todo del proyecto. Si no los
+  quieres, borra esta pista; si usas el .srt, no pongas los dos a la vez.
 """
 
 
 EFECTES = """
-Efectes de so: «efectes-de-so.wav» dura tot el muntatge, amb cada efecte al seu moment. Posa'l en
-una pista d'àudio, a l'inici (0:00). La neteja de la veu no hi va: aquí sona la veu original (el
-vídeo que exporta tallat sí que la porta neta).
+Efectos de sonido: «efectes-de-so.wav» dura todo el montaje, con cada efecto en su momento. Ponlo en
+una pista de audio, al principio (0:00). La limpieza de la voz no va: aquí suena la voz original (el
+vídeo que exporta tallat-es sí la lleva limpia).
 """
 
 
@@ -458,7 +458,7 @@ def _efectes(projecte, trams, desti: Path) -> None:
     if pista is None:
         return
     shutil.copy(pista, desti / "efectes-de-so.wav")
-    llegeix = desti / "LLEGEIX-ME.txt"
+    llegeix = desti / "LEEME.txt"
     llegeix.write_text(llegeix.read_text(encoding="utf-8") + EFECTES, encoding="utf-8")
 
 
@@ -467,7 +467,7 @@ def exporta_editors(projecte, amb_capa: bool = False, avis=None, progres=None) -
     difuminat (només amb l'encaix «difumina», i es fa al final)."""
     trams = edicio.cap_endins(projecte.trams(), projecte.fps)  # allà el so va lligat als fotogrames
     if not trams:
-        raise ValueError("No queda cap paraula: no hi ha res per exportar.")
+        raise ValueError("No queda ninguna palabra: no hay nada que exportar.")
     nom = projecte.video.stem
     desti = projecte.sortida("editors").with_suffix("")
     desti.mkdir(parents=True, exist_ok=True)
@@ -490,7 +490,7 @@ def exporta_editors(projecte, amb_capa: bool = False, avis=None, progres=None) -
         pla["fons"] = _fes_fons(projecte.video, pla, desti, progres)
     (desti / f"{nom}.fcpxml").write_text(fcpxml(nom, projecte.video, pla, capa), encoding="utf-8")
     (desti / f"{nom}.xml").write_text(xmeml(nom, projecte.video, pla, capa), encoding="utf-8")
-    (desti / "LLEGEIX-ME.txt").write_text(
+    (desti / "LEEME.txt").write_text(
         LLEGEIX_ME.format(nom=nom, video=projecte.video, capa=AMB_CAPA if capa else "",
                           fons=AMB_FONS.format(marge=f"{MARGE_FONS:g}") if pla.get("fons") else ""),
         encoding="utf-8")
@@ -507,45 +507,45 @@ def _moment(segons: float) -> str:
 
 
 def _on(st: dict) -> str:
-    vertical = "a dalt" if st["y"] < 0.4 else ("a baix" if st["y"] > 0.6 else "al mig")
-    costat = "a la dreta" if st["x"] > 0.5 else "a l'esquerra"
+    vertical = "arriba" if st["y"] < 0.4 else ("abajo" if st["y"] > 0.6 else "en medio")
+    costat = "a la derecha" if st["x"] > 0.5 else "a la izquierda"
     return f"{vertical} {costat}"
 
 
-LLEGEIX_ME_TROSSOS = """El muntatge de «{nom}» en trossos (per a CapCut o iMovie)
-=========================================================
+LLEGEIX_ME_TROSSOS = """El montaje de «{nom}» en trozos (para CapCut o iMovie)
+======================================================
 
-CapCut no importa projectes d'altres editors. Per això aquí tens el muntatge en trossos,
-numerats en l'ordre en què sonen ({n} trossos, {durada} en total). Els zooms ja hi són aplicats.
+CapCut no importa proyectos de otros editores. Por eso aquí tienes el montaje en trozos,
+numerados en el orden en que suenan ({n} trozos, {durada} en total). Los zooms ya están aplicados.
 
 CapCut
-  1. Obre CapCut i crea un projecte nou.
-  2. Importa (⌘I) i tria tots els trossos numerats: 01.mp4, 02.mp4…
-  3. Selecciona'ls tots al panell de mitjans i arrossega'ls alhora a la línia de temps: queden
-     un darrere l'altre. Si l'ordre no és bo, ordena el panell per nom i torna-hi.
-  4. Per escurçar un tall, arrossega la vora del tros. Per allargar-lo (recuperar paraules),
-     fes-ho a tallat i torna a exportar els trossos: aquí no hi ha imatge de més.
-  5. Subtítols: Text → Subtítols locals → Importa «{nom}.srt» (o fes servir els subtítols
-     automàtics de CapCut).
+  1. Abre CapCut y crea un proyecto nuevo.
+  2. Importa (⌘I) y elige todos los trozos numerados: 01.mp4, 02.mp4…
+  3. Selecciónalos todos en el panel de medios y arrástralos a la vez a la línea de tiempo: quedan
+     uno detrás de otro. Si el orden no es bueno, ordena el panel por nombre y vuelve a hacerlo.
+  4. Para acortar un corte, arrastra el borde del trozo. Para alargarlo (recuperar palabras),
+     hazlo en tallat-es y vuelve a exportar los trozos: aquí no hay imagen de más.
+  5. Subtítulos: Texto → Subtítulos locales → Importa «{nom}.srt» (o usa los subtítulos
+     automáticos de CapCut).
 {recursos}
 iMovie
-  Importa els trossos (Fitxer → Importa contingut), selecciona'ls tots i arrossega'ls a la línia
-  de temps. iMovie fa vídeos horitzontals: per a un reel vertical, millor CapCut.
+  Importa los trozos (Archivo → Importar contenido), selecciónalos todos y arrástralos a la línea
+  de tiempo. iMovie hace vídeos horizontales: para un reel vertical, mejor CapCut.
 """
 
 
 def _llista_recursos(brolls: list[dict], stickers: list[dict]) -> str:
     linies = []
     if brolls:
-        linies.append("\nB-roll (carpeta «broll»): arrossega cada fitxer a la pista de sobre del vídeo, al moment")
-        linies.append("que diu el nom. Tapa la imatge i el so continua.")
+        linies.append("\nB-roll (carpeta «broll»): arrastra cada archivo a la pista de encima del vídeo, en el momento")
+        linies.append("que dice el nombre. Tapa la imagen y el sonido sigue.")
         if any(_lloc_broll(b) for b in brolls):
-            linies.append("Al teu kit, el b-roll va en targeta: posa'l més petit i al seu lloc (al projecte de")
-            linies.append("Premiere i Final Cut ja hi és; les cantonades arrodonides i la vora, no).")
+            linies.append("En tu kit, el b-roll va en tarjeta: ponlo más pequeño y en su sitio (en el proyecto de")
+            linies.append("Premiere y Final Cut ya está; las esquinas redondeadas y el borde, no).")
         linies += [f"  B{i} al {_moment(b['inici'])}, durant {b['durada']:.1f} s".replace(".", ",")
                    for i, b in enumerate(brolls, 1)]
     if stickers:
-        linies.append("\nStickers (carpeta «stickers»): igual que el b-roll, i fes-los més petits.")
+        linies.append("\nStickers (carpeta «stickers»): igual que el b-roll, y hazlos más pequeños.")
         linies += [f"  S{i} al {_moment(s['inici'])}, durant {s['durada']:.1f} s, {_on(s)}".replace(".", ",", 1)
                    for i, s in enumerate(stickers, 1)]
     return "\n".join(linies) + ("\n" if linies else "")
@@ -555,7 +555,7 @@ def exporta_trossos(projecte, progres=None) -> Path:
     """Escriu cada tros del muntatge com un clip numerat, amb el b-roll, els stickers i el .srt."""
     trams = projecte.trams()
     if not trams:
-        raise ValueError("No queda cap paraula: no hi ha res per exportar.")
+        raise ValueError("No queda ninguna palabra: no hay nada que exportar.")
     nom = projecte.video.stem
     desti = projecte.sortida("trossos").with_suffix("")
     desti.mkdir(parents=True, exist_ok=True)
@@ -572,7 +572,7 @@ def exporta_trossos(projecte, progres=None) -> Path:
             (desti / carpeta).mkdir(exist_ok=True)
             origen = Path(r["fitxer"])
             final = ".png" if lletra == "S" else origen.suffix.lower()
-            nou = desti / carpeta / f"{lletra}{i} al {_moment(r['inici'])}{final}"
+            nou = desti / carpeta / f"{lletra}{i} en {_moment(r['inici'])}{final}"
             if lletra == "B":
                 _copia_clip(r, nou)
             elif final == origen.suffix.lower():
@@ -582,7 +582,7 @@ def exporta_trossos(projecte, progres=None) -> Path:
                                check=True, capture_output=True)
     (desti / f"{nom}.srt").write_text(srt(projecte.linies_subtitols(trams)), encoding="utf-8")
     durada = sum(b - a for a, b in trams)
-    (desti / "LLEGEIX-ME.txt").write_text(LLEGEIX_ME_TROSSOS.format(
+    (desti / "LEEME.txt").write_text(LLEGEIX_ME_TROSSOS.format(
         nom=nom, n=len(trams), durada=_moment(durada),
         recursos=_llista_recursos(pla["brolls"], pla["stickers"])), encoding="utf-8")
     _efectes(projecte, trams, desti)

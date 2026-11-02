@@ -72,10 +72,10 @@ from pathlib import Path
 
 TIPUS = ("frase", "marcador", "etiqueta", "ratllat", "llista", "crida", "segueix", "notificacio", "comentari",
          "publicacio", "xat", "notes", "numero", "progres", "anotacio", "rec", "web", "ventall", "abans", "carrusel")
-NOMS = {"frase": "Frase", "marcador": "Marcador", "etiqueta": "Etiqueta", "ratllat": "Ratllat", "llista": "Llista", "crida": "Crida",
-        "segueix": "Segueix-me", "notificacio": "Notificació", "comentari": "Comentari", "publicacio": "Publicació",
-        "xat": "Xat", "notes": "Notes", "numero": "Número", "progres": "Progrés", "anotacio": "Anotació", "rec": "REC",
-        "web": "Web", "ventall": "Fotos", "abans": "Abans i després", "carrusel": "Carrusel"}
+NOMS = {"frase": "Frase", "marcador": "Rotulador", "etiqueta": "Etiqueta", "ratllat": "Tachado", "llista": "Lista", "crida": "Llamada",
+        "segueix": "Sígueme", "notificacio": "Notificación", "comentari": "Comentario", "publicacio": "Publicación",
+        "xat": "Chat", "notes": "Notas", "numero": "Número", "progres": "Progreso", "anotacio": "Anotación", "rec": "REC",
+        "web": "Web", "ventall": "Fotos", "abans": "Antes y después", "carrusel": "Carrusel"}
 AMB_AUTOR = ("notificacio", "comentari", "publicacio", "segueix")  # els que diuen qui ho envia o qui ho ha escrit («de»)
 AMB_PUNTS = ("llista", "xat", "ventall", "ratllat", "notes", "abans", "carrusel")  # els que tenen punts que surten un a un
 AMB_IMATGE = ("web", "ventall", "abans", "carrusel")
@@ -117,7 +117,7 @@ MIDA_TEXT = {"frase": 140, "marcador": 140, "etiqueta": 40, "ratllat": 40, "llis
 MIDA_PEU = 30  # el peu de cada foto del ventall
 CAL_TEXT = ("frase", "marcador", "etiqueta", "publicacio", "notificacio", "comentari", "anotacio")
 XIFRA = re.compile(r"(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?")  # «10.000», «2,5», «73»
-DENSITAT = {"pocs": "un cada 8-12 s", "normal": "un cada 4-6 s", "molts": "un cada 2-4 s"}  # com la marca
+DENSITAT = {"pocs": "uno cada 8-12 s", "normal": "uno cada 4-6 s", "molts": "uno cada 2-4 s"}  # com la marca
 MAX_PUNTS = 6
 MIDA_PUNT = 80
 MIDA_NOTA = 600
@@ -141,7 +141,7 @@ def _enter(valor, nom: str) -> int | None:
     if valor is None:
         return None
     if isinstance(valor, bool) or not isinstance(valor, (int, float)) or int(valor) != valor or valor < 0:
-        raise ValueError(f"«{nom}» ha de ser el número d'una paraula")
+        raise ValueError(f"«{nom}» tiene que ser el número de una palabra")
     return int(valor)
 
 
@@ -150,10 +150,10 @@ def _text(valor, nom: str, mida: int, retalla: bool = False) -> str:
     if valor is None:
         return ""
     if not isinstance(valor, str):
-        raise ValueError(f"«{nom}» ha de ser un text")
+        raise ValueError(f"«{nom}» tiene que ser un texto")
     text = " ".join(valor.replace("\r", "").split())
     if len(text) > mida and not retalla:
-        raise ValueError(f"«{nom}» és massa llarg: com a molt {mida} lletres («{text[:30]}…»)")
+        raise ValueError(f"«{nom}» es demasiado largo: como mucho {mida} letras («{text[:30]}…»)")
     return text[:mida]
 
 
@@ -162,7 +162,7 @@ def _imatge(valor) -> str:
     if valor is None:
         return ""
     if not isinstance(valor, str) or len(valor) > 500:
-        raise ValueError("«imatge» ha de ser el camí d'una imatge")
+        raise ValueError("«imatge» tiene que ser la ruta de una imagen")
     return valor.strip()
 
 
@@ -175,27 +175,27 @@ def net(g: dict, paraules: int | None = None) -> dict:
     """Un gràfic comprovat (llança ValueError, en català, si no s'entén). `paraules`: quantes en té
     la transcripció, per comprovar que les paraules hi són."""
     if not isinstance(g, dict):
-        raise ValueError("Cada gràfic ha de ser un objecte JSON")
+        raise ValueError("Cada gráfico tiene que ser un objeto JSON")
     tipus = g.get("tipus")
     if tipus not in TIPUS:
-        raise ValueError(f"Tipus de gràfic desconegut: «{tipus}» (n'hi ha de {', '.join(TIPUS)})")
+        raise ValueError(f"Tipo de gráfico desconocido: «{tipus}» (hay {', '.join(TIPUS)})")
     sortida = {"id": str(g["id"])[:20] if g.get("id") not in (None, "") else None, "tipus": tipus}
     sortida["paraula"] = _enter(g.get("paraula"), "paraula")
     sortida["fins"] = _enter(g.get("fins"), "fins")
     for clau in ("paraula", "fins"):
         if paraules is not None and sortida[clau] is not None and sortida[clau] >= paraules:
-            raise ValueError(f"No hi ha cap paraula amb el número {sortida[clau]} (n'hi ha de 0 a {paraules - 1})")
+            raise ValueError(f"No hay ninguna palabra con el número {sortida[clau]} (hay de 0 a {paraules - 1})")
     if sortida["paraula"] is None and tipus not in ("crida", "segueix"):
-        raise ValueError(f"Al gràfic «{g.get('text') or tipus}» li falta «paraula»: on comença")
+        raise ValueError(f"Al gráfico «{g.get('text') or tipus}» le falta «paraula»: dónde empieza")
     if sortida["fins"] is not None and sortida["paraula"] is not None and sortida["fins"] < sortida["paraula"]:
         sortida["fins"] = None
     durada = g.get("durada")
     if durada is not None and (isinstance(durada, bool) or not isinstance(durada, (int, float))):
-        raise ValueError("«durada» ha de ser un número de segons")
+        raise ValueError("«durada» tiene que ser un número de segundos")
     sortida["durada"] = round(min(15.0, max(MINIM, float(durada))), 2) if durada is not None else None
     sortida["text"] = _text(g.get("text"), "text", MIDA_TEXT[tipus])
     if tipus in CAL_TEXT and not sortida["text"]:
-        raise ValueError(f"Al gràfic {NOMS[tipus].lower()} li falta «text»")
+        raise ValueError(f"Al gráfico {NOMS[tipus].lower()} le falta «text»")
     punts = []
     if tipus in AMB_FOTOS:  # les fotos: cadascuna amb la seva imatge (un text sol és el camí de la imatge)
         for p in g.get("punts") or []:
@@ -204,7 +204,7 @@ def net(g: dict, paraules: int | None = None) -> dict:
             if imatge:
                 paraula = _enter(p.get("paraula"), "punts.paraula")
                 if paraules is not None and paraula is not None and paraula >= paraules:
-                    raise ValueError(f"No hi ha cap paraula amb el número {paraula}")
+                    raise ValueError(f"No hay ninguna palabra con el número {paraula}")
                 punts.append({"imatge": imatge, "text": _text(p.get("text"), "punts.text", MIDA_PEU), "paraula": paraula})
     elif tipus in AMB_PUNTS:
         for k, p in enumerate(g.get("punts") or []):
@@ -213,27 +213,27 @@ def net(g: dict, paraules: int | None = None) -> dict:
             if text:
                 paraula = _enter(p.get("paraula"), "punts.paraula")
                 if paraules is not None and paraula is not None and paraula >= paraules:
-                    raise ValueError(f"No hi ha cap paraula amb el número {paraula}")
+                    raise ValueError(f"No hay ninguna palabra con el número {paraula}")
                 punt = {"text": text, "paraula": paraula}
                 if tipus == "xat":  # els missatges: rebuts (a l'esquerra) o enviats (a la dreta), per torns si no es diu
                     punt["costat"] = p.get("costat") if p.get("costat") in ("rebut", "enviat") else \
                         ("rebut" if k % 2 == 0 else "enviat")
                 punts.append(punt)
         if tipus == "notes" and not punts:
-            raise ValueError("Unes notes necessiten «punts»: les línies que s'escriuen [\"comprar llet\", \"trucar a la mama\"]")
+            raise ValueError("Unas notas necesitan «punts»: las líneas que se escriben [\"comprar leche\", \"llamar a mamá\"]")
         if tipus == "ratllat":
             if len(punts) < 2:
-                raise ValueError("Un ratllat necessita dos «punts»: el que es ratlla i el que hi va [\"mandra\", \"cansament\"]")
+                raise ValueError("Un tachado necesita dos «punts»: lo que se tacha y lo que va [\"pereza\", \"cansancio\"]")
             punts = punts[:2]
         if not punts:
-            raise ValueError(f"{'Una llista' if tipus == 'llista' else 'Un xat'} necessita «punts»: [\"un\", \"dos\"…]")
+            raise ValueError(f"{'Una lista' if tipus == 'llista' else 'Un chat'} necesita «punts»: [\"uno\", \"dos\"…]")
     sortida["punts"] = punts[:MAX_FOTOS.get(tipus, MAX_PUNTS)]
     sortida["de"] = _text(g.get("de"), "de", 30) if tipus in AMB_AUTOR else ""
     sortida["xifra"] = _text(g.get("xifra"), "xifra", 24) if tipus in ("numero", "progres") else ""
     if tipus == "numero" and not XIFRA.search(sortida["xifra"]):
-        raise ValueError("Un número necessita «xifra», amb un número a dins («73 %», «10.000 €», «3 de cada 4»)")
+        raise ValueError("Un número necesita «xifra», con un número dentro («73 %», «10.000 €», «3 de cada 4»)")
     if tipus == "progres" and fraccio(sortida["xifra"]) is None:
-        raise ValueError("Un progrés necessita «xifra»: un percentatge («70 %») o una part d'un total («3 de 5», «7/10»)")
+        raise ValueError("Un progreso necesita «xifra»: un porcentaje («70 %») o una parte de un total («3 de 5», «7/10»)")
     sortida["forma"] = ((g.get("forma") if g.get("forma") in FORMES else "fletxa") if tipus == "anotacio"
                         else (g.get("forma") if g.get("forma") in FORMES_PROGRES else "cercle") if tipus == "progres" else None)
     sortida["costat"] = (g.get("costat") if g.get("costat") in COSTATS else "esquerra") if tipus == "anotacio" else None
@@ -307,9 +307,9 @@ def fusiona(actuals: list[dict], pla: list, paraules: int | None = None, manera:
       «canvia» (atendre les notes), es queden tots; amb «de-nou», no se'n queda cap.
     - `ronda`: el número d'aquesta ronda, que porten els nous i els canviats (amb `novetat`)."""
     if manera not in MANERES:
-        raise ValueError(f"Manera desconeguda: {manera}")
+        raise ValueError(f"Manera desconocida: {manera}")
     if not isinstance(pla, list):
-        raise ValueError("El pla ha de ser una llista de gràfics: [{…}, {…}]")
+        raise ValueError("El plan tiene que ser una lista de gráficos: [{…}, {…}]")
     # Els que ja hi eren no es comproven amb les paraules d'ara: un gràfic que la persona ha mantingut
     # no s'ha de perdre perquè la transcripció hagi canviat (si la seva paraula ja no hi és, no surt).
     tots = neteja_llista(actuals)
@@ -322,7 +322,7 @@ def fusiona(actuals: list[dict], pla: list, paraules: int | None = None, manera:
         try:
             g = net(g, paraules)
         except ValueError as e:
-            raise ValueError(f"Gràfic {k + 1} del pla: {e}") from None
+            raise ValueError(f"Gráfico {k + 1} del plan: {e}") from None
         vell = per_id.get(g["id"])
         if vell is not None and g["id"] not in tocats:
             if _contingut(g) == _contingut(vell):
@@ -472,19 +472,19 @@ def dibuix(g: dict, estils, crida: str = "", subtitols: dict | None = None, alca
 
 # Les mostres de la galeria de Vesteix: com queda cada tipus amb l'estil de la persona (sense imatges: la
 # web i les fotos es dibuixen a la pàgina amb una icona).
-MOSTRES = {"frase": {"text": "Menys és *més*"}, "marcador": {"text": "el truc és la *constància*"},
-           "etiqueta": {"text": "Pas 1"},
-           "ratllat": {"punts": ["mandra", "cansament"]},
-           "llista": {"text": "Tres claus", "punts": ["Llum", "So", "Ritme"]},
-           "numero": {"xifra": "73 %", "text": "ho fan així"},
-           "publicacio": {"de": "una compte", "text": "El millor consell que m'han donat: *comença petit*."},
-           "notes": {"text": "Per fer", "punts": ["dormir més", "beure aigua"]},
-           "segueix": {"de": "el teu compte", "text": "un vídeo nou cada setmana"}, "rec": {"text": "dia 1"},
-           "progres": {"xifra": "70 %", "text": "del camí", "forma": "cercle"},
-           "notificacio": {"de": "Missatge", "text": "Ja és aquí!"},
-           "comentari": {"de": "marta", "text": "I això com es fa?"},
-           "xat": {"punts": ["Ho has vist?", "Sí, és genial"]},
-           "anotacio": {"text": "aquí!", "forma": "fletxa"}, "crida": {"text": ""}}
+MOSTRES = {"frase": {"text": "Menos es *más*"}, "marcador": {"text": "el truco es la *constancia*"},
+           "etiqueta": {"text": "Paso 1"},
+           "ratllat": {"punts": ["pereza", "cansancio"]},
+           "llista": {"text": "Tres claves", "punts": ["Luz", "Sonido", "Ritmo"]},
+           "numero": {"xifra": "73 %", "text": "lo hacen así"},
+           "publicacio": {"de": "una cuenta", "text": "El mejor consejo que me han dado: *empieza pequeño*."},
+           "notes": {"text": "Por hacer", "punts": ["dormir más", "beber agua"]},
+           "segueix": {"de": "tu cuenta", "text": "un vídeo nuevo cada semana"}, "rec": {"text": "día 1"},
+           "progres": {"xifra": "70 %", "text": "del camino", "forma": "cercle"},
+           "notificacio": {"de": "Mensaje", "text": "¡Ya está aquí!"},
+           "comentari": {"de": "marta", "text": "¿Y esto cómo se hace?"},
+           "xat": {"punts": ["¿Lo has visto?", "Sí, es genial"]},
+           "anotacio": {"text": "¡aquí!", "forma": "fletxa"}, "crida": {"text": ""}}
 
 
 def mostres(estils, crida: str = "") -> dict:
@@ -492,7 +492,7 @@ def mostres(estils, crida: str = "") -> dict:
     sortida = {}
     for tipus, valors in MOSTRES.items():
         g = net({"id": f"mostra-{tipus}", "tipus": tipus, "paraula": 0, **valors})
-        d = dibuix(g, estils, crida or "Segueix-me per a més")
+        d = dibuix(g, estils, crida or "Sígueme para más")
         if d:
             sortida[tipus] = {**d, "posicio": "mig", "limits": [0, ALCADA]}
     return sortida
@@ -781,7 +781,7 @@ def captura_web(url: str, desti: Path) -> Path:
         url = "https://" + url.strip()
     chrome = troba_chrome()
     if chrome is None:
-        raise RuntimeError("No trobo cap Chrome per fer la captura. Fes-la tu i puja-la a la pàgina.")
+        raise RuntimeError("No encuentro ningún Chrome para hacer la captura. Hazla tú y súbela a la página.")
     desti.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as perfil:
         # Sense el clauer del Mac: així no demana cap contrasenya.
@@ -790,5 +790,5 @@ def captura_web(url: str, desti: Path) -> Path:
                             f"--window-size={MIDA_CAPTURA[0]},{MIDA_CAPTURA[1]}", "--virtual-time-budget=8000",
                             f"--screenshot={desti}", url], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=90)
     if not desti.is_file() or desti.stat().st_size == 0:
-        raise RuntimeError(f"No he pogut fer la captura de {url}:\n{(r.stderr or r.stdout)[-500:]}")
+        raise RuntimeError(f"No he podido hacer la captura de {url}:\n{(r.stderr or r.stdout)[-500:]}")
     return desti

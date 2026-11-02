@@ -1,5 +1,5 @@
 {
-  "_info": "Estils predefinits del títol del ganxo (parteixen de «comu»). No toquen la lletra.",
+  "_info": "Estilos predefinidos del título gancho (parten de «comu»). No tocan la letra.",
   "comu": {
     "alineacio": "centre",
     "majuscules": false,
@@ -17,8 +17,8 @@
   "estils": [
     {
       "id": "esglao",
-      "nom": "Esglaó",
-      "descripcio": "Línies a banda i banda i la destacada, gegant, al mig",
+      "nom": "Escalón",
+      "descripcio": "Líneas a un lado y al otro y la destacada, gigante, en medio",
       "valors": {
         "alineacio": "esglao",
         "pes": 800,
@@ -34,8 +34,8 @@
     },
     {
       "id": "retol",
-      "nom": "Rètol",
-      "descripcio": "Tot el ganxo al mig, en rosa amb contorn fosc",
+      "nom": "Rótulo",
+      "descripcio": "Todo el gancho en medio, en rosa con contorno oscuro",
       "valors": {
         "pes": 800,
         "mida": 0.075,
@@ -53,8 +53,8 @@
     },
     {
       "id": "maquina",
-      "nom": "Màquina",
-      "descripcio": "S'escriu lletra a lletra, amb cursor i el fons enfosquit",
+      "nom": "Máquina",
+      "descripcio": "Se escribe letra a letra, con cursor y el fondo oscurecido",
       "valors": {
         "alineacio": "esquerra",
         "pes": 700,
@@ -74,7 +74,7 @@
     {
       "id": "revista",
       "nom": "Revista",
-      "descripcio": "En majúscules, amb la destacada gran i de color",
+      "descripcio": "En mayúsculas, con la destacada grande y de color",
       "valors": {
         "majuscules": true,
         "pes": 800,
@@ -90,8 +90,8 @@
     },
     {
       "id": "caixa",
-      "nom": "Caixa",
-      "descripcio": "Cada línia dins d'una caixa de color",
+      "nom": "Caja",
+      "descripcio": "Cada línea dentro de una caja de color",
       "valors": {
         "pes": 800,
         "mida": 0.062,
@@ -108,8 +108,8 @@
     },
     {
       "id": "arc",
-      "nom": "Arc",
-      "descripcio": "La primera línia es corba en arc per sobre de les altres",
+      "nom": "Arco",
+      "descripcio": "La primera línea se curva en arco por encima de las otras",
       "valors": {
         "pes": 800,
         "mida": 0.06,

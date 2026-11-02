@@ -2,7 +2,7 @@
 
 tallat no depèn de cap IA: només necessita un fitxer. Pot venir de:
 - un fitxer propi pujat des de la pàgina de revisió (vídeo o imatge);
-- la biblioteca de la persona, `~/.tallat/broll/`;
+- la biblioteca de la persona, `~/.tallat-es/broll/`;
 - una IA d'imatge o vídeo que la persona tingui connectada a Claude (Krea, Higgsfield…):
   Claude el genera i el registra amb `tallat.py broll`.
 
@@ -21,7 +21,7 @@ from pathlib import Path
 from motor.exporta import info_video, treu_rotacio
 
 AMPLADA, ALCADA, FPS = 1080, 1920, 30
-BIBLIOTECA = Path.home() / ".tallat" / "broll"
+BIBLIOTECA = Path.home() / ".tallat-es" / "broll"
 CARPETA = "broll"  # dins del projecte (al costat d'instruccions.json)
 IMATGES = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".tif", ".tiff", ".bmp"}
 VIDEOS = {".mp4", ".mov", ".m4v", ".webm", ".mkv", ".avi"}
@@ -47,7 +47,7 @@ def _lut(lut: str | None) -> str:
         return ""
     path = Path(lut).expanduser()
     if not path.exists():
-        raise FileNotFoundError(f"No trobo el LUT de l'estil: {path}")
+        raise FileNotFoundError(f"No encuentro el LUT del estilo: {path}")
     return f",lut3d=file={escapa_ffmpeg(path.as_posix())}"
 
 
@@ -64,7 +64,7 @@ def prepara(origen: Path, desti: Path, durada: float = 1.5, lut: str | None = No
     """Converteix un vídeo o una imatge en el clip de b-roll que fa servir l'export."""
     origen = Path(origen).expanduser()
     if not origen.exists():
-        raise FileNotFoundError(f"No trobo el fitxer de b-roll: {origen}")
+        raise FileNotFoundError(f"No encuentro el archivo de b-roll: {origen}")
     desti.parent.mkdir(parents=True, exist_ok=True)
     temporal = desti.with_suffix(".tmp.mp4")
     comu = ["-an", "-r", str(FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
@@ -75,7 +75,7 @@ def prepara(origen: Path, desti: Path, durada: float = 1.5, lut: str | None = No
                                "stream=width,height", "-of", "csv=p=0", str(origen)],
                               capture_output=True, text=True, timeout=30).stdout.strip().split(",")
         if len(mida) < 2 or not all(x.isdigit() and int(x) > 0 for x in mida[:2]):
-            raise ValueError("No puc llegir aquesta imatge: potser està espatllada o no és una imatge de debò")
+            raise ValueError("No puedo leer esta imagen: quizá está estropeada o no es una imagen de verdad")
         fotogrames = max(1, round(durada * FPS))
         # Zoom lent del 100 % al 108 %, centrat: la imatge «respira» en lloc de quedar quieta.
         filtre = (f"{_cobreix()},scale={AMPLADA * 2}:{ALCADA * 2},"

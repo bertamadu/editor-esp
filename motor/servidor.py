@@ -166,7 +166,7 @@ def _copia(fitxer: Path) -> tuple[str | None, str | None]:
         copia = exporta.copia_a_carpeta(fitxer)
         return (copia.name if copia else None), None
     except OSError as e:
-        return None, f"El vídeo és a la carpeta del projecte, però no l'he pogut copiar a la teva carpeta ({e.strerror or e})."
+        return None, f"El vídeo está en la carpeta del proyecto, pero no lo he podido copiar a tu carpeta ({e.strerror or e})."
 
 
 def _arrel_de(projecte: Projecte) -> Projecte:
@@ -206,7 +206,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             try:
                 projecte.prepara_proxy(encaix=encaix)
             except Exception as e:
-                copia["error"] = f"No he pogut preparar el vídeo: {e}"
+                copia["error"] = f"No he podido preparar el vídeo: {e}"
             finally:
                 with bloqueig:
                     copia["fent"].discard(desti)
@@ -236,16 +236,16 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
         fitxer = p.carpeta / EXPORTS / Path(versio).name
         talls = fitxer.with_suffix(".talls.json")
         if fitxer.suffix != ".mp4" or not fitxer.exists() or not talls.exists():
-            raise ValueError("No trobo aquesta versió.")
+            raise ValueError("No encuentro esta versión.")
         trams = [tuple(x) for x in json.loads(talls.read_text(encoding="utf-8"))]
         total = sum(b - a for a, b in trams)
         t_versio = max(0.0, float(t))
         if t_versio > total + 0.25:
-            raise ValueError("Aquest moment no és a la versió.")
+            raise ValueError("Este momento no está en la versión.")
         # Al final de tot, el reproductor pot dir un pèl més del que dura: és l'últim fotograma (Codex).
         original = p.al_original(min(t_versio, max(0.0, total - 0.001)), trams)
         if original is None:
-            raise ValueError("Aquest moment no és a la versió.")
+            raise ValueError("Este momento no está en la versión.")
         paraules = p.dades["paraules"]
         i = max(0, bisect.bisect_right([w["inici"] for w in paraules], original) - 1)
         # Al començament d'un tros, la paraula d'abans pot ser una de les tretes: llavors, la primera del tros (Codex).
@@ -446,11 +446,11 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
         def _peticio_valida(self, json_esperat: bool) -> bool:
             origen = self.headers.get("Origin")
             if origen is not None and origen not in origens:
-                return self._no_permesa(HTTPStatus.FORBIDDEN, "Petició d'una altra web: no permesa")
+                return self._no_permesa(HTTPStatus.FORBIDDEN, "Petición de otra web: no permitida")
             if not hmac.compare_digest(self.headers.get("X-Tallat-Token", ""), token):
-                return self._no_permesa(HTTPStatus.FORBIDDEN, "Petició no autoritzada. Torna a carregar la pàgina.")
+                return self._no_permesa(HTTPStatus.FORBIDDEN, "Petición no autorizada. Vuelve a cargar la página.")
             if json_esperat and not self.headers.get("Content-Type", "").startswith("application/json"):
-                return self._no_permesa(HTTPStatus.UNSUPPORTED_MEDIA_TYPE, "S'esperava JSON")
+                return self._no_permesa(HTTPStatus.UNSUPPORTED_MEDIA_TYPE, "Se esperaba JSON")
             return True
 
         def _index(self):
@@ -470,7 +470,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
         def _cos(self) -> dict:
             n = int(self.headers.get("Content-Length") or 0)
             if n > MIDA_MAXIMA_JSON:
-                raise ValueError("massa gran")
+                raise ValueError("demasiado grande")
             return json.loads(self.rfile.read(n) or b"{}")
 
         # --- rutes ---
@@ -574,7 +574,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         paraula = int(paraula)
                         paraules = p.dades["paraules"]
                         if not 0 <= paraula < len(paraules):
-                            raise ValueError("Aquesta paraula no hi és.")
+                            raise ValueError("Esta palabra no está.")
                         # A Revisa, el segon exacte del moment (no el de l'inici de la paraula).
                         inici = original if versio else round(float(paraules[paraula]["inici"]), 3)
                         cita = " ".join(w["text"].strip() for w in paraules[max(0, paraula - 3):paraula + 4])
@@ -593,10 +593,10 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                     # tot el vídeo que surt de seguida. Els vots i les notes de cada peça, Claude els llegeix amb
                     # `tallat.py grafics`.
                     primera = not any(g.get("estat") != "tret" for g in p.estat.get("grafics") or [])
-                    text = "Proposa'm gràfics per a aquest vídeo." if primera else "Ronda següent de propostes."
+                    text = "Proponme gráficos para este vídeo." if primera else "Siguiente ronda de propuestas."
                     general = " ".join(str(cos.get("text") or "").split())[:600]
                     if general:
-                        text += f" Per a tota la ronda: «{general}»."
+                        text += f" Para toda la ronda: «{general}»."
                     reel = None
                     if p is not arrel:
                         reel = next((r["titol"] for r in info_reels()["reels"] if r["id"] == p.carpeta.name), p.carpeta.name)
@@ -610,16 +610,16 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                 elif accio == "envia":  # les de la versió que es revisa, o (sense) les que s'han fet editant
                     notes.envia(arrel.carpeta, projecte=str(p.carpeta), versio=cos.get("versio") or None)
                 else:
-                    return self._json({"error": "No sé què vols fer amb les notes."}, HTTPStatus.BAD_REQUEST)
+                    return self._json({"error": "No sé qué quieres hacer con las notas."}, HTTPStatus.BAD_REQUEST)
             except (KeyError, ValueError, TypeError) as e:
                 return self._json({"error": str(e).strip("'\"")}, HTTPStatus.BAD_REQUEST)
             except TimeoutError as e:
                 return self._json({"error": str(e)}, HTTPStatus.SERVICE_UNAVAILABLE)
             except OSError as e:  # el disc ple, la carpeta sense permís…: abans, la pàgina només deia «Load failed»
-                motiu = {errno.ENOSPC: " (el disc és ple)", errno.EACCES: " (no hi ha permís per escriure-hi)",
-                         errno.EPERM: " (no hi ha permís per escriure-hi)",
-                         errno.EROFS: " (el disc és només de lectura)"}.get(e.errno, "")
-                return self._json({"error": f"No he pogut desar la nota a la carpeta del projecte{motiu}."},
+                motiu = {errno.ENOSPC: " (el disco está lleno)", errno.EACCES: " (no hay permiso para escribir)",
+                         errno.EPERM: " (no hay permiso para escribir)",
+                         errno.EROFS: " (el disco es solo de lectura)"}.get(e.errno, "")
+                return self._json({"error": f"No he podido guardar la nota en la carpeta del proyecto{motiu}."},
                                   HTTPStatus.INTERNAL_SERVER_ERROR)
             return self._json(info_notes())
 
@@ -628,13 +628,13 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             try:
                 cos = self._cos()
             except (ValueError, json.JSONDecodeError):
-                return self._json({"error": "Petició no vàlida"}, HTTPStatus.BAD_REQUEST)
+                return self._json({"error": "Petición no válida"}, HTTPStatus.BAD_REQUEST)
             if cos.get("accio") == "projecte":
                 exporta.tria_carpeta_exports(None)
             else:
-                triada = entorn.tria_carpeta("On vols desar els vídeos que exportis amb tallat?")
+                triada = entorn.tria_carpeta("¿Dónde quieres guardar los vídeos que exportes con tallat-es?")
                 if triada is None:  # ha cancel·lat
-                    return self._json({"cancel·lat": True, **info_carpeta(projecte)})
+                    return self._json({"cancelado": True, **info_carpeta(projecte)})
                 exporta.tria_carpeta_exports(triada)
             return self._json(info_carpeta(projecte))
 
@@ -661,10 +661,10 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             try:
                 cos = self._cos()
             except ValueError:
-                self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "Petició massa gran")
+                self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "Petición demasiado grande")
                 return
             except json.JSONDecodeError:
-                return self._json({"error": "JSON no vàlid"}, HTTPStatus.BAD_REQUEST)
+                return self._json({"error": "JSON no válido"}, HTTPStatus.BAD_REQUEST)
             with bloqueig:
                 # Mentre llegíem el cos, una altra pestanya pot haver canviat de projecte o haver tornat
                 # a obrir el mateix reel (amb canvis desats): es comprova amb el que hi ha obert ara.
@@ -682,7 +682,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                     reels, _ = muntatge.llegeix_reels(arrel.carpeta, arrel.dades["paraules"])
                     reel = next((r for r in reels if r["id"] == rid), None)
                     if reel is None:
-                        return self._json({"error": "No trobo aquest reel"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro este reel"}, HTTPStatus.NOT_FOUND)
                     obert["p"] = Projecte(muntatge.crea_reel(arrel, reel))
                     fes_copia(obert["p"])  # el reel pot estar enquadrat d'una altra manera que la gravació
                     return self._json({"ok": True})
@@ -707,12 +707,12 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                 if ruta == "/api/instruccio":  # accepta o descarta una instrucció de veu
                     nou = cos.get("estat")
                     if nou not in ("acceptada", "descartada", "pendent"):
-                        return self._json({"error": "Estat no vàlid"}, HTTPStatus.BAD_REQUEST)
+                        return self._json({"error": "Estado no válido"}, HTTPStatus.BAD_REQUEST)
                     try:
                         projecte.decideix_instruccio(str(cos.get("id")), nou)
                         projecte.suggereix_stickers()  # «sticker d'un cor» → cor.png de la biblioteca
                     except KeyError:
-                        return self._json({"error": "No trobo aquesta instrucció"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro esta instrucción"}, HTTPStatus.NOT_FOUND)
                     projecte.estat["revisio"] = projecte.estat.get("revisio", 0) + 1
                     projecte.desa()
                     return self._json(instantania())
@@ -727,7 +727,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         elif isinstance(paraula, int) and not isinstance(paraula, bool) and not iid:
                             fitxer = next((p for p in broll.biblioteca() if p.name == cos.get("nom", "")), None)
                             if fitxer is None:
-                                return self._json({"error": "No trobo aquest fitxer a la biblioteca"}, HTTPStatus.NOT_FOUND)
+                                return self._json({"error": "No encuentro este archivo en la biblioteca"}, HTTPStatus.NOT_FOUND)
                             projecte.afegeix_broll(paraula, fitxer)
                         else:
                             nom = cos.get("nom", "")
@@ -735,26 +735,26 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                             llista = stickers.biblioteca() if ins.get("tipus") == "sticker" else broll.biblioteca()
                             fitxer = next((p for p in llista if p.name == nom), None)
                             if fitxer is None:
-                                return self._json({"error": "No trobo aquest fitxer a la biblioteca"}, HTTPStatus.NOT_FOUND)
+                                return self._json({"error": "No encuentro este archivo en la biblioteca"}, HTTPStatus.NOT_FOUND)
                             projecte.assigna_recurs(iid, fitxer)
                     except KeyError:
-                        return self._json({"error": "No trobo aquesta instrucció"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro esta instrucción"}, HTTPStatus.NOT_FOUND)
                     except ValueError as e:
                         return self._json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
                     except Exception as e:  # ffmpeg no ha pogut llegir el fitxer
-                        return self._json({"error": f"No he pogut preparar el b-roll: {e}"}, HTTPStatus.BAD_REQUEST)
+                        return self._json({"error": f"No he podido preparar el b-roll: {e}"}, HTTPStatus.BAD_REQUEST)
                     return self._json(instantania())
                 if ruta in ("/api/marca", "/api/marca/restableix", "/api/marca/lletra") and cos.get("kit") not in (None, projecte.kit()):
                     # La pàgina ho demanava per a un altre kit (el vídeo n'ha canviat mentrestant): no en toquem cap.
-                    return self._json({"error": "Aquest vídeo ha canviat d'estil i aquest canvi no s'ha desat. "
-                                                "Torna'l a fer si el vols a l'estil nou.", **info_marca(), **instantania()},
+                    return self._json({"error": "Este vídeo ha cambiado de estilo y este cambio no se ha guardado. "
+                                                "Vuelve a hacerlo si lo quieres en el estilo nuevo.", **info_marca(), **instantania()},
                                       HTTPStatus.CONFLICT)
                 if ruta in ("/api/marca", "/api/marca/restableix"):  # l'estil (subtítols, títol, b-roll o so), al kit del vídeo
                     try:
                         if ruta.endswith("restableix"):
                             seccio = cos.get("seccio") or "subtitols"
                             if seccio not in ("subtitols", "titol", "broll", "so"):
-                                raise ValueError("Secció desconeguda")
+                                raise ValueError("Sección desconocida")
                             marca.restableix(seccio, kit=projecte.kit())
                         else:
                             for seccio in ("subtitols", "titol", "broll", "so", "marca"):
@@ -770,7 +770,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         for nom in so.NOMS:
                             sons[nom] = f"/so/{so.mostra_efecte(nom, projecte.carpeta / 'so').name}"
                     except (OSError, RuntimeError, subprocess.CalledProcessError) as e:
-                        return self._json({"error": f"No he pogut preparar les mostres: {e}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
+                        return self._json({"error": f"No he podido preparar las muestras: {e}"}, HTTPStatus.INTERNAL_SERVER_ERROR)
                     return self._json({"abans": f"/so/{veu['abans'].name}", "despres": f"/so/{veu['despres'].name}",
                                        "sons": sons})
                 if ruta == "/api/estil/a-tots":  # «Fes-lo servir en tots els vídeos»: l'estil d'aquest vídeo, al kit
@@ -787,7 +787,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         try:
                             nom = marca.baixa_lletra(str(cos.get("id", "")), kit=projecte.kit(), nomes_baixa=True)
                         except KeyError:
-                            return self._json({"error": "No conec aquesta lletra"}, HTTPStatus.NOT_FOUND)
+                            return self._json({"error": "No conozco esta letra"}, HTTPStatus.NOT_FOUND)
                         except ConnectionError as e:
                             return self._json({"error": str(e)}, HTTPStatus.BAD_GATEWAY)
                         return self._json({"familia": nom, **info_marca()})
@@ -795,7 +795,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         marca.baixa_lletra(str(cos.get("id", "")), kit=projecte.kit(),
                                            seccio=str(cos.get("seccio") or "subtitols"), clau=str(cos.get("clau") or "font"))
                     except KeyError:
-                        return self._json({"error": "No conec aquesta lletra"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No conozco esta letra"}, HTTPStatus.NOT_FOUND)
                     except ValueError as e:
                         return self._json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
                     except ConnectionError as e:
@@ -818,14 +818,14 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         else:
                             return self.send_error(HTTPStatus.NOT_FOUND)
                     except KeyError:
-                        return self._json({"error": "No trobo aquest estil"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro este estilo"}, HTTPStatus.NOT_FOUND)
                     except ValueError as e:
                         return self._json({"error": str(e)}, HTTPStatus.BAD_REQUEST)
                     return self._json({**info_marca(), **instantania()})
                 if ruta == "/api/editors":  # projecte per acabar-lo en un altre editor
                     if not feina.comença(projecte, "editors", capa=bool(cos.get("capa")),
                                          trossos=bool(cos.get("trossos"))):
-                        return self._json({"error": "Ja hi ha un render en marxa"}, HTTPStatus.CONFLICT)
+                        return self._json({"error": "Ya hay un render en marcha"}, HTTPStatus.CONFLICT)
                     return self._json({"feina": feina.info()})
                 if ruta == "/api/mostra":  # obre el Finder amb el fitxer seleccionat
                     # el de la carpeta de la persona (copia) o el del projecte
@@ -833,15 +833,15 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                     carpeta = (carpeta or projecte.carpeta / EXPORTS).resolve()
                     path = (carpeta / str(cos.get("copia") or cos.get("nom", ""))).resolve()
                     if path.parent != carpeta or not path.exists():
-                        return self._json({"error": "No trobo aquest fitxer"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro este archivo"}, HTTPStatus.NOT_FOUND)
                     entorn.mostra_al_gestor(path)
                     return self._json({"ok": True})
                 if ruta == "/api/exporta":
                     qualitat = cos.get("qualitat", "esborrany")
                     if qualitat not in exporta.QUALITATS:
-                        return self._json({"error": "Qualitat desconeguda"}, HTTPStatus.BAD_REQUEST)
+                        return self._json({"error": "Calidad desconocida"}, HTTPStatus.BAD_REQUEST)
                     if not feina.comença(projecte, qualitat):
-                        return self._json({"error": "Ja hi ha un render en marxa"}, HTTPStatus.CONFLICT)
+                        return self._json({"error": "Ya hay un render en marcha"}, HTTPStatus.CONFLICT)
                     return self._json({"feina": feina.info()})
             self.send_error(HTTPStatus.NOT_FOUND)
 
@@ -858,16 +858,16 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             paraula = int(paraula) if paraula.isdigit() and not iid else None
             sticker = paraula is not None and (consulta.get("tipus") or [""])[0] == "sticker"
             if sticker and not stickers.es_compatible(Path(nom)):
-                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Un sticker ha de ser una imatge PNG, WebP, GIF o SVG")
+                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Un sticker tiene que ser una imagen PNG, WebP, GIF o SVG")
             if not sticker and not (broll.es_compatible(Path(nom)) or (paraula is None and stickers.es_compatible(Path(nom)))):
-                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Aquest tipus de fitxer no serveix: ha de ser un vídeo o una imatge")
+                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Este tipo de archivo no sirve: tiene que ser un vídeo o una imagen")
             if not 0 < mida <= MIDA_MAXIMA_PUJADA:
-                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "El fitxer és buit o massa gran (2 GB com a màxim)")
+                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "El archivo está vacío o es demasiado grande (2 GB como máximo)")
             if paraula is not None:
                 if paraula >= len(projecte.dades["paraules"]):
-                    return self._no_permesa(HTTPStatus.BAD_REQUEST, "No trobo aquest moment del vídeo")
+                    return self._no_permesa(HTTPStatus.BAD_REQUEST, "No encuentro este momento del vídeo")
             elif not any(i["id"] == iid and i.get("tipus") in ("broll", "sticker") for i in projecte.instruccions()):
-                return self._no_permesa(HTTPStatus.NOT_FOUND, "No trobo aquesta instrucció")
+                return self._no_permesa(HTTPStatus.NOT_FOUND, "No encuentro esta instrucción")
             carpeta = projecte.carpeta_instruccions() / broll.CARPETA / "pujats"
             carpeta.mkdir(parents=True, exist_ok=True)
             # Un fitxer temporal per pujada: dues pestanyes que pugin «image.png» alhora no es barregen.
@@ -879,7 +879,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                     while pendent > 0:
                         tros = self.rfile.read(min(1 << 20, pendent))
                         if not tros:
-                            raise ConnectionError("pujada interrompuda")
+                            raise ConnectionError("subida interrumpida")
                         f.write(tros)
                         pendent -= len(tros)
             except (OSError, ConnectionError):
@@ -896,9 +896,9 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         else:
                             obert["p"].assigna_recurs(iid, temporal)  # en fa una còpia al projecte
                     except KeyError:
-                        return self._json({"error": "No trobo aquesta instrucció"}, HTTPStatus.NOT_FOUND)
+                        return self._json({"error": "No encuentro esta instrucción"}, HTTPStatus.NOT_FOUND)
                     except Exception as e:
-                        return self._json({"error": f"No he pogut preparar el b-roll: {e}"}, HTTPStatus.BAD_REQUEST)
+                        return self._json({"error": f"No he podido preparar el b-roll: {e}"}, HTTPStatus.BAD_REQUEST)
                     return self._json(instantania())
             finally:
                 temporal.unlink(missing_ok=True)
@@ -911,9 +911,9 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             nom = Path((consulta.get("nom") or ["imatge"])[0]).name
             mida = int(self.headers.get("Content-Length") or 0)
             if Path(nom).suffix.lower() not in grafics.FORMATS_IMATGE:
-                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Ha de ser una imatge PNG, JPG, WebP o GIF")
+                return self._no_permesa(HTTPStatus.BAD_REQUEST, "Tiene que ser una imagen PNG, JPG, WebP o GIF")
             if not 0 < mida <= MIDA_MAXIMA_IMATGE:
-                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "La imatge és buida o massa gran (60 MB com a màxim)")
+                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "La imagen está vacía o es demasiado grande (60 MB como máximo)")
             contingut = self.rfile.read(mida)
             if len(contingut) != mida:
                 self.close_connection = True
@@ -925,13 +925,13 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                 projecte.al_dia()
                 g = next((x for x in projecte.estat.get("grafics") or [] if x["id"] == gid), None)
                 if g is None or g["tipus"] not in grafics.AMB_IMATGE:
-                    return self._json({"error": "No trobo aquest gràfic"}, HTTPStatus.NOT_FOUND)
+                    return self._json({"error": "No encuentro este gráfico"}, HTTPStatus.NOT_FOUND)
                 # Les fotos que ja no hi són (esborrades, d'un pla amb un camí dolent) deixen el seu lloc lliure.
                 imatges = projecte.imatges_grafics()
                 buit = next((p for p in g["punts"] if not grafics.imatge_valida(p.get("imatge"), imatges)), None)
                 maxim = grafics.MAX_FOTOS.get(g["tipus"], grafics.MAX_PUNTS)
                 if g["tipus"] in grafics.AMB_FOTOS and buit is None and len(g["punts"]) >= maxim:
-                    return self._json({"error": f"Hi caben {maxim} fotos com a molt"}, HTTPStatus.BAD_REQUEST)
+                    return self._json({"error": f"Caben {maxim} fotos como mucho"}, HTTPStatus.BAD_REQUEST)
                 with tempfile.TemporaryDirectory() as temporal:
                     fitxer = Path(temporal) / f"imatge{Path(nom).suffix.lower()}"
                     fitxer.write_bytes(contingut)
@@ -953,9 +953,9 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             nom = Path((parse_qs(urlparse(self.path).query).get("nom") or [""])[0]).name
             mida = int(self.headers.get("Content-Length") or 0)
             if Path(nom).suffix.lower() not in marca.FORMATS_FONT:
-                return self._no_permesa(HTTPStatus.BAD_REQUEST, "La font ha de ser un fitxer .ttf, .otf, .woff o .woff2")
+                return self._no_permesa(HTTPStatus.BAD_REQUEST, "La fuente tiene que ser un archivo .ttf, .otf, .woff o .woff2")
             if not 0 < mida <= MIDA_MAXIMA_FONT:
-                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "La font és buida o massa gran")
+                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "La fuente está vacía o es demasiado grande")
             contingut = self.rfile.read(mida)
             with bloqueig:
                 if self.headers.get("X-Tallat-Projecte") != clau_de(obert["p"]):
@@ -970,7 +970,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             """Rep un kit (el .zip que fa «Exporta»), l'afegeix i el fa servir per a aquest vídeo."""
             mida = int(self.headers.get("Content-Length") or 0)
             if not 0 < mida <= marca.MIDA_MAXIMA_KIT:
-                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "El fitxer de l'estil és buit o massa gran")
+                return self._no_permesa(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "El archivo del estilo está vacío o es demasiado grande")
             contingut = self.rfile.read(mida)
             with bloqueig:
                 if self.headers.get("X-Tallat-Projecte") != clau_de(obert["p"]):

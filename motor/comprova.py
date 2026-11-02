@@ -18,8 +18,8 @@ from pathlib import Path
 
 from motor import entorn
 
-ARREGLA = ("executa prepara.ps1 (des de la carpeta de tallat)" if entorn.WINDOWS
-           else "executa ./prepara.sh (des de la carpeta de tallat)")
+ARREGLA = ("ejecuta prepara.ps1 (desde la carpeta de tallat-es)" if entorn.WINDOWS
+           else "ejecuta ./prepara.sh (desde la carpeta de tallat-es)")
 MARQUES = {"ok": "✓", "avis": "!", "error": "✗"}
 
 
@@ -40,20 +40,20 @@ def _executa(ordre: list[str], temps: int = 60) -> subprocess.CompletedProcess |
 def _python() -> list[tuple]:
     v = sys.version_info
     estat = "ok" if v[:2] == (3, 11) else "avis"
-    detall = f"{platform.python_version()}" + ("" if estat == "ok" else " · tallat està provat amb la 3.11")
+    detall = f"{platform.python_version()}" + ("" if estat == "ok" else " · tallat-es está probado con la 3.11")
     resultat = [(estat, "Python", detall)]
     falten = [p for p in ("whisperx", "torch", "torchaudio", "transformers", "numpy") if not _versio(p)]
     if falten:
-        return resultat + [("error", "WhisperX", f"falten paquets ({', '.join(falten)}) → {ARREGLA}")]
+        return resultat + [("error", "WhisperX", f"faltan paquetes ({', '.join(falten)}) → {ARREGLA}")]
     if int(_versio("numpy").split(".")[0]) >= 2:
-        resultat.append(("error", "numpy", f"cal la versió 1 (n'hi ha la {_versio('numpy')}) → {ARREGLA}"))
+        resultat.append(("error", "numpy", f"hace falta la versión 1 (hay la {_versio('numpy')}) → {ARREGLA}"))
     # S'importa a part: a Mac Intel, si dues còpies d'OpenMP xoquen, el programa peta.
     arrel = str(Path(__file__).resolve().parent.parent)
     prova = _executa([sys.executable, "-c", f"import sys; sys.path.insert(0, {arrel!r}); from motor import entorn; "
                       "entorn.llista_de_lletres(); import ctranslate2, torch, whisperx"], temps=300)
     if prova is None or prova.returncode != 0:
         omp = prova is not None and (prova.returncode < 0 or "OMP" in prova.stderr)
-        motiu = "dues còpies d'OpenMP xoquen (Mac Intel)" if omp else "no arrenca"
+        motiu = "dos copias de OpenMP chocan (Mac Intel)" if omp else "no arranca"
         return resultat + [("error", "WhisperX", f"{motiu} → {ARREGLA}")]
     return resultat + [("ok", "WhisperX", f"{_versio('whisperx')} · torch {_versio('torch')}")]
 
@@ -62,7 +62,7 @@ def _ffmpeg() -> list[tuple]:
     ffmpeg, ffprobe = shutil.which("ffmpeg"), shutil.which("ffprobe")
     if not ffmpeg or not ffprobe:
         falta = " i ".join(n for n, p in (("ffmpeg", ffmpeg), ("ffprobe", ffprobe)) if not p)
-        return [("error", "ffmpeg", f"no trobo {falta} → {ARREGLA}")]
+        return [("error", "ffmpeg", f"no encuentro {falta} → {ARREGLA}")]
     versio = (_executa([ffmpeg, "-hide_banner", "-version"]) or subprocess.CompletedProcess([], 1, "", "")).stdout
     versio = (versio.splitlines() or ["?"])[0].replace("ffmpeg version ", "")
     codificadors = (_executa([ffmpeg, "-hide_banner", "-encoders"]) or subprocess.CompletedProcess([], 1, "", "")).stdout
@@ -71,9 +71,9 @@ def _ffmpeg() -> list[tuple]:
     falten = [c for c in necessaris if not re.search(rf"\s{c}\s", codificadors)]
     falten += [f for f in ("lut3d", "zoompan", "overlay", "concat") if not re.search(rf"\s{f}\s", filtres)]
     if falten:
-        return [("error", "ffmpeg", f"{versio} no porta {', '.join(falten)} → {ARREGLA}")]
+        return [("error", "ffmpeg", f"{versio} no lleva {', '.join(falten)} → {ARREGLA}")]
     propi = Path(ffmpeg).parent in entorn.carpetes_eines()
-    return [("ok", "ffmpeg", f"{versio.split(' ')[0]}" + (" (de tallat)" if propi else f" ({ffmpeg})"))]
+    return [("ok", "ffmpeg", f"{versio.split(' ')[0]}" + (" (de tallat-es)" if propi else f" ({ffmpeg})"))]
 
 
 def _carpetes_npx() -> list[Path]:
@@ -90,11 +90,11 @@ def _carpetes_npx() -> list[Path]:
 def _node() -> list[tuple]:
     node, npx = shutil.which("node"), shutil.which("npx")
     if not node or not npx:
-        return [("error", "Node.js", f"no el trobo (cal per a HyperFrames) → {ARREGLA}")]
+        return [("error", "Node.js", f"no lo encuentro (hace falta para HyperFrames) → {ARREGLA}")]
     versio = ((_executa([node, "--version"]) or subprocess.CompletedProcess([], 1, "", "")).stdout or "").strip()
     major = int(re.sub(r"\D", "", versio.split(".")[0]) or 0)
     if major < 18:
-        return [("error", "Node.js", f"{versio} és massa antic (cal el 18 o més nou) → {ARREGLA}")]
+        return [("error", "Node.js", f"{versio} es demasiado antiguo (hace falta el 18 o más nuevo) → {ARREGLA}")]
     resultat = [("ok", "Node.js", versio)]
     paquets = [p for carpeta in _carpetes_npx() for p in carpeta.glob("*/node_modules/hyperframes/package.json")]
     versions = set()
@@ -104,26 +104,26 @@ def _node() -> list[tuple]:
         except (OSError, json.JSONDecodeError):
             continue
     if entorn.VERSIO_HYPERFRAMES not in versions:
-        return resultat + [("avis", "HyperFrames", "es baixarà el primer cop que facis un esborrany (uns segons)")]
+        return resultat + [("avis", "HyperFrames", "se descargará la primera vez que hagas un borrador (unos segundos)")]
     cami = _executa([npx, "--yes", f"hyperframes@{entorn.VERSIO_HYPERFRAMES}", "browser", "path"], temps=90)
     navegador = cami.stdout.strip().splitlines()[-1] if cami and cami.returncode == 0 and cami.stdout.strip() else ""
     if not navegador or not Path(navegador).exists():
-        return resultat + [("avis", "HyperFrames", f"{entorn.VERSIO_HYPERFRAMES}; el navegador es baixarà el primer cop (uns 100 MB)")]
-    return resultat + [("ok", "HyperFrames", f"{entorn.VERSIO_HYPERFRAMES} amb el seu navegador")]
+        return resultat + [("avis", "HyperFrames", f"{entorn.VERSIO_HYPERFRAMES}; el navegador se descargará la primera vez (unos 100 MB)")]
+    return resultat + [("ok", "HyperFrames", f"{entorn.VERSIO_HYPERFRAMES} con su navegador")]
 
 
 def _models() -> list[tuple]:
     hub = Path(os.environ.get("HF_HOME", Path.home() / ".cache" / "huggingface")) / "hub"
     tenim = lambda nom: any((hub / f"models--{nom}" / "snapshots").glob("*/*"))  # noqa: E731
     resultat = []
-    if tenim("softcatala--wav2vec2-large-xlsr-catala"):
-        resultat.append(("ok", "Model de veu català", "Softcatalà"))
+    if tenim("jonatasgrosman--wav2vec2-large-xlsr-53-spanish"):
+        resultat.append(("ok", "Modelo de voz en castellano", "wav2vec2 xlsr-53 spanish"))
     else:
-        resultat.append(("avis", "Model de veu català", f"es baixarà el primer cop que transcriguis (1,2 GB); o {ARREGLA}"))
+        resultat.append(("avis", "Modelo de voz en castellano", f"se descargará la primera vez que transcribas (1,2 GB); o {ARREGLA}"))
     if tenim("Systran--faster-whisper-large-v3"):
-        resultat.append(("ok", "Model de transcripció", "large-v3"))
+        resultat.append(("ok", "Modelo de transcripción", "large-v3"))
     else:
-        resultat.append(("avis", "Model de transcripció", "només cal si no fas servir Descript; es baixarà el primer cop (3 GB)"))
+        resultat.append(("avis", "Modelo de transcripción", "solo hace falta si no usas Descript; se descargará la primera vez (3 GB)"))
     return resultat
 
 
@@ -131,15 +131,15 @@ def _disc_i_carpeta() -> list[tuple]:
     resultat = []
     lliure = shutil.disk_usage(Path.home()).free / 1e9
     estat = "error" if lliure < 5 else ("avis" if lliure < 15 else "ok")
-    resultat.append((estat, "Espai al disc", f"{lliure:.0f} GB lliures" + ("" if estat == "ok" else " · els vídeos en 4K n'ocupen molt")))
+    resultat.append((estat, "Espacio en el disco", f"{lliure:.0f} GB libres" + ("" if estat == "ok" else " · los vídeos en 4K ocupan mucho")))
     try:
         entorn.TALLAT.mkdir(parents=True, exist_ok=True)
         prova = entorn.TALLAT / ".prova-escriptura"
         prova.write_text("ok", encoding="utf-8")
         prova.unlink()
-        resultat.append(("ok", "Carpeta ~/.tallat", "s'hi pot escriure"))
+        resultat.append(("ok", "Carpeta ~/.tallat-es", "se puede escribir"))
     except OSError as e:
-        resultat.append(("error", "Carpeta ~/.tallat", f"no s'hi pot escriure ({e.strerror})"))
+        resultat.append(("error", "Carpeta ~/.tallat-es", f"no se puede escribir ({e.strerror})"))
     return resultat
 
 
@@ -154,7 +154,7 @@ def informe(resultats: list[tuple[str, str, str]]) -> str:
     linies = [f"  {MARQUES[estat]} {nom.ljust(amplada)}  {detall}" for estat, nom, detall in resultats]
     errors = sum(1 for estat, _, _ in resultats if estat == "error")
     if errors:
-        linies.append(f"\nHi ha {errors} {'cosa' if errors == 1 else 'coses'} per arreglar. {ARREGLA[0].upper() + ARREGLA[1:]}.")
+        linies.append(f"\nHay {errors} {'cosa' if errors == 1 else 'cosas'} por arreglar. {ARREGLA[0].upper() + ARREGLA[1:]}.")
     else:
-        linies.append("\nTot a punt per fer servir tallat.")
+        linies.append("\nTodo listo para usar tallat-es.")
     return "\n".join(linies)

@@ -34,10 +34,10 @@ PREVIES = "previa"  # el muntatge en un vídeo continu, per reproduir-lo a la p�
 EXPORTS = "exports"
 KIT_TRIAT = "kit-triat.json"
 
-MOTIUS = {"usuari": "tretes per tu", "farciment": "farciment", "tall": "paraules a mig dir",
-          "muntatge": "fora del reel", "instruccio": "instruccions de veu"}
-PROPOSTES = {"farciment?": "possible farciment", "expressiu?": "sons repetits (potser expressius)",
-             "repeticio?": "paraules repetides"}
+MOTIUS = {"usuari": "quitadas por ti", "farciment": "farciment", "tall": "palabras a medio decir",
+          "muntatge": "fuera del reel", "instruccio": "instrucciones de voz"}
+PROPOSTES = {"farciment?": "posible muletilla", "expressiu?": "sonidos repetidos (quizá expresivos)",
+             "repeticio?": "palabras repetidas"}
 
 
 def minuts(segons: float) -> str:
@@ -107,8 +107,8 @@ class Projecte:
             text = (self.carpeta / EDICIO_TEXT).read_text(encoding="utf-8")
             estat, self.avisos = edicio.importa_text(self.dades["paraules"], text)
             edicio.desa_estat(estat, self.carpeta / EDICIO)
-            self.avisos.append(f"He passat la teva edició d'{EDICIO_TEXT} a {EDICIO} "
-                               "(a partir d'ara es fa servir aquest).")
+            self.avisos.append(f"He pasado tu edición de {EDICIO_TEXT} a {EDICIO} "
+                               "(a partir de ahora se usa este).")
             return estat
         return edicio.estat_buit(marca.pausa_per_defecte())
 
@@ -284,9 +284,9 @@ class Projecte:
         origen = Path(origen).expanduser()
         extensio = origen.suffix.lower()
         if extensio not in grafics.FORMATS_IMATGE:
-            raise ValueError(f"«{origen.name}» no és una imatge que es pugui fer servir (PNG, JPG, WebP o GIF)")
+            raise ValueError(f"«{origen.name}» no es una imagen que se pueda usar (PNG, JPG, WebP o GIF)")
         if not origen.is_file():
-            raise ValueError(f"No trobo la imatge «{origen}»")
+            raise ValueError(f"No encuentro la imagen «{origen}»")
         contingut = origen.read_bytes()
         nom = hashlib.sha1(contingut).hexdigest()[:16] + (".jpg" if extensio == ".jpeg" else extensio)
         desti = self.carpeta_imatges / nom
@@ -543,7 +543,7 @@ class Projecte:
         """Un b-roll (o un sticker, amb `tipus`) posat a la pàgina (Vesteix) en una paraula: una instrucció a mà
         amb `pagina` i el seu fitxer. Si el fitxer no es pot preparar, no en queda res."""
         if not 0 <= paraula < len(self.dades["paraules"]):
-            raise ValueError(f"No hi ha cap paraula amb el número {paraula}")
+            raise ValueError(f"No hay ninguna palabra con el número {paraula}")
         ins = self.afegeix_instruccio(tipus, paraula, "b-roll" if tipus == "broll" else "sticker")
         llista = self.instruccions()
         next(i for i in llista if i["id"] == ins["id"])["pagina"] = True
@@ -564,7 +564,7 @@ class Projecte:
         if ins is None:
             raise KeyError(iid)
         if not ins.get("pagina"):
-            raise ValueError("Aquest b-roll ve d'una instrucció de veu: descarta-la")
+            raise ValueError("Este b-roll viene de una instrucción de voz: descártala")
         for clau in ("fitxer", "original"):
             # Només els fitxers que tallat hi ha posat (a broll/ o a stickers/ del projecte): un instruccions.json
             # tocat a mà o d'un altre lloc no ha de poder fer esborrar res més.
@@ -601,7 +601,7 @@ class Projecte:
             raise KeyError(iid)
         origen = Path(origen).expanduser()
         if not stickers.es_compatible(origen):
-            raise ValueError("Els stickers han de ser PNG, WebP, GIF o SVG (millor amb el fons transparent).")
+            raise ValueError("Los stickers tienen que ser PNG, WebP, GIF o SVG (mejor con el fondo transparente).")
         base = self.carpeta_instruccions()
         d = float(durada or ins.get("durada") or self.estil().get("stickers", {}).get("durada", 2.0))
         copia = stickers.copia(origen, base, iid)
@@ -742,15 +742,15 @@ class Projecte:
     def resum(self) -> list[str]:
         paraules = self.paraules()
         trams = self.trams()
-        linies = [f"Paraules: {sum(p['conservada'] for p in paraules)} es queden."]
+        linies = [f"Palabras: {sum(p['conservada'] for p in paraules)} se quedan."]
         for motiu, n in Counter(p["motiu"] for p in paraules if not p["conservada"]).items():
             linies.append(f"  − {n} {MOTIUS.get(motiu, motiu)}")
         for motiu, n in Counter(self.estat["propostes"].values()).items():
-            linies.append(f"  ? {n} {PROPOSTES.get(motiu, motiu)} (només proposat)")
+            linies.append(f"  ? {n} {PROPOSTES.get(motiu, motiu)} (solo propuesto)")
         pausa = self.estat.get("pausa_maxima")
-        linies.append(f"Silencis: {'escurçats a ' + str(pausa) + ' s com a màxim' if pausa else 'sense tocar'}.")
-        linies.append(f"Durada: {minuts(self.dades['durada'])} → {minuts(sum(b - a for a, b in trams))} "
-                      f"({len(trams)} trossos).")
+        linies.append(f"Silencios: {'acortados a ' + str(pausa) + ' s como máximo' if pausa else 'sin tocar'}.")
+        linies.append(f"Duración: {minuts(self.dades['durada'])} → {minuts(sum(b - a for a, b in trams))} "
+                      f"({len(trams)} trozos).")
         return linies
 
 

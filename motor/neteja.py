@@ -13,7 +13,7 @@ import unicodedata
 from pathlib import Path
 
 LLISTA_PER_DEFECTE = Path(__file__).resolve().parent.parent / "config" / "farciment.txt"
-LLISTA_USUARI = Path.home() / ".tallat" / "farciment.txt"
+LLISTA_USUARI = Path.home() / ".tallat-es" / "farciment.txt"
 COMA = ","  # marca d'una expressió que només compta si va seguida de coma
 
 
@@ -51,10 +51,10 @@ def mou_expressio(expressio: str, desti: str | None, path: Path | None = None) -
 
     Es fa sobre la còpia de l'usuari i en conserva els comentaris."""
     if desti not in (None, "treu", "proposa"):
-        raise ValueError(f"Secció de farciment desconeguda: {desti}")
+        raise ValueError(f"Sección de muletillas desconocida: {desti}")
     expressio = " ".join(expressio.lower().split())
     if not _clau(expressio) or not all(_clau(expressio)):
-        raise ValueError("Cal una paraula o expressió")
+        raise ValueError("Hace falta una palabra o expresión")
     path = path or ruta_llista()
     sortida, seccio, final_de = [], None, {}
     for linia in path.read_text(encoding="utf-8").splitlines():

@@ -1,6 +1,6 @@
 """El gust de cada persona: les correccions que fa queden com a regles per als vídeos següents.
 
-Les regles són a ~/.tallat/gust.json, fora del repositori. N'hi ha de dues menes:
+Les regles són a ~/.tallat-es/gust.json, fora del repositori. N'hi ha de dues menes:
 - amb un **ajust**: una opció concreta que es canvia al moment i serveix per a tots els vídeos
   («subtítols més grans» → subtitols.mida=0.09; «no em treguis els vale» → farciment.deixa=vale);
 - només amb **text**: una preferència que Claude llegeix abans de decidir res («prefereixo reels
@@ -22,9 +22,9 @@ from pathlib import Path
 
 from motor import marca, neteja
 
-FITXER = Path.home() / ".tallat" / "gust.json"
-SECCIONS = {"talls": "Talls", "subtitols": "Subtítols", "grafics": "Gràfics", "broll": "B-roll", "stickers": "Stickers",
-            "so": "So", "reels": "Reels i muntatge", "altres": "Altres"}
+FITXER = Path.home() / ".tallat-es" / "gust.json"
+SECCIONS = {"talls": "Cortes", "subtitols": "Subtítulos", "grafics": "Gráficos", "broll": "B-roll", "stickers": "Stickers",
+            "so": "Sonido", "reels": "Reels y montaje", "altres": "Otras"}
 FARCIMENT = {"treu": "treu", "proposa": "proposa", "deixa": None}
 
 
@@ -48,7 +48,7 @@ def llegeix_ajust(text: str) -> tuple[str, object]:
     clau, igual, valor = text.partition("=")
     clau = clau.strip()
     if not igual or not re.fullmatch(r"[a-z_]+\.[a-z_]+", clau):
-        raise ValueError(f"L'ajust ha de ser com «subtitols.mida=0.09», no «{text}»")
+        raise ValueError(f"El ajuste tiene que ser como «subtitols.mida=0.09», no «{text}»")
     valor = valor.strip()
     try:
         return clau, json.loads(valor)
@@ -69,10 +69,10 @@ def normalitza_valor(clau: str, valor):
     seccio, nom = clau.split(".", 1)
     if seccio == "farciment":
         if nom not in FARCIMENT or not isinstance(valor, str):
-            raise ValueError("El farciment s'ajusta amb farciment.treu, farciment.proposa o farciment.deixa i una paraula")
+            raise ValueError("Las muletillas se ajustan con farciment.treu, farciment.proposa o farciment.deixa y una palabra")
         return valor
     if seccio not in marca.EDITABLES:
-        raise ValueError(f"No conec l'ajust «{clau}»")
+        raise ValueError(f"No conozco el ajuste «{clau}»")
     return marca.valida(seccio, {nom: valor})[nom]
 
 
@@ -109,10 +109,10 @@ def _mateix_ajust(a: dict | None, b: dict | None) -> bool:
 def afegeix(seccio: str, text: str, ajust: str | None = None, path: Path | None = None) -> dict:
     """Afegeix una regla (o actualitza la que deia el mateix) i n'aplica l'ajust, si en porta."""
     if seccio not in SECCIONS:
-        raise ValueError(f"La secció ha de ser una d'aquestes: {', '.join(SECCIONS)}")
+        raise ValueError(f"La sección tiene que ser una de estas: {', '.join(SECCIONS)}")
     text = " ".join(str(text).split())
     if not text:
-        raise ValueError("La regla no pot ser buida")
+        raise ValueError("La regla no puede estar vacía")
     regles = llegeix(path)
     nou_ajust = desfes = None
     if ajust:
@@ -183,7 +183,7 @@ def _desat(ajust: dict):
 def text(regles: list[dict]) -> str:
     """Les regles agrupades per seccions, per llegir-les (Claude i la persona)."""
     if not regles:
-        return "Encara no hi ha cap regla. Quan la persona corregeixi alguna cosa «per sempre», afegeix-la."
+        return "Todavía no hay ninguna regla. Cuando la persona corrija algo «para siempre», añádela."
     linies = []
     for seccio, nom in SECCIONS.items():
         del_grup = [r for r in regles if r["seccio"] == seccio]

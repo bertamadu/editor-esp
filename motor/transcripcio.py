@@ -1,12 +1,12 @@
-"""Transcripció en català amb marques de temps per paraula.
+"""Transcripció en castellà amb marques de temps per paraula (tallat-es, versió modificada de tallat).
 
 Dues fonts del text:
 - un SRT (p. ex. exportat de Descript): és la més ràpida i la més fidel (conserva el farciment).
 - WhisperX escriu el text. Gratuïta i sense internet, però més lenta i tendeix a esborrar el
   farciment («eh», «mmm»).
 
-El temps de cada paraula el calcula el model de veu català de Softcatalà (el mateix que fa servir
-WhisperX; llicència Apache 2.0, i ja el baixa prepara.sh) alineant tot el text contra tot el so, sense
+El temps de cada paraula el calcula un model de veu castellà (wav2vec2-large-xlsr-53-spanish, de Jonatas
+Grosman; llicència Apache 2.0, i ja el baixa prepara.sh) alineant tot el text contra tot el so, sense
 refiar-se dels temps de les frases: els de Descript poden anar uns segons desplaçats, i l'alineació
 de WhisperX, frase per frase, estirava les paraules pels silencis i s'equivocava fins a un segon i mig.
 Després, les vores de cada paraula es retallen als silencis reals (motor/veu.py). Si no es pot, es fa
@@ -19,7 +19,9 @@ import statistics
 import unicodedata
 from pathlib import Path
 
-IDIOMA = "ca"
+IDIOMA = "es"
+# Model de veu castellà per alinear les paraules (de Hugging Face, com el català de Softcatalà a tallat).
+MODEL_ALINEADOR = "jonatasgrosman/wav2vec2-large-xlsr-53-spanish"
 DISPOSITIU = "cpu"
 
 
@@ -72,13 +74,13 @@ def alinea(audio, frases: list[dict], avis=print) -> list[dict]:
         segments = alinea_global(audio, frases)
     except Exception as e:  # noqa: BLE001 — qualsevol problema: l'alineador d'abans
         if avis:
-            avis(f"No he pogut alinear tot el text de cop ({e}); ho faig frase per frase.")
+            avis(f"No he podido alinear todo el texto de golpe ({e}); lo hago frase por frase.")
         wx = _whisperx()
-        model, meta = wx.load_align_model(language_code=IDIOMA, device=DISPOSITIU)
+        model, meta = wx.load_align_model(language_code=IDIOMA, device=DISPOSITIU, model_name=MODEL_ALINEADOR)
         segments = wx.align(frases, model, meta, audio, DISPOSITIU, return_char_alignments=False)["segments"]
     endarrere = ajusta_temps(segments, veu.mapa(audio))
     if endarrere and avis:
-        avis(f"Avís: {endarrere} paraules sortien abans que l'anterior; les he posat just després.")
+        avis(f"Aviso: {endarrere} palabras salían antes que la anterior; las he puesto justo después.")
     return segments
 
 
@@ -126,8 +128,8 @@ BUIT, ENTRE_PARAULES = "[pad]", "|"
 
 
 def model_alineador():
-    """El model de veu català (el mateix que fa servir WhisperX) i el seu diccionari {lletra: número}."""
-    model, meta = _whisperx().load_align_model(language_code=IDIOMA, device=DISPOSITIU)
+    """El model de veu castellà (el mateix que fa servir WhisperX) i el seu diccionari {lletra: número}."""
+    model, meta = _whisperx().load_align_model(language_code=IDIOMA, device=DISPOSITIU, model_name=MODEL_ALINEADOR)
     model.eval()
     return model, meta["dictionary"]
 
@@ -244,7 +246,7 @@ def alinea_global(audio, frases: list[dict]) -> list[dict]:
     sabudes = [c for c in confiances if c is not None]
     dubtoses = sum(c < CONFIANCA_BAIXA for c in sabudes) / max(1, len(sabudes))
     if dubtoses > MAXIM_DUBTOSES:
-        raise ValueError(f"el text no sembla correspondre al so ({dubtoses:.0%} de paraules dubtoses)")
+        raise ValueError(f"el texto no parece corresponder al sonido ({dubtoses:.0%} de palabras dudosas)")
     sortida, k = [], 0
     for f, paraules in zip(frases, textos):
         words = [{"word": w, "start": round(crus[k + j][0], 3), "end": round(crus[k + j][1], 3),

@@ -1,58 +1,58 @@
 <!doctype html>
-<html lang="ca">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>tallat · revisió</title>
+  <title>tallat-es · revisión</title>
   <link rel="stylesheet" href="/pagina/estil.css">
 </head>
 <body>
-  <aside class="barra" aria-label="Projecte">
+  <aside class="barra" aria-label="Proyecto">
     <!-- Edita · Vesteix · Revisa, sempre a dalt a l'esquerra. Si s'amaga la columna, va a la barra del text. -->
     <div class="cap-estacions">
-      <div class="segmentat petit estacions" role="radiogroup" aria-label="Què fas">
-        <button role="radio" data-estacio="edita" aria-checked="true" title="El text: què es queda, què es treu i el ritme">Edita</button>
-        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Com es veu: l'estil, els subtítols, els gràfics, el b-roll, els zooms i el so">Vesteix</button>
-        <button role="radio" data-estacio="revisa" aria-checked="false" title="Mira l'esborrany sencer i deixa-hi notes per a Claude">Revisa</button>
+      <div class="segmentat petit estacions" role="radiogroup" aria-label="Qué haces">
+        <button role="radio" data-estacio="edita" aria-checked="true" title="El texto: qué se queda, qué se quita y el ritmo">Edita</button>
+        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Cómo se ve: el estilo, los subtítulos, los gráficos, el b-roll, los zooms y el sonido">Viste</button>
+        <button role="radio" data-estacio="revisa" aria-checked="false" title="Mira el borrador entero y deja notas para Claude">Revisa</button>
       </div>
     </div>
     <header class="barra-cap">
       <p class="marca" id="marca" hidden></p>
       <div class="fila-nom">
         <h1 id="nom-projecte">…</h1>
-        <button class="ajuda-guia" id="obre-guia" title="Com funciona" aria-label="Com funciona (visita guiada)">?</button>
+        <button class="ajuda-guia" id="obre-guia" title="Cómo funciona" aria-label="Cómo funciona (visita guiada)">?</button>
       </div>
       <div class="tria-reel" id="tria-reel" hidden>
         <button class="boto-reel" id="boto-reel" aria-haspopup="true" aria-expanded="false" aria-controls="menu-reels">
-          <span id="nom-reel">Vídeo sencer</span><span class="compte" id="compte-reels"></span>
+          <span id="nom-reel">Vídeo entero</span><span class="compte" id="compte-reels"></span>
           <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg>
         </button>
         <div class="menu-reels" id="menu-reels" hidden><div id="reels"></div></div>
       </div>
-      <p class="durades" title="Durada de la gravació → durada del vídeo"><span id="durada-original">–</span><span class="fletxa" aria-hidden="true">→</span><strong id="durada-final">–</strong></p>
+      <p class="durades" title="Duración de la grabación → duración del vídeo"><span id="durada-original">–</span><span class="fletxa" aria-hidden="true">→</span><strong id="durada-final">–</strong></p>
     </header>
 
     <div class="inici" id="inici">
     <section class="seccio" data-seccio="revisar" id="seccio-revisar" hidden>
-      <h2>Per revisar <span class="compte" id="compte-revisar"></span></h2>
+      <h2>Por revisar <span class="compte" id="compte-revisar"></span></h2>
       <div class="grup-revisar" id="grup-instruccions" hidden>
-        <h3>Instruccions de veu</h3>
+        <h3>Instrucciones de voz</h3>
         <div id="instruccions"></div>
-        <button class="enllac" id="accepta-instruccions" hidden>Accepta-les totes</button>
+        <button class="enllac" id="accepta-instruccions" hidden>Acéptalas todas</button>
       </div>
       <div class="grup-revisar" id="grup-propostes" hidden>
-        <h3>Paraules que potser vols treure</h3>
+        <h3>Palabras que quizá quieras quitar</h3>
         <div id="propostes"></div>
       </div>
     </section>
 
     <section class="seccio" data-seccio="ritme">
-      <h2 id="titol-ritme">Ritme</h2>
+      <h2 id="titol-ritme">Ritmo</h2>
       <div class="segmentat ample" role="radiogroup" aria-labelledby="titol-ritme" id="ritme">
         <button role="radio" data-valor="0">Original</button>
-        <button role="radio" data-valor="1">Pausat</button>
+        <button role="radio" data-valor="1">Pausado</button>
         <button role="radio" data-valor="2">Normal</button>
-        <button role="radio" data-valor="3">Àgil</button>
+        <button role="radio" data-valor="3">Ágil</button>
       </div>
       <p class="detall" id="nota-ritme"></p>
     </section>
@@ -62,140 +62,140 @@
          (les que proposa Claude i les teves), que es voten. -->
     <div class="vesteix-barra" id="vesteix-barra">
     <section class="seccio tot-el-video" aria-labelledby="titol-tot-video">
-      <h2 id="titol-tot-video">Tot el vídeo</h2>
-      <button class="fila-estil" id="obre-estil-video" aria-label="Estil: com es veu tot el vídeo (subtítols, títol, gràfics i b-roll)">
+      <h2 id="titol-tot-video">Todo el vídeo</h2>
+      <button class="fila-estil" id="obre-estil-video" aria-label="Estilo: cómo se ve todo el vídeo (subtítulos, título, gráficos y b-roll)">
         <span class="mostra-estil icona-fila" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M9 6.5h6M8.5 15.5h7M10 18h4"/><path d="M8.5 10.5h3"/></svg></span>
-        <span class="fila-estil-text"><strong>Estil</strong><span id="nom-estil-video"></span></span>
+        <span class="fila-estil-text"><strong>Estilo</strong><span id="nom-estil-video"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
       <!-- Només si la gravació és horitzontal: retallada (el centre) o sencera, amb el fons difuminat. -->
       <div class="fila-encaix" id="fila-encaix" hidden>
-        <span class="fila-estil-text"><strong>Vídeo horitzontal</strong><span>Com entra al vertical</span></span>
-        <div class="segmentat petit" role="radiogroup" aria-label="Com entra el vídeo horitzontal" id="encaix">
-          <button role="radio" data-encaix="retalla" aria-checked="true" title="Se'n queda el centre">Retallat</button>
-          <button role="radio" data-encaix="difumina" aria-checked="false" title="Surt sencer; a dalt i a baix, el mateix vídeo difuminat">Fons difuminat</button>
+        <span class="fila-estil-text"><strong>Vídeo horizontal</strong><span>Cómo entra en vertical</span></span>
+        <div class="segmentat petit" role="radiogroup" aria-label="Cómo entra el vídeo horizontal" id="encaix">
+          <button role="radio" data-encaix="retalla" aria-checked="true" title="Se queda el centro">Recortado</button>
+          <button role="radio" data-encaix="difumina" aria-checked="false" title="Sale entero; arriba y abajo, el mismo vídeo difuminado">Fondo difuminado</button>
         </div>
-        <p class="detall" id="encaix-fent" hidden>Preparant el vídeo… Quan estigui, es canviarà sol.</p>
+        <p class="detall" id="encaix-fent" hidden>Preparando el vídeo… Cuando esté, se cambiará solo.</p>
       </div>
-      <button class="fila-estil" id="obre-subtitols" aria-label="Subtítols: retoca'ls (a la dreta)">
+      <button class="fila-estil" id="obre-subtitols" aria-label="Subtítulos: retócalos (a la derecha)">
         <span class="mostra-estil icona-fila" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 11.5h4M14 11.5h3M7 15h10"/></svg></span>
-        <span class="fila-estil-text"><strong>Subtítols</strong><span id="nom-estil-sub"></span></span>
+        <span class="fila-estil-text"><strong>Subtítulos</strong><span id="nom-estil-sub"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
-      <button class="fila-estil" id="obre-estil-titol" aria-label="Títol del ganxo: escriu-lo i retoca'l (a la dreta)">
+      <button class="fila-estil" id="obre-estil-titol" aria-label="Título gancho: escríbelo y retócalo (a la derecha)">
         <span class="mostra-estil icona-fila" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6.5V5h12v1.5M12 5v14M9.5 19h5"/></svg></span>
-        <span class="fila-estil-text"><strong>Títol del ganxo</strong><span id="nom-estil-titol"></span></span>
+        <span class="fila-estil-text"><strong>Título gancho</strong><span id="nom-estil-titol"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
-      <button class="fila-estil" id="obre-estils" aria-label="Colors i lletres: els teus, per a tots els vídeos">
+      <button class="fila-estil" id="obre-estils" aria-label="Colores y letras: los tuyos, para todos los vídeos">
         <span class="mostra-estil mostra-marca" id="mostra-marca" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span class="fila-estil-text"><strong>Colors i lletres</strong><span id="nom-marca"></span></span>
+        <span class="fila-estil-text"><strong>Colores y letras</strong><span id="nom-marca"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
-      <button class="fila-estil" id="obre-estil-broll" aria-label="B-roll: tria com surt a la pantalla">
+      <button class="fila-estil" id="obre-estil-broll" aria-label="B-roll: elige cómo sale en la pantalla">
         <span class="mostra-estil" id="mostra-broll" aria-hidden="true"></span>
-        <span class="fila-estil-text"><strong>Com surt el b-roll</strong><span id="nom-estil-broll"></span></span>
+        <span class="fila-estil-text"><strong>Cómo sale el b-roll</strong><span id="nom-estil-broll"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
-      <button class="fila-estil" id="obre-so" aria-label="So: la neteja de la veu i els efectes">
+      <button class="fila-estil" id="obre-so" aria-label="Sonido: la limpieza de la voz y los efectos">
         <span class="mostra-estil icona-fila" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></span>
-        <span class="fila-estil-text"><strong>La veu i els efectes</strong><span id="nom-so"></span></span>
+        <span class="fila-estil-text"><strong>La voz y los efectos</strong><span id="nom-so"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
     </section>
     </div>
 
     <div class="panell-estil" id="panell-estils" hidden>
-      <button class="enllac tornar" id="tanca-estils">‹ Enrere</button>
-      <h2 class="titol-panell">Estils guardats</h2>
-      <p class="detall">Cada un té els seus colors i lletres i com són els teus vídeos. La majoria de gent en té un. Toca'n un per fer-lo servir en aquest vídeo.</p>
+      <button class="enllac tornar" id="tanca-estils">‹ Atrás</button>
+      <h2 class="titol-panell">Estilos guardados</h2>
+      <p class="detall">Cada uno tiene sus colores y letras y cómo son tus vídeos. La mayoría de gente tiene uno. Toca uno para usarlo en este vídeo.</p>
       <div class="llista-kits" id="llista-kits"></div>
       <div class="accions-kit">
-        <button class="enllac" id="kit-nou">Estil nou (el de tallat)…</button>
-        <button class="enllac" id="kit-importa">Importa un estil (.zip)…</button>
+        <button class="enllac" id="kit-nou">Estilo nuevo (el de tallat)…</button>
+        <button class="enllac" id="kit-importa">Importa un estilo (.zip)…</button>
       </div>
       <form class="nova-regla" id="form-kit" hidden>
-        <input id="nom-kit" type="text" autocomplete="off" maxlength="60" aria-label="Nom de l'estil">
+        <input id="nom-kit" type="text" autocomplete="off" maxlength="60" aria-label="Nombre del estilo">
       </form>
       <input type="file" id="fitxer-kit" accept=".zip,application/zip" hidden>
     </div>
 
     <div class="panell-estil" id="panell-estil" hidden>
-      <button class="enllac tornar" id="tanca-subtitols">‹ Enrere</button>
-      <h2 class="titol-panell">Subtítols</h2>
+      <button class="enllac tornar" id="tanca-subtitols">‹ Atrás</button>
+      <h2 class="titol-panell">Subtítulos</h2>
       <button class="oferta-marca" data-obre-assistent hidden>
         <span class="mostra-estil mostra-marca" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span><strong>Posa-hi els teus colors i lletres</strong><span>Fes el teu estil: 2 passos</span></span>
+        <span><strong>Pon tus colores y letras</strong><span>Haz tu estilo: 2 pasos</span></span>
       </button>
-      <p class="pista-video">Toca els subtítols al vídeo per canviar-los.</p>
+      <p class="pista-video">Toca los subtítulos en el vídeo para cambiarlos.</p>
       <button class="interruptor" id="subtitols" role="switch" aria-checked="true">
-        <span class="pista" aria-hidden="true"><span class="bola"></span></span>Posa subtítols al vídeo
+        <span class="pista" aria-hidden="true"><span class="bola"></span></span>Pon subtítulos en el vídeo
       </button>
 
-      <div class="estils" id="estils" role="radiogroup" aria-label="Estils predefinits"></div>
-      <button class="enllac mes-estils" id="mes-estils" aria-expanded="false" aria-controls="estils">Més estils</button>
+      <div class="estils" id="estils" role="radiogroup" aria-label="Estilos predefinidos"></div>
+      <button class="enllac mes-estils" id="mes-estils" aria-expanded="false" aria-controls="estils">Más estilos</button>
 
       <details class="grup-estil mes-opcions" id="grup-e-mes">
-        <summary>Més opcions: lletra, colors, posició…<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+        <summary>Más opciones: letra, colores, posición…<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
         <div class="cos-grup">
           <div class="camp">
-            <label class="etiqueta" for="e-font">Lletra</label>
+            <label class="etiqueta" for="e-font">Letra</label>
             <select id="e-font"></select>
-            <button class="enllac puja-font" id="puja-font">Puja una font teva…</button>
-            <p class="detall avis-lletra" id="avis-lletra" hidden>Les gratuïtes es baixen el primer cop que les tries (cal internet).</p>
+            <button class="enllac puja-font" id="puja-font">Sube una fuente tuya…</button>
+            <p class="detall avis-lletra" id="avis-lletra" hidden>Las gratuitas se descargan la primera vez que las eliges (hace falta internet).</p>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="e-mida">Mida</label>
+            <label class="etiqueta" for="e-mida">Tamaño</label>
             <input type="range" id="e-mida" min="0.04" max="0.12" step="0.002">
           </div>
           <div class="camp">
-            <span class="etiqueta">Colors</span>
+            <span class="etiqueta">Colores</span>
             <div class="colors">
-              <label class="color"><input type="color" id="e-color"><span>Text</span></label>
-              <label class="color" id="camp-actiu"><input type="color" id="e-color-actiu"><span>Destacat</span></label>
-              <label class="color"><input type="color" id="e-contorn"><span>Contorn</span></label>
-              <label class="color" id="camp-fons"><input type="color" id="e-fons-color"><span>Fons</span></label>
+              <label class="color"><input type="color" id="e-color"><span>Texto</span></label>
+              <label class="color" id="camp-actiu"><input type="color" id="e-color-actiu"><span>Destacado</span></label>
+              <label class="color"><input type="color" id="e-contorn"><span>Contorno</span></label>
+              <label class="color" id="camp-fons"><input type="color" id="e-fons-color"><span>Fondo</span></label>
             </div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="e-posicio">Posició</label>
+            <label class="etiqueta" for="e-posicio">Posición</label>
             <input type="range" id="e-posicio" min="0.05" max="0.95" step="0.01">
-            <div class="extrems" aria-hidden="true"><span>Dalt</span><span>Baix</span></div>
+            <div class="extrems" aria-hidden="true"><span>Arriba</span><span>Abajo</span></div>
           </div>
 
           <details class="grup-estil" id="grup-e-destacades">
-            <summary>Paraules destacades<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+            <summary>Palabras destacadas<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
             <div class="cos-grup">
               <button class="interruptor" id="e-clau" role="switch" aria-checked="false">
-                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Més grans i d'un altre color
+                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Más grandes y de otro color
               </button>
               <div class="sub-camps" id="camps-clau">
-                <label class="etiqueta" for="e-clau-mida">Quant més grans</label>
+                <label class="etiqueta" for="e-clau-mida">Cuánto más grandes</label>
                 <input type="range" id="e-clau-mida" min="1" max="3.5" step="0.05">
                 <div class="fila-camps">
                   <label class="color"><input type="color" id="e-clau-color"><span>Color</span></label>
                   <button class="interruptor" id="e-clau-sola" role="switch" aria-checked="false">
-                    <span class="pista" aria-hidden="true"><span class="bola"></span></span>Soles a la seva línia
+                    <span class="pista" aria-hidden="true"><span class="bola"></span></span>Solas en su línea
                   </button>
                 </div>
-                <label class="etiqueta" for="e-clau-font">Lletra</label>
+                <label class="etiqueta" for="e-clau-font">Letra</label>
                 <select id="e-clau-font"></select>
                 <button class="interruptor" id="e-clau-cursiva" role="switch" aria-checked="false">
                   <span class="pista" aria-hidden="true"><span class="bola"></span></span>En cursiva
                 </button>
-                <p class="detall">Tria quines són amb «Destaca», a dalt del text. Les que no triïs, les tria tallat.</p>
+                <p class="detall">Elige cuáles son con «Destaca», encima del texto. Las que no elijas, las elige tallat.</p>
               </div>
               <button class="interruptor" id="e-emojis" role="switch" aria-checked="false">
-                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Amb un emoji
+                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Con un emoji
               </button>
             </div>
           </details>
 
           <details class="grup-estil" id="grup-e-disposicio">
-            <summary>Disposició i animació<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+            <summary>Disposición y animación<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
             <div class="cos-grup">
               <div class="camp">
-                <span class="etiqueta" id="et-paraules">Paraules a la pantalla</span>
+                <span class="etiqueta" id="et-paraules">Palabras en la pantalla</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-paraules" id="e-paraules">
                   <button role="radio" data-valor="una">Una</button>
                   <button role="radio" data-valor="poques">2 o 3</button>
@@ -203,142 +203,142 @@
                 </div>
               </div>
               <div class="camp">
-                <span class="etiqueta" id="et-disposicio">Les línies</span>
+                <span class="etiqueta" id="et-disposicio">Las líneas</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-disposicio" id="e-disposicio">
-                  <button role="radio" data-valor="linia" title="Cada línia substitueix l'anterior">Una cada cop</button>
-                  <button role="radio" data-valor="apilat" title="Les línies d'una frase s'apilen una sota l'altra">S'apilen</button>
-                  <button role="radio" data-valor="escampat" title="Les paraules d'una frase surten en llocs i mides diferents">Escampades</button>
+                  <button role="radio" data-valor="linia" title="Cada línea sustituye a la anterior">Una cada vez</button>
+                  <button role="radio" data-valor="apilat" title="Las líneas de una frase se apilan una debajo de otra">Se apilan</button>
+                  <button role="radio" data-valor="escampat" title="Las palabras de una frase salen en sitios y tamaños diferentes">Esparcidas</button>
                 </div>
               </div>
               <div class="camp">
-                <span class="etiqueta" id="et-alineacio">Alineació</span>
+                <span class="etiqueta" id="et-alineacio">Alineación</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-alineacio" id="e-alineacio">
-                  <button role="radio" data-valor="esquerra">Esquerra</button>
-                  <button role="radio" data-valor="centre">Centre</button>
-                  <button role="radio" data-valor="dreta">Dreta</button>
-                  <button role="radio" data-valor="esglao" title="Una línia a l'esquerra i la següent a la dreta">Esglaó</button>
+                  <button role="radio" data-valor="esquerra">Izquierda</button>
+                  <button role="radio" data-valor="centre">Centro</button>
+                  <button role="radio" data-valor="dreta">Derecha</button>
+                  <button role="radio" data-valor="esglao" title="Una línea a la izquierda y la siguiente a la derecha">Escalón</button>
                 </div>
               </div>
               <div class="camp">
-                <span class="etiqueta" id="et-apareixen">Apareixen</span>
+                <span class="etiqueta" id="et-apareixen">Aparecen</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-apareixen" id="e-apareixen">
-                  <button role="radio" data-valor="paraula">D'una en una</button>
-                  <button role="radio" data-valor="linia">Totes de cop</button>
+                  <button role="radio" data-valor="paraula">De una en una</button>
+                  <button role="radio" data-valor="linia">Todas de golpe</button>
                 </div>
               </div>
               <div class="camp">
-                <label class="etiqueta" for="e-animacio">Animació</label>
+                <label class="etiqueta" for="e-animacio">Animación</label>
                 <select id="e-animacio">
-                  <option value="pop">Pop · fan un petit salt</option>
-                  <option value="fos">Fos · s'encenen suaument</option>
-                  <option value="impacte">Impacte · entren grans i de cop</option>
-                  <option value="cortina">Cortina · es destapen</option>
-                  <option value="pes">Gruix · de fines a gruixudes</option>
-                  <option value="cap">Cap · surten i prou</option>
+                  <option value="pop">Pop · dan un pequeño salto</option>
+                  <option value="fos">Fundido · se encienden suavemente</option>
+                  <option value="impacte">Impacto · entran grandes y de golpe</option>
+                  <option value="cortina">Cortina · se destapan</option>
+                  <option value="pes">Grosor · de finas a gruesas</option>
+                  <option value="cap">Ninguna · salen y ya</option>
                 </select>
               </div>
               <div class="camp">
-                <label class="etiqueta" for="e-destacat">La paraula que sona</label>
+                <label class="etiqueta" for="e-destacat">La palabra que suena</label>
                 <select id="e-destacat">
-                  <option value="cap">No la destaquis</option>
-                  <option value="color">Canvia de color</option>
-                  <option value="caixa">Caixa de color al darrere</option>
-                  <option value="karaoke">Karaoke · es queden pintades</option>
-                  <option value="gran">Es fa més gran</option>
+                  <option value="cap">No la destaques</option>
+                  <option value="color">Cambia de color</option>
+                  <option value="caixa">Caja de color detrás</option>
+                  <option value="karaoke">Karaoke · se quedan pintadas</option>
+                  <option value="gran">Se hace más grande</option>
                 </select>
               </div>
               <div class="camp">
-                <span class="etiqueta" id="et-aspecte">Aspecte</span>
+                <span class="etiqueta" id="et-aspecte">Aspecto</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-aspecte" id="e-aspecte">
                   <button role="radio" data-valor="normal">Normal</button>
-                  <button role="radio" data-valor="neo">Neó</button>
-                  <button role="radio" data-valor="degradat">Degradat</button>
+                  <button role="radio" data-valor="neo">Neón</button>
+                  <button role="radio" data-valor="degradat">Degradado</button>
                 </div>
               </div>
               <div class="camp">
-                <span class="etiqueta" id="et-fons">Fons</span>
+                <span class="etiqueta" id="et-fons">Fondo</span>
                 <div class="segmentat ample" role="radiogroup" aria-labelledby="et-fons" id="e-fons">
-                  <button role="radio" data-valor="cap">Sense fons</button>
-                  <button role="radio" data-valor="pindola">Píndola</button>
+                  <button role="radio" data-valor="cap">Sin fondo</button>
+                  <button role="radio" data-valor="pindola">Píldora</button>
                 </div>
               </div>
             </div>
           </details>
 
           <details class="grup-estil" id="grup-e-detalls">
-            <summary>Detalls de la lletra<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+            <summary>Detalles de la letra<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
             <div class="cos-grup">
               <div class="fila-camps">
-                <select id="e-pes" aria-label="Gruix de la lletra">
+                <select id="e-pes" aria-label="Grosor de la letra">
                   <option value="400">Normal</option>
-                  <option value="600">Seminegreta</option>
-                  <option value="700">Negreta</option>
-                  <option value="800">Extranegreta</option>
-                  <option value="900">Negra</option>
+                  <option value="600">Seminegrita</option>
+                  <option value="700">Negrita</option>
+                  <option value="800">Extranegrita</option>
+                  <option value="900">Black</option>
                 </select>
                 <button class="interruptor" id="e-majuscules" role="switch" aria-checked="false">
-                  <span class="pista" aria-hidden="true"><span class="bola"></span></span>Majúscules
+                  <span class="pista" aria-hidden="true"><span class="bola"></span></span>Mayúsculas
                 </button>
               </div>
               <div class="camp">
-                <label class="etiqueta" for="e-espaiat">Espai entre lletres</label>
+                <label class="etiqueta" for="e-espaiat">Espacio entre letras</label>
                 <input type="range" id="e-espaiat" min="-0.1" max="0.2" step="0.005">
-                <div class="extrems" aria-hidden="true"><span>Juntes</span><span>Separades</span></div>
+                <div class="extrems" aria-hidden="true"><span>Juntas</span><span>Separadas</span></div>
               </div>
               <div class="camp">
-                <label class="etiqueta" for="e-interlineat">Espai entre línies</label>
+                <label class="etiqueta" for="e-interlineat">Espacio entre líneas</label>
                 <input type="range" id="e-interlineat" min="0.8" max="1.5" step="0.01">
-                <div class="extrems" aria-hidden="true"><span>Juntes</span><span>Separades</span></div>
+                <div class="extrems" aria-hidden="true"><span>Juntas</span><span>Separadas</span></div>
               </div>
               <div class="camp">
-                <label class="etiqueta" for="e-gruix">Gruix del contorn</label>
+                <label class="etiqueta" for="e-gruix">Grosor del contorno</label>
                 <input type="range" id="e-gruix" min="0" max="0.12" step="0.005">
-                <div class="extrems" aria-hidden="true"><span>Sense</span><span>Gruixut</span></div>
+                <div class="extrems" aria-hidden="true"><span>Sin</span><span>Grueso</span></div>
               </div>
               <button class="interruptor" id="e-ombra" role="switch" aria-checked="true">
-                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Ombra
+                <span class="pista" aria-hidden="true"><span class="bola"></span></span>Sombra
               </button>
             </div>
           </details>
 
-          <button class="enllac" id="restableix-estil" hidden>Torna a l'estil dels altres vídeos</button>
+          <button class="enllac" id="restableix-estil" hidden>Vuelve al estilo de los otros vídeos</button>
         </div>
       </details>
     </div>
 
     <div class="panell-estil" id="panell-so" hidden>
-      <button class="enllac tornar" id="tanca-so">‹ Enrere</button>
-      <h2 class="titol-panell">So</h2>
+      <button class="enllac tornar" id="tanca-so">‹ Atrás</button>
+      <h2 class="titol-panell">Sonido</h2>
       <section class="seccio" data-seccio="veu">
-        <h2>La veu</h2>
+        <h2>La voz</h2>
         <button class="interruptor" id="s-neteja" role="switch" aria-checked="true">
-          <span class="pista" aria-hidden="true"><span class="bola"></span></span>Neteja la veu
+          <span class="pista" aria-hidden="true"><span class="bola"></span></span>Limpia la voz
         </button>
         <div class="camp" id="camp-s-soroll">
-          <span class="etiqueta" id="et-s-soroll">Soroll de fons que es treu</span>
+          <span class="etiqueta" id="et-s-soroll">Ruido de fondo que se quita</span>
           <div class="segmentat ample" role="radiogroup" aria-labelledby="et-s-soroll" id="s-soroll">
-            <button role="radio" data-valor="suau">Poc</button>
-            <button role="radio" data-valor="mitja">Mitjà</button>
-            <button role="radio" data-valor="fort" title="Si la veu sona estranya, torna a «Poc»">Molt</button>
+            <button role="radio" data-valor="suau">Poco</button>
+            <button role="radio" data-valor="mitja">Medio</button>
+            <button role="radio" data-valor="fort" title="Si la voz suena rara, vuelve a «Poco»">Mucho</button>
           </div>
         </div>
         <div class="abans-despres" id="s-mostres">
-          <button class="boto mostra-so" data-audio="s-abans" aria-pressed="false"><span class="icona-so" aria-hidden="true"></span>Abans</button>
-          <button class="boto mostra-so" data-audio="s-despres" id="s-despres-caixa" aria-pressed="false"><span class="icona-so" aria-hidden="true"></span>Neta</button>
+          <button class="boto mostra-so" data-audio="s-abans" aria-pressed="false"><span class="icona-so" aria-hidden="true"></span>Antes</button>
+          <button class="boto mostra-so" data-audio="s-despres" id="s-despres-caixa" aria-pressed="false"><span class="icona-so" aria-hidden="true"></span>Limpia</button>
           <audio id="s-abans" preload="none"></audio>
           <audio id="s-despres" preload="none"></audio>
         </div>
-        <p class="detall" id="s-preparant" hidden>Preparant les mostres…</p>
+        <p class="detall" id="s-preparant" hidden>Preparando las muestras…</p>
       </section>
       <section class="seccio" data-seccio="efectes">
-        <h2>Efectes de so <span class="compte" id="compte-efectes"></span></h2>
-        <div class="segmentat ample" role="radiogroup" aria-label="Quants efectes de so" id="s-efectes">
-          <button role="radio" data-valor="cap">Cap</button>
-          <button role="radio" data-valor="pocs" title="B-roll, stickers i títol">Pocs</button>
-          <button role="radio" data-valor="molts" title="També les paraules destacades">Molts</button>
+        <h2>Efectos de sonido <span class="compte" id="compte-efectes"></span></h2>
+        <div class="segmentat ample" role="radiogroup" aria-label="Cuántos efectos de sonido" id="s-efectes">
+          <button role="radio" data-valor="cap">Ninguno</button>
+          <button role="radio" data-valor="pocs" title="B-roll, stickers y título">Pocos</button>
+          <button role="radio" data-valor="molts" title="También las palabras destacadas">Muchos</button>
         </div>
         <div class="camp" id="camp-s-volum">
-          <label class="etiqueta" for="s-volum">Volum dels efectes</label>
+          <label class="etiqueta" for="s-volum">Volumen de los efectos</label>
           <input type="range" id="s-volum" min="0" max="1" step="0.05">
         </div>
         <div id="llista-efectes"></div>
@@ -347,308 +347,308 @@
 
 
     <div class="panell-estil" id="panell-marca" hidden>
-      <button class="enllac tornar" id="tanca-marca">‹ Enrere</button>
-      <h2 class="titol-panell" id="titol-marca">Colors i lletres</h2>
-      <p class="detall">Els teus colors i les teves lletres. Valen per a tots els vídeos.</p>
+      <button class="enllac tornar" id="tanca-marca">‹ Atrás</button>
+      <h2 class="titol-panell" id="titol-marca">Colores y letras</h2>
+      <p class="detall">Tus colores y tus letras. Valen para todos los vídeos.</p>
       <button class="oferta-marca" data-obre-assistent hidden>
         <span class="mostra-estil mostra-marca" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span><strong>Posa-hi els teus colors i lletres</strong><span>Fes el teu estil: 2 passos</span></span>
+        <span><strong>Pon tus colores y letras</strong><span>Haz tu estilo: 2 pasos</span></span>
       </button>
       <div class="camp">
-        <span class="etiqueta">Colors</span>
+        <span class="etiqueta">Colores</span>
         <div class="colors colors-marca">
-          <label class="color" title="El text damunt del vídeo: subtítols i títol"><input type="color" id="m-color-text"><span>Text</span></label>
-          <label class="color" title="Blocs de color, vores del b-roll i etiquetes"><input type="color" id="m-color-principal"><span>Principal</span></label>
-          <label class="color" title="Les paraules destacades i la que sona (si no en tries, el del text)"><input type="color" id="m-color-destacat"><span>Destacat</span></label>
-          <label class="color" title="Un segon color: etiquetes, notes i anotacions a mà"><input type="color" id="m-color-secundari"><span>Secundari</span></label>
-          <label class="color" title="Fons i targetes"><input type="color" id="m-color-clar"><span>Clar</span></label>
-          <label class="color" title="En lloc del negre: contorns i ombres"><input type="color" id="m-color-fosc"><span>Fosc</span></label>
+          <label class="color" title="El texto encima del vídeo: subtítulos y título"><input type="color" id="m-color-text"><span>Texto</span></label>
+          <label class="color" title="Bloques de color, bordes del b-roll y etiquetas"><input type="color" id="m-color-principal"><span>Principal</span></label>
+          <label class="color" title="Las palabras destacadas y la que suena (si no eliges, el del texto)"><input type="color" id="m-color-destacat"><span>Destacado</span></label>
+          <label class="color" title="Un segundo color: etiquetas, notas y anotaciones a mano"><input type="color" id="m-color-secundari"><span>Secundario</span></label>
+          <label class="color" title="Fondos y tarjetas"><input type="color" id="m-color-clar"><span>Claro</span></label>
+          <label class="color" title="En lugar del negro: contornos y sombras"><input type="color" id="m-color-fosc"><span>Oscuro</span></label>
         </div>
       </div>
       <div class="camp">
-        <label class="etiqueta" for="m-lletra-titols">Lletra dels títols</label>
+        <label class="etiqueta" for="m-lletra-titols">Letra de los títulos</label>
         <select id="m-lletra-titols"></select>
       </div>
       <div class="camp">
-        <label class="etiqueta" for="m-lletra-text">Lletra del text (subtítols)</label>
+        <label class="etiqueta" for="m-lletra-text">Letra del texto (subtítulos)</label>
         <select id="m-lletra-text"></select>
       </div>
       <div class="camp">
-        <label class="etiqueta" for="m-lletra-accent">Lletra d'accent (la paraula destacada)</label>
+        <label class="etiqueta" for="m-lletra-accent">Letra de acento (la palabra destacada)</label>
         <select id="m-lletra-accent"></select>
       </div>
       <div class="camp">
-        <span class="etiqueta" id="et-m-grafics">Quants gràfics et proposa Claude</span>
+        <span class="etiqueta" id="et-m-grafics">Cuántos gráficos te propone Claude</span>
         <div class="segmentat ample" role="radiogroup" aria-labelledby="et-m-grafics" id="m-grafics">
-          <button role="radio" data-valor="pocs" title="Un cada 8-12 segons">Pocs</button>
-          <button role="radio" data-valor="normal" title="Un cada 4-6 segons">Normal</button>
-          <button role="radio" data-valor="molts" title="Un cada 2-4 segons">Molts</button>
+          <button role="radio" data-valor="pocs" title="Uno cada 8-12 segundos">Pocos</button>
+          <button role="radio" data-valor="normal" title="Uno cada 4-6 segundos">Normal</button>
+          <button role="radio" data-valor="molts" title="Uno cada 2-4 segundos">Muchos</button>
         </div>
       </div>
       <button class="fila-estil" id="obre-guardats">
-        <span class="fila-estil-text"><strong>Estils guardats</strong><span id="nom-kit-guardat"></span></span>
+        <span class="fila-estil-text"><strong>Estilos guardados</strong><span id="nom-kit-guardat"></span></span>
         <svg class="xebro" viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>
       </button>
       <div class="accions-kit">
         <button class="enllac" id="kit-duplica">Duplica…</button>
-        <button class="enllac" id="kit-nom">Canvia el nom…</button>
-        <button class="enllac" id="kit-defecte">Fes-lo per defecte</button>
-        <button class="enllac" id="kit-exporta">Passa'l a algú (.zip)</button>
-        <button class="enllac perill" id="kit-esborra">Treu-lo</button>
+        <button class="enllac" id="kit-nom">Cambia el nombre…</button>
+        <button class="enllac" id="kit-defecte">Hazlo por defecto</button>
+        <button class="enllac" id="kit-exporta">Pásaselo a alguien (.zip)</button>
+        <button class="enllac perill" id="kit-esborra">Quítalo</button>
       </div>
     </div>
 
     <div class="panell-estil" id="panell-titol" hidden>
-      <button class="enllac tornar" id="tanca-titol">‹ Enrere</button>
-      <h2 class="titol-panell">Títol del ganxo</h2>
+      <button class="enllac tornar" id="tanca-titol">‹ Atrás</button>
+      <h2 class="titol-panell">Título gancho</h2>
       <div class="camp">
-        <textarea class="text-titol" id="text-titol" rows="3" placeholder="#3 canvis&#10;*ser creadora*&#10;nivell fàcil"
-                  aria-label="El text del títol"></textarea>
-        <p class="detall ajuda-camp">Cada línia, una línia del títol. El que posis *entre asteriscs* surt destacat.</p>
+        <textarea class="text-titol" id="text-titol" rows="3" placeholder="#3 cambios&#10;*ser creadora*&#10;nivel fácil"
+                  aria-label="El texto del título"></textarea>
+        <p class="detall ajuda-camp">Cada línea, una línea del título. Lo que pongas *entre asteriscos* sale destacado.</p>
         <div class="camp-titol" id="camp-durada-titol">
-          <label class="etiqueta" for="durada-titol">Durada</label>
+          <label class="etiqueta" for="durada-titol">Duración</label>
           <input type="range" id="durada-titol" min="1" max="8" step="0.5">
           <span class="valor" id="durada-titol-text"></span>
         </div>
       </div>
-      <div class="estils" id="estils-titol" role="radiogroup" aria-label="Estils de títol predefinits"></div>
+      <div class="estils" id="estils-titol" role="radiogroup" aria-label="Estilos de título predefinidos"></div>
       <div class="camp">
-        <label class="etiqueta" for="t-font">Lletra</label>
+        <label class="etiqueta" for="t-font">Letra</label>
         <select id="t-font"></select>
       </div>
       <div class="camp">
-        <label class="etiqueta" for="t-mida">Mida</label>
+        <label class="etiqueta" for="t-mida">Tamaño</label>
         <input type="range" id="t-mida" min="0.035" max="0.14" step="0.002">
       </div>
       <div class="camp">
-        <span class="etiqueta">Colors</span>
+        <span class="etiqueta">Colores</span>
         <div class="colors">
-          <label class="color"><input type="color" id="t-color"><span>Text</span></label>
-          <label class="color"><input type="color" id="t-clau-color"><span>Destacat</span></label>
-          <label class="color"><input type="color" id="t-contorn"><span>Contorn</span></label>
-          <label class="color" id="camp-t-fons"><input type="color" id="t-fons-color"><span>Darrere</span></label>
+          <label class="color"><input type="color" id="t-color"><span>Texto</span></label>
+          <label class="color"><input type="color" id="t-clau-color"><span>Destacado</span></label>
+          <label class="color"><input type="color" id="t-contorn"><span>Contorno</span></label>
+          <label class="color" id="camp-t-fons"><input type="color" id="t-fons-color"><span>Detrás</span></label>
         </div>
       </div>
       <div class="camp">
-        <label class="etiqueta" for="t-posicio">Posició</label>
+        <label class="etiqueta" for="t-posicio">Posición</label>
         <input type="range" id="t-posicio" min="0.05" max="0.95" step="0.01">
-        <div class="extrems" aria-hidden="true"><span>Dalt</span><span>Baix</span></div>
+        <div class="extrems" aria-hidden="true"><span>Arriba</span><span>Abajo</span></div>
       </div>
       <details class="grup-estil" id="grup-t-entrada">
-        <summary>Com entra i disposició<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+        <summary>Cómo entra y disposición<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
         <div class="cos-grup">
           <div class="camp">
-            <label class="etiqueta" for="t-animacio">Com entra</label>
+            <label class="etiqueta" for="t-animacio">Cómo entra</label>
             <select id="t-animacio">
-              <option value="puja">Puja · línia a línia</option>
-              <option value="pop">Pop · amb un petit salt</option>
-              <option value="fos">Fos · s'encén suaument</option>
-              <option value="cortina">Cortina · es destapa</option>
-              <option value="maquina">Màquina d'escriure · lletra a lletra</option>
-              <option value="cap">Cap · surt i prou</option>
+              <option value="puja">Sube · línea a línea</option>
+              <option value="pop">Pop · con un pequeño salto</option>
+              <option value="fos">Fundido · se enciende suavemente</option>
+              <option value="cortina">Cortina · se destapa</option>
+              <option value="maquina">Máquina de escribir · letra a letra</option>
+              <option value="cap">Ninguna · sale y ya</option>
             </select>
           </div>
           <div class="camp">
-            <span class="etiqueta" id="et-t-fons">Darrere</span>
+            <span class="etiqueta" id="et-t-fons">Detrás</span>
             <div class="segmentat ample" role="radiogroup" aria-labelledby="et-t-fons" id="t-fons">
-              <button role="radio" data-valor="cap">Res</button>
-              <button role="radio" data-valor="enfosquit" title="El vídeo s'enfosqueix darrere el títol">Enfosquit</button>
-              <button role="radio" data-valor="pindola" title="Una caixa de color darrere cada línia">Caixa</button>
+              <button role="radio" data-valor="cap">Nada</button>
+              <button role="radio" data-valor="enfosquit" title="El vídeo se oscurece detrás del título">Oscurecido</button>
+              <button role="radio" data-valor="pindola" title="Una caja de color detrás de cada línea">Caja</button>
             </div>
           </div>
           <div class="camp">
-            <span class="etiqueta" id="et-t-alineacio">Alineació</span>
+            <span class="etiqueta" id="et-t-alineacio">Alineación</span>
             <div class="segmentat ample" role="radiogroup" aria-labelledby="et-t-alineacio" id="t-alineacio">
-              <button role="radio" data-valor="esquerra">Esquerra</button>
-              <button role="radio" data-valor="centre">Centre</button>
-              <button role="radio" data-valor="dreta">Dreta</button>
-              <button role="radio" data-valor="esglao" title="Línies a banda i banda; les destacades, al mig">Esglaó</button>
+              <button role="radio" data-valor="esquerra">Izquierda</button>
+              <button role="radio" data-valor="centre">Centro</button>
+              <button role="radio" data-valor="dreta">Derecha</button>
+              <button role="radio" data-valor="esglao" title="Líneas a un lado y al otro; las destacadas, en medio">Escalón</button>
             </div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="t-corba">Corba</label>
+            <label class="etiqueta" for="t-corba">Curva</label>
             <input type="range" id="t-corba" min="-1" max="1" step="0.05">
-            <div class="extrems" aria-hidden="true"><span>Somriure</span><span>Recta</span><span>Arc</span></div>
-            <div class="segmentat ample" role="radiogroup" aria-label="Quines línies es corben" id="t-corba-linies">
+            <div class="extrems" aria-hidden="true"><span>Sonrisa</span><span>Recta</span><span>Arco</span></div>
+            <div class="segmentat ample" role="radiogroup" aria-label="Qué líneas se curvan" id="t-corba-linies">
               <button role="radio" data-valor="primera">La primera</button>
-              <button role="radio" data-valor="totes">Totes</button>
-              <button role="radio" data-valor="darrera">L'última</button>
+              <button role="radio" data-valor="totes">Todas</button>
+              <button role="radio" data-valor="darrera">La última</button>
             </div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="t-clau-mida">Quant més grans les destacades</label>
+            <label class="etiqueta" for="t-clau-mida">Cuánto más grandes las destacadas</label>
             <input type="range" id="t-clau-mida" min="1" max="4" step="0.05">
           </div>
           <button class="interruptor" id="t-amaga" role="switch" aria-checked="false">
-            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Sense subtítols mentre surt el títol
+            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Sin subtítulos mientras sale el título
           </button>
         </div>
       </details>
       <details class="grup-estil" id="grup-t-detalls">
-        <summary>Detalls de la lletra<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+        <summary>Detalles de la letra<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
         <div class="cos-grup">
           <div class="camp">
-            <label class="etiqueta" for="t-clau-font">Lletra del que va *entre asteriscs*</label>
+            <label class="etiqueta" for="t-clau-font">Letra de lo que va *entre asteriscos*</label>
             <select id="t-clau-font"></select>
           </div>
           <button class="interruptor" id="t-clau-cursiva" role="switch" aria-checked="false">
-            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Destacat en cursiva
+            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Destacado en cursiva
           </button>
           <div class="fila-camps">
-            <select id="t-pes" aria-label="Gruix de la lletra">
+            <select id="t-pes" aria-label="Grosor de la letra">
               <option value="400">Normal</option>
-              <option value="600">Seminegreta</option>
-              <option value="700">Negreta</option>
-              <option value="800">Extranegreta</option>
-              <option value="900">Negra</option>
+              <option value="600">Seminegrita</option>
+              <option value="700">Negrita</option>
+              <option value="800">Extranegrita</option>
+              <option value="900">Black</option>
             </select>
             <button class="interruptor" id="t-majuscules" role="switch" aria-checked="false">
-              <span class="pista" aria-hidden="true"><span class="bola"></span></span>Majúscules
+              <span class="pista" aria-hidden="true"><span class="bola"></span></span>Mayúsculas
             </button>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="t-espaiat">Espai entre lletres</label>
+            <label class="etiqueta" for="t-espaiat">Espacio entre letras</label>
             <input type="range" id="t-espaiat" min="-0.1" max="0.2" step="0.005">
-            <div class="extrems" aria-hidden="true"><span>Juntes</span><span>Separades</span></div>
+            <div class="extrems" aria-hidden="true"><span>Juntas</span><span>Separadas</span></div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="t-interlineat">Espai entre línies</label>
+            <label class="etiqueta" for="t-interlineat">Espacio entre líneas</label>
             <input type="range" id="t-interlineat" min="0.8" max="1.5" step="0.01">
-            <div class="extrems" aria-hidden="true"><span>Juntes</span><span>Separades</span></div>
+            <div class="extrems" aria-hidden="true"><span>Juntas</span><span>Separadas</span></div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="t-gruix">Gruix del contorn</label>
+            <label class="etiqueta" for="t-gruix">Grosor del contorno</label>
             <input type="range" id="t-gruix" min="0" max="0.12" step="0.005">
-            <div class="extrems" aria-hidden="true"><span>Sense</span><span>Gruixut</span></div>
+            <div class="extrems" aria-hidden="true"><span>Sin</span><span>Grueso</span></div>
           </div>
           <button class="interruptor" id="t-ombra" role="switch" aria-checked="true">
-            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Ombra
+            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Sombra
           </button>
         </div>
       </details>
-      <button class="enllac" id="restableix-titol" hidden>Torna a l'estil dels altres vídeos</button>
+      <button class="enllac" id="restableix-titol" hidden>Vuelve al estilo de los otros vídeos</button>
     </div>
 
     <div class="panell-estil" id="panell-broll" hidden>
-      <button class="enllac tornar" id="tanca-broll">‹ Enrere</button>
+      <button class="enllac tornar" id="tanca-broll">‹ Atrás</button>
       <h2 class="titol-panell">B-roll</h2>
-      <div class="estils" id="estils-broll" role="radiogroup" aria-label="Maneres de posar el b-roll"></div>
+      <div class="estils" id="estils-broll" role="radiogroup" aria-label="Maneras de poner el b-roll"></div>
       <div class="camp">
-        <label class="etiqueta" for="b-animacio">Com entra</label>
+        <label class="etiqueta" for="b-animacio">Cómo entra</label>
         <select id="b-animacio">
-          <option value="pop">Pop · amb un petit salt</option>
-          <option value="puja">Puja · des d'una mica més avall</option>
-          <option value="llisca">Llisca · des del costat</option>
-          <option value="fos">Fos · s'encén suaument</option>
-          <option value="cap">Cap · tall sec</option>
+          <option value="pop">Pop · con un pequeño salto</option>
+          <option value="puja">Sube · desde un poco más abajo</option>
+          <option value="llisca">Desliza · desde el lado</option>
+          <option value="fos">Fundido · se enciende suavemente</option>
+          <option value="cap">Ninguna · corte seco</option>
         </select>
       </div>
       <div class="camp" id="camp-b-mida">
-        <label class="etiqueta" for="b-mida">Mida</label>
+        <label class="etiqueta" for="b-mida">Tamaño</label>
         <input type="range" id="b-mida" min="0.3" max="1" step="0.01">
       </div>
       <div class="camp" id="camp-b-posicio">
-        <label class="etiqueta" for="b-posicio-y">Posició</label>
-        <input type="range" id="b-posicio-y" min="0.1" max="0.9" step="0.01" aria-label="Posició de dalt a baix">
-        <div class="extrems" aria-hidden="true"><span>Dalt</span><span>Baix</span></div>
-        <input type="range" id="b-posicio-x" min="0" max="1" step="0.01" aria-label="Posició d'esquerra a dreta">
-        <div class="extrems" aria-hidden="true"><span>Esquerra</span><span>Dreta</span></div>
+        <label class="etiqueta" for="b-posicio-y">Posición</label>
+        <input type="range" id="b-posicio-y" min="0.1" max="0.9" step="0.01" aria-label="Posición de arriba abajo">
+        <div class="extrems" aria-hidden="true"><span>Arriba</span><span>Abajo</span></div>
+        <input type="range" id="b-posicio-x" min="0" max="1" step="0.01" aria-label="Posición de izquierda a derecha">
+        <div class="extrems" aria-hidden="true"><span>Izquierda</span><span>Derecha</span></div>
       </div>
       <details class="grup-estil" id="grup-b-forma">
-        <summary>Forma i vora<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+        <summary>Forma y borde<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
         <div class="cos-grup">
           <div class="camp">
             <span class="etiqueta" id="et-b-proporcio">Forma</span>
             <div class="segmentat ample" role="radiogroup" aria-labelledby="et-b-proporcio" id="b-proporcio">
-              <button role="radio" data-valor="9:16" title="Alta, com el reel">9:16</button>
+              <button role="radio" data-valor="9:16" title="Alta, como el reel">9:16</button>
               <button role="radio" data-valor="3:4">3:4</button>
               <button role="radio" data-valor="4:5">4:5</button>
-              <button role="radio" data-valor="1:1" title="Quadrada">1:1</button>
-              <button role="radio" data-valor="16:9" title="Apaïsada">16:9</button>
+              <button role="radio" data-valor="1:1" title="Cuadrada">1:1</button>
+              <button role="radio" data-valor="16:9" title="Apaisada">16:9</button>
             </div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="b-radi">Cantonades</label>
+            <label class="etiqueta" for="b-radi">Esquinas</label>
             <input type="range" id="b-radi" min="0" max="0.5" step="0.01">
-            <div class="extrems" aria-hidden="true"><span>Rectes</span><span>Rodones</span></div>
+            <div class="extrems" aria-hidden="true"><span>Rectas</span><span>Redondas</span></div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="b-vora">Vora</label>
+            <label class="etiqueta" for="b-vora">Borde</label>
             <input type="range" id="b-vora" min="0" max="0.04" step="0.001">
-            <div class="extrems" aria-hidden="true"><span>Sense</span><span>Gruixuda</span></div>
+            <div class="extrems" aria-hidden="true"><span>Sin</span><span>Grueso</span></div>
           </div>
           <div class="camp" id="camp-b-vora-color">
-            <span class="etiqueta">Color de la vora</span>
+            <span class="etiqueta">Color del borde</span>
             <div class="fila-camps">
               <label class="color"><input type="color" id="b-vora-color"><span>Color</span></label>
               <button class="interruptor" id="b-vora-kit" role="switch" aria-checked="true">
-                <span class="pista" aria-hidden="true"><span class="bola"></span></span>El destacat dels subtítols
+                <span class="pista" aria-hidden="true"><span class="bola"></span></span>El destacado de los subtítulos
               </button>
             </div>
           </div>
           <div class="camp">
-            <label class="etiqueta" for="b-rotacio">Inclinació</label>
+            <label class="etiqueta" for="b-rotacio">Inclinación</label>
             <input type="range" id="b-rotacio" min="-15" max="15" step="1">
-            <div class="extrems" aria-hidden="true"><span>Esquerra</span><span>Dreta</span></div>
+            <div class="extrems" aria-hidden="true"><span>Izquierda</span><span>Derecha</span></div>
           </div>
           <button class="interruptor" id="b-ombra" role="switch" aria-checked="true">
-            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Ombra
+            <span class="pista" aria-hidden="true"><span class="bola"></span></span>Sombra
           </button>
         </div>
       </details>
-      <button class="enllac" id="restableix-broll" hidden>Torna a l'estil dels altres vídeos</button>
+      <button class="enllac" id="restableix-broll" hidden>Vuelve al estilo de los otros vídeos</button>
     </div>
 
   </aside>
 
-  <main class="text" aria-label="Transcripció">
+  <main class="text" aria-label="Transcripción">
     <div class="eines">
-      <div class="segmentat petit estacions sense-columna" role="radiogroup" aria-label="Què fas">
-        <button role="radio" data-estacio="edita" aria-checked="true" title="El text: què es queda, què es treu i el ritme">Edita</button>
-        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Com es veu: l'estil, els subtítols, els gràfics, el b-roll, els zooms i el so">Vesteix</button>
-        <button role="radio" data-estacio="revisa" aria-checked="false" title="Mira l'esborrany sencer i deixa-hi notes per a Claude">Revisa</button>
+      <div class="segmentat petit estacions sense-columna" role="radiogroup" aria-label="Qué haces">
+        <button role="radio" data-estacio="edita" aria-checked="true" title="El texto: qué se queda, qué se quita y el ritmo">Edita</button>
+        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Cómo se ve: el estilo, los subtítulos, los gráficos, el b-roll, los zooms y el sonido">Viste</button>
+        <button role="radio" data-estacio="revisa" aria-checked="false" title="Mira el borrador entero y deja notas para Claude">Revisa</button>
       </div>
-      <button class="icona" id="commuta-barra" title="Amaga la columna de l'esquerra (⌃⌘S)" aria-label="Columna de l'esquerra" aria-pressed="true">
+      <button class="icona" id="commuta-barra" title="Oculta la columna de la izquierda (⌃⌘S)" aria-label="Columna de la izquierda" aria-pressed="true">
         <svg viewBox="0 0 20 20"><rect x="2.5" y="4" width="15" height="12" rx="2.5"/><path d="M7.5 4v12"/></svg>
       </button>
       <div class="grup">
-        <button class="icona" id="desfes" title="Desfés (⌘Z)" aria-label="Desfés" disabled>
+        <button class="icona" id="desfes" title="Deshaz (⌘Z)" aria-label="Deshaz" disabled>
           <svg viewBox="0 0 20 20"><path d="M7.5 5 3.5 9l4 4M4 9h7.5a4.5 4.5 0 0 1 0 9H9"/></svg>
         </button>
-        <button class="icona" id="refes" title="Refés (⇧⌘Z)" aria-label="Refés" disabled>
+        <button class="icona" id="refes" title="Rehaz (⇧⌘Z)" aria-label="Rehaz" disabled>
           <svg viewBox="0 0 20 20"><path d="m12.5 5 4 4-4 4M16 9H8.5a4.5 4.5 0 0 0 0 9H11"/></svg>
         </button>
       </div>
       <div class="espai"></div>
       <div class="feina" id="feina" hidden>
-        <span id="feina-text">Construint…</span>
+        <span id="feina-text">Montando…</span>
         <span class="barra-progres"><span id="feina-progres"></span></span>
       </div>
       <div class="fet-export" id="fet-export" role="status" hidden>
         <span class="fet-marca" aria-hidden="true">✓</span>
         <span id="fet-text"></span>
-        <button class="enllac" id="fet-mostra">Mostra al Finder</button>
-        <button class="icona" id="fet-tanca" title="Tanca" aria-label="Tanca">
+        <button class="enllac" id="fet-mostra">Muestra en el Finder</button>
+        <button class="icona" id="fet-tanca" title="Cierra" aria-label="Cierra">
           <svg viewBox="0 0 20 20"><path d="m5.5 5.5 9 9m0-9-9 9"/></svg>
         </button>
       </div>
       <button class="boto principal" id="final">Exporta</button>
-      <button class="icona" id="commuta-reproductor" title="Amaga el vídeo (⌥⌘V)" aria-label="Columna del vídeo" aria-pressed="true">
+      <button class="icona" id="commuta-reproductor" title="Oculta el vídeo (⌥⌘V)" aria-label="Columna del vídeo" aria-pressed="true">
         <svg viewBox="0 0 20 20"><rect x="2.5" y="4" width="15" height="12" rx="2.5"/><path d="M12.5 4v12"/></svg>
       </button>
     </div>
     <div id="transcripcio" class="transcripcio" aria-live="off"></div>
-    <div class="barreta" id="barreta" role="toolbar" aria-label="Què vols fer amb les paraules marcades" hidden>
+    <div class="barreta" id="barreta" role="toolbar" aria-label="Qué quieres hacer con las palabras marcadas" hidden>
       <button id="b-destaca" aria-pressed="false">Destaca <kbd></kbd></button>
-      <button id="b-corregeix" aria-pressed="false">Corregeix <kbd></kbd></button>
-      <button id="b-treu"><span id="b-treu-text">Treu</span> <kbd>⌫</kbd></button>
+      <button id="b-corregeix" aria-pressed="false">Corrige <kbd></kbd></button>
+      <button id="b-treu"><span id="b-treu-text">Quita</span> <kbd>⌫</kbd></button>
     </div>
   </main>
 
   <section class="reproductor" aria-label="Reproductor">
-    <div class="segmentat petit" role="radiogroup" aria-label="Què veus" id="vista" hidden>
-      <button role="radio" data-vista="directe" aria-checked="true">Editant</button>
-      <button role="radio" data-vista="esborrany" disabled>Esborrany</button>
+    <div class="segmentat petit" role="radiogroup" aria-label="Qué ves" id="vista" hidden>
+      <button role="radio" data-vista="directe" aria-checked="true">Editando</button>
+      <button role="radio" data-vista="esborrany" disabled>Borrador</button>
     </div>
     <div class="pantalla">
       <div class="capa-bloc" id="capa-bloc" aria-hidden="true" hidden></div>
@@ -660,19 +660,19 @@
       <div class="capa-subtitols" id="capa-subtitols" aria-hidden="true"><div id="ts-host"></div><div id="tg-host"></div><div id="tt-host"></div></div>
       <div class="capa-stickers" id="capa-stickers" aria-hidden="true"></div>
       <div class="capa-edita" id="capa-edita">
-        <div class="marc-capa" id="marc-capa" hidden title="Arrossega per moure"></div>
+        <div class="marc-capa" id="marc-capa" hidden title="Arrastra para mover"></div>
         <div class="barra-capa" id="barra-capa" role="toolbar" hidden></div>
       </div>
-      <button class="gran-play" id="gran-play" aria-label="Reprodueix">
+      <button class="gran-play" id="gran-play" aria-label="Reproduce">
         <svg viewBox="0 0 40 40"><path d="M15 11.5v17l13-8.5z"/></svg>
       </button>
       <!-- Si el vídeo s'encalla una estona (carrega, o un salt lent), una rodeta: que es vegi que carrega. I mentre
            sona la còpia que salta de tros en tros, que es digui que s'està preparant la que no salta. -->
-      <div class="carregant" id="carregant" hidden><span class="roda-carrega" aria-hidden="true"></span><span class="text-carrega">Carregant…</span></div>
-      <div class="preparant" id="preparant" role="status" hidden>Preparant el vídeo sense salts…</div>
+      <div class="carregant" id="carregant" hidden><span class="roda-carrega" aria-hidden="true"></span><span class="text-carrega">Cargando…</span></div>
+      <div class="preparant" id="preparant" role="status" hidden>Preparando el vídeo sin saltos…</div>
     </div>
-    <div class="marques-notes" id="marques-notes" aria-label="Notes per a Claude al vídeo" hidden></div>
-    <div class="linia-temps" id="linia-temps" role="slider" aria-label="Posició" tabindex="0">
+    <div class="marques-notes" id="marques-notes" aria-label="Notas para Claude en el vídeo" hidden></div>
+    <div class="linia-temps" id="linia-temps" role="slider" aria-label="Posición" tabindex="0">
       <div class="trossos" id="marques"></div>
       <div class="ple" id="ple"></div>
       <div class="capcal" id="capcal"></div>
@@ -680,14 +680,14 @@
     <div class="controls">
       <span class="temps" id="temps-actual">0:00</span>
       <div class="grup">
-        <button class="icona" id="enrere" title="5 s enrere (←)" aria-label="5 segons enrere">
+        <button class="icona" id="enrere" title="5 s atrás (←)" aria-label="5 segundos atrás">
           <svg viewBox="0 0 24 24"><path d="M11 6 5 12l6 6M18 6l-6 6 6 6"/></svg>
         </button>
-        <button class="icona play" id="play" title="Reprodueix (espai)" aria-label="Reprodueix">
+        <button class="icona play" id="play" title="Reproduce (espacio)" aria-label="Reproduce">
           <svg class="si-pausa" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
           <svg class="si-play" viewBox="0 0 24 24"><path d="M8 5.5v13M16 5.5v13"/></svg>
         </button>
-        <button class="icona" id="endavant" title="5 s endavant (→)" aria-label="5 segons endavant">
+        <button class="icona" id="endavant" title="5 s adelante (→)" aria-label="5 segundos adelante">
           <svg viewBox="0 0 24 24"><path d="m13 6 6 6-6 6M6 6l6 6-6 6"/></svg>
         </button>
       </div>
@@ -697,22 +697,22 @@
     <!-- Notes per a Claude: van al moment on és el vídeo (o a tot el vídeo). Claude les fa i hi respon. -->
     <section class="notes" id="notes" aria-labelledby="titol-notes">
       <div class="cap-notes">
-        <h2 id="titol-notes">Notes per a Claude <span class="compte" id="compte-notes"></span> <span class="noves-notes" id="noves-notes"></span></h2>
-        <span class="connexio" id="connexio" data-connexio><span class="punt-connexio" aria-hidden="true"></span><span class="text-connexio" id="text-connexio">No connectat</span></span>
+        <h2 id="titol-notes">Notas para Claude <span class="compte" id="compte-notes"></span> <span class="noves-notes" id="noves-notes"></span></h2>
+        <span class="connexio" id="connexio" data-connexio><span class="punt-connexio" aria-hidden="true"></span><span class="text-connexio" id="text-connexio">No conectado</span></span>
       </div>
       <div class="avis-connexio" id="avis-connexio" data-avis-connexio hidden>
-        <p>Claude encara no ha rebut les teves notes. Escriu-li al xat: <q id="frase-connexio">mira les meves notes</q></p>
-        <button class="boto petit" id="copia-frase" data-copia-frase>Copia-ho</button>
+        <p>Claude todavía no ha recibido tus notas. Escríbele en el chat: <q id="frase-connexio">mira mis notas</q></p>
+        <button class="boto petit" id="copia-frase" data-copia-frase>Cópialo</button>
       </div>
       <form class="nova-nota" id="nova-nota">
         <div class="fila-nova-nota">
-          <button type="button" class="temps-nota" id="temps-nota" title="Toca-ho per fer una nota per a tot el vídeo">0:00</button>
-          <textarea id="text-nota" rows="2" maxlength="4000" placeholder="Què hi canviaries? En escriure, el vídeo s'atura."
-                    aria-label="Nota per a Claude en aquest moment del vídeo"></textarea>
+          <button type="button" class="temps-nota" id="temps-nota" title="Tócalo para hacer una nota para todo el vídeo">0:00</button>
+          <textarea id="text-nota" rows="2" maxlength="4000" placeholder="¿Qué cambiarías? Al escribir, el vídeo se para."
+                    aria-label="Nota para Claude en este momento del vídeo"></textarea>
         </div>
         <div class="peu-nota">
-          <span class="detall">↩ desa · ⇧↩ línia nova</span>
-          <button class="boto principal petit" type="submit">Afegeix la nota</button>
+          <span class="detall">↩ guarda · ⇧↩ línea nueva</span>
+          <button class="boto principal petit" type="submit">Añade la nota</button>
         </div>
       </form>
       <div class="llista-notes" id="llista-notes"></div>
@@ -724,28 +724,28 @@
   <section class="tauler" id="tauler" aria-labelledby="titol-tauler" hidden>
     <header class="tauler-cap">
       <div class="tauler-titol">
-        <h2 id="titol-tauler">Propostes de Claude <span class="xip-ronda" id="xip-ronda" hidden></span></h2>
-        <p class="detall" id="pista-tauler">Mira-les d'una ullada. Passa per sobre d'una i es mou; amb l'altaveu, sona.</p>
+        <h2 id="titol-tauler">Propuestas de Claude <span class="xip-ronda" id="xip-ronda" hidden></span></h2>
+        <p class="detall" id="pista-tauler">Míralas de un vistazo. Pasa por encima de una y se mueve; con el altavoz, suena.</p>
       </div>
-      <div class="segmentat petit filtres-tauler" role="radiogroup" aria-label="Quines veus" id="filtres-tauler">
-        <button role="radio" data-filtre="totes" aria-checked="true">Totes <span class="compte"></span></button>
-        <button role="radio" data-filtre="mirar" aria-checked="false">Per mirar <span class="compte"></span></button>
+      <div class="segmentat petit filtres-tauler" role="radiogroup" aria-label="Cuáles ves" id="filtres-tauler">
+        <button role="radio" data-filtre="totes" aria-checked="true">Todas <span class="compte"></span></button>
+        <button role="radio" data-filtre="mirar" aria-checked="false">Por mirar <span class="compte"></span></button>
         <button role="radio" data-filtre="si" aria-checked="false">Sí <span class="compte"></span></button>
-        <button role="radio" data-filtre="potser" aria-checked="false">Potser <span class="compte"></span></button>
+        <button role="radio" data-filtre="potser" aria-checked="false">Quizá <span class="compte"></span></button>
         <button role="radio" data-filtre="no" aria-checked="false">No <span class="compte"></span></button>
       </div>
       <div class="grup accions-tauler">
-        <button class="icona" data-desfes title="Desfés (⌘Z)" aria-label="Desfés" disabled>
+        <button class="icona" data-desfes title="Deshaz (⌘Z)" aria-label="Deshaz" disabled>
           <svg viewBox="0 0 20 20"><path d="M7.5 5 3.5 9l4 4M4 9h7.5a4.5 4.5 0 0 1 0 9H9"/></svg>
         </button>
-        <button class="icona" data-refes title="Refés (⇧⌘Z)" aria-label="Refés" disabled>
+        <button class="icona" data-refes title="Rehaz (⇧⌘Z)" aria-label="Rehaz" disabled>
           <svg viewBox="0 0 20 20"><path d="m12.5 5 4 4-4 4M16 9H8.5a4.5 4.5 0 0 0 0 9H11"/></svg>
         </button>
         <div class="feina" id="tauler-feina" hidden>
-          <span id="tauler-feina-text">Construint…</span>
+          <span id="tauler-feina-text">Montando…</span>
           <span class="barra-progres"><span id="tauler-feina-progres"></span></span>
         </div>
-        <button class="boto" id="afegeix-peca" title="Posa-hi un sticker, una imatge o un vídeo teu">+ Afegeix</button>
+        <button class="boto" id="afegeix-peca" title="Pon un sticker, una imagen o un vídeo tuyo">+ Añade</button>
         <button class="boto principal" id="tauler-exporta">Exporta</button>
       </div>
     </header>
@@ -753,7 +753,7 @@
     <div class="novetat-ronda" id="novetat-ronda" role="status" hidden>
       <div><strong id="novetat-ronda-titol"></strong> <span id="novetat-ronda-compte"></span>
         <p class="detall" id="novetat-ronda-claude" hidden></p></div>
-      <button class="icona" id="tanca-novetat-ronda" title="Tanca" aria-label="Tanca l'avís de la ronda">
+      <button class="icona" id="tanca-novetat-ronda" title="Cierra" aria-label="Cierra el aviso de la ronda">
         <svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg>
       </button>
     </div>
@@ -762,14 +762,14 @@
     <div class="esperant-ronda" id="esperant-ronda" role="status" hidden>
       <span class="roda-nota" aria-hidden="true"></span>
       <div><strong id="esperant-ronda-titol"></strong>
-        <span class="detall">Mira els teus vots i les teves notes. Quan acabi, les propostes noves surten aquí.</span>
-        <button class="enllac" id="continua-votant">Continua votant</button></div>
+        <span class="detall">Mira tus votos y tus notas. Cuando acabe, las propuestas nuevas salen aquí.</span>
+        <button class="enllac" id="continua-votant">Sigue votando</button></div>
     </div>
-    <p class="detall buit-filtre" id="buit-filtre" hidden>No hi ha cap peça així. Toca «Totes» per veure-les.</p>
+    <p class="detall buit-filtre" id="buit-filtre" hidden>No hay ninguna pieza así. Toca «Todas» para verlas.</p>
     <div class="tauler-buit" id="tauler-buit" hidden>
-      <h3>Encara no hi ha cap proposta</h3>
-      <p class="detall">Claude escoltarà el que dius i hi proposarà gràfics. Després tu dius quins t'agraden.</p>
-      <button class="boto principal" id="primeres-propostes">Demana propostes a Claude</button>
+      <h3>Todavía no hay ninguna propuesta</h3>
+      <p class="detall">Claude escuchará lo que dices y propondrá gráficos. Después tú dices cuáles te gustan.</p>
+      <button class="boto principal" id="primeres-propostes">Pide propuestas a Claude</button>
       <p class="detall estat-ronda" id="estat-ronda-buit" hidden></p>
     </div>
     <div class="ronda" id="ronda" hidden>
@@ -777,12 +777,12 @@
         <div class="ronda-estat">
           <span class="falten" id="falten"></span>
           <!-- Quan ja ho has mirat tot: un esborrany amb el que hi ha ara, per mirar-lo sencer a Revisa. -->
-          <button class="boto suau" id="ja-esta" hidden title="Fa un esborrany amb els canvis d'ara i el mires sencer a Revisa">Ja està: mira'l sencer</button>
+          <button class="boto suau" id="ja-esta" hidden title="Hace un borrador con los cambios de ahora y lo miras entero en Revisa">Ya está: míralo entero</button>
         </div>
         <div class="ronda-demana">
           <input type="text" id="nota-ronda" maxlength="600" autocomplete="off"
-                 placeholder="Una nota per a tota la ronda (si vols): «menys coses al final»" aria-label="Una nota per a tota la ronda">
-          <button class="boto principal" id="demana-ronda">Demana la ronda següent</button>
+                 placeholder="Una nota para toda la ronda (si quieres): «menos cosas al final»" aria-label="Una nota para toda la ronda">
+          <button class="boto principal" id="demana-ronda">Pide la siguiente ronda</button>
         </div>
       </div>
       <p class="detall estat-ronda" id="estat-ronda" hidden></p>
@@ -791,28 +791,28 @@
 
   <!-- Vesteix, mentre es retoca el que és de tot el vídeo (els subtítols, el títol, els colors…): el vídeo gran i, a la
        dreta, l'editor. Les notes per a Claude (les mateixes d'Edita: la pàgina les hi porta), a la pestanya Notes. -->
-  <aside class="vesteix-dreta" id="vesteix-dreta" aria-label="Les peces del vídeo" hidden>
+  <aside class="vesteix-dreta" id="vesteix-dreta" aria-label="Las piezas del vídeo" hidden>
     <header class="dreta-cap">
-      <button class="enllac torna-tauler" id="torna-tauler">‹ Tauler</button>
+      <button class="enllac torna-tauler" id="torna-tauler">‹ Tablero</button>
       <div class="grup">
-        <button class="icona" data-desfes title="Desfés (⌘Z)" aria-label="Desfés" disabled>
+        <button class="icona" data-desfes title="Deshaz (⌘Z)" aria-label="Deshaz" disabled>
           <svg viewBox="0 0 20 20"><path d="M7.5 5 3.5 9l4 4M4 9h7.5a4.5 4.5 0 0 1 0 9H9"/></svg>
         </button>
-        <button class="icona" data-refes title="Refés (⇧⌘Z)" aria-label="Refés" disabled>
+        <button class="icona" data-refes title="Rehaz (⇧⌘Z)" aria-label="Rehaz" disabled>
           <svg viewBox="0 0 20 20"><path d="m12.5 5 4 4-4 4M16 9H8.5a4.5 4.5 0 0 0 0 9H11"/></svg>
         </button>
       </div>
       <div class="espai"></div>
       <div class="feina" id="vesteix-feina" hidden>
-        <span id="vesteix-feina-text">Construint…</span>
+        <span id="vesteix-feina-text">Montando…</span>
         <span class="barra-progres"><span id="vesteix-feina-progres"></span></span>
       </div>
       <button class="boto principal" id="vesteix-exporta">Exporta</button>
     </header>
     <!-- Dues pestanyes, perquè cadascuna tingui tota l'alçada: la peça (o totes) i les notes per a Claude. -->
-    <div class="segmentat ample pestanyes-dreta" role="tablist" aria-label="Què veus a la dreta" id="pestanyes-dreta">
-      <button role="tab" data-dreta="peces" aria-selected="true" aria-controls="peca">Peces <span class="compte" id="compte-peces"></span></button>
-      <button role="tab" data-dreta="notes" aria-selected="false" aria-controls="notes">Notes <span class="compte" id="compte-notes-dreta"></span><span class="punt-nou" id="punt-notes-dreta" aria-label="respostes noves" hidden></span></button>
+    <div class="segmentat ample pestanyes-dreta" role="tablist" aria-label="Qué ves a la derecha" id="pestanyes-dreta">
+      <button role="tab" data-dreta="peces" aria-selected="true" aria-controls="peca">Piezas <span class="compte" id="compte-peces"></span></button>
+      <button role="tab" data-dreta="notes" aria-selected="false" aria-controls="notes">Notas <span class="compte" id="compte-notes-dreta"></span><span class="punt-nou" id="punt-notes-dreta" aria-label="respuestas nuevas" hidden></span></button>
     </div>
     <section class="peca" id="peca" role="tabpanel"></section>
   </aside>
@@ -821,45 +821,45 @@
        de cada moment. Claude les fa i en treu una versió nova. -->
   <section class="revisa" id="revisa" aria-label="Revisa" hidden>
     <header class="revisa-cap">
-      <div class="segmentat petit estacions" role="radiogroup" aria-label="Què fas">
-        <button role="radio" data-estacio="edita" aria-checked="false" title="El text: què es queda, què es treu i el ritme">Edita</button>
-        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Com es veu: l'estil, els subtítols, els gràfics, el b-roll, els zooms i el so">Vesteix</button>
-        <button role="radio" data-estacio="revisa" aria-checked="true" title="Mira l'esborrany sencer i deixa-hi notes per a Claude">Revisa</button>
+      <div class="segmentat petit estacions" role="radiogroup" aria-label="Qué haces">
+        <button role="radio" data-estacio="edita" aria-checked="false" title="El texto: qué se queda, qué se quita y el ritmo">Edita</button>
+        <button role="radio" data-estacio="vesteix" aria-checked="false" title="Cómo se ve: el estilo, los subtítulos, los gráficos, el b-roll, los zooms y el sonido">Viste</button>
+        <button role="radio" data-estacio="revisa" aria-checked="true" title="Mira el borrador entero y deja notas para Claude">Revisa</button>
       </div>
-      <div class="versions-revisa" id="versions-revisa" role="radiogroup" aria-label="Versió"></div>
+      <div class="versions-revisa" id="versions-revisa" role="radiogroup" aria-label="Versión"></div>
       <div class="espai"></div>
       <div class="feina" id="revisa-feina" hidden>
-        <span id="revisa-feina-text">Construint…</span>
+        <span id="revisa-feina-text">Montando…</span>
         <span class="barra-progres"><span id="revisa-feina-progres"></span></span>
       </div>
-      <button class="boto" id="nova-versio" hidden title="Un esborrany nou amb els canvis d'ara">Fes una versió nova</button>
+      <button class="boto" id="nova-versio" hidden title="Un borrador nuevo con los cambios de ahora">Haz una versión nueva</button>
     </header>
     <div class="revisa-buit" id="revisa-buit" hidden>
-      <h2>Encara no hi ha cap versió per revisar</h2>
-      <p>Una versió és un esborrany: el vídeo tal com quedarà, amb els subtítols, el títol i els gràfics. El mires sencer i hi deixes notes per a Claude. Claude les fa i en treu una versió nova.</p>
-      <button class="boto principal" id="primera-versio">Fes l'esborrany</button>
+      <h2>Todavía no hay ninguna versión para revisar</h2>
+      <p>Una versión es un borrador: el vídeo tal como quedará, con los subtítulos, el título y los gráficos. Lo miras entero y dejas notas para Claude. Claude las hace y saca una versión nueva.</p>
+      <button class="boto principal" id="primera-versio">Haz el borrador</button>
     </div>
     <div class="revisa-cos" id="revisa-cos" hidden>
       <div class="revisa-monitor">
         <div class="revisa-pantalla"><video id="video-revisa" playsinline preload="auto"></video>
-          <div class="carregant" id="carregant-revisa" hidden><span class="roda-carrega" aria-hidden="true"></span><span class="text-carrega">Carregant…</span></div></div>
+          <div class="carregant" id="carregant-revisa" hidden><span class="roda-carrega" aria-hidden="true"></span><span class="text-carrega">Cargando…</span></div></div>
         <div class="revisa-barra" id="revisa-barra">
-          <div class="marques-notes" id="marques-revisa" aria-label="Notes d'aquesta versió"></div>
-          <div class="linia-temps" id="linia-revisa" role="slider" aria-label="Posició" tabindex="0">
+          <div class="marques-notes" id="marques-revisa" aria-label="Notas de esta versión"></div>
+          <div class="linia-temps" id="linia-revisa" role="slider" aria-label="Posición" tabindex="0">
             <div class="ple" id="ple-revisa"></div>
             <div class="capcal" id="capcal-revisa"></div>
           </div>
           <div class="revisa-controls">
             <span class="tc-revisa" id="tc-revisa">0:00,0</span>
             <div class="grup">
-              <button class="boto petit" id="rv-enrere" title="1 segon enrere (←)">−1 s</button>
-              <button class="boto petit" id="rv-fotograma-enrere" title="Un fotograma enrere (,)" aria-label="Un fotograma enrere">‹</button>
-              <button class="icona play" id="rv-play" title="Reprodueix (espai)" aria-label="Reprodueix">
+              <button class="boto petit" id="rv-enrere" title="1 segundo atrás (←)">−1 s</button>
+              <button class="boto petit" id="rv-fotograma-enrere" title="Un fotograma atrás (,)" aria-label="Un fotograma atrás">‹</button>
+              <button class="icona play" id="rv-play" title="Reproduce (espacio)" aria-label="Reproduce">
                 <svg class="si-pausa" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
                 <svg class="si-play" viewBox="0 0 24 24"><path d="M8 5.5v13M16 5.5v13"/></svg>
               </button>
-              <button class="boto petit" id="rv-fotograma-endavant" title="Un fotograma endavant (.)" aria-label="Un fotograma endavant">›</button>
-              <button class="boto petit" id="rv-endavant" title="1 segon endavant (→)">+1 s</button>
+              <button class="boto petit" id="rv-fotograma-endavant" title="Un fotograma adelante (.)" aria-label="Un fotograma adelante">›</button>
+              <button class="boto petit" id="rv-endavant" title="1 segundo adelante (→)">+1 s</button>
             </div>
             <span class="temps" id="durada-revisa">0:00</span>
           </div>
@@ -867,64 +867,64 @@
       </div>
       <aside class="revisa-notes" aria-labelledby="titol-notes-revisa">
         <div class="cap-notes">
-          <h2 id="titol-notes-revisa">Notes <span class="compte" id="compte-notes-revisa"></span> <span class="noves-notes" id="noves-notes-revisa"></span></h2>
-          <span class="connexio" data-connexio hidden><span class="punt-connexio" aria-hidden="true"></span><span class="text-connexio">No connectat</span></span>
+          <h2 id="titol-notes-revisa">Notas <span class="compte" id="compte-notes-revisa"></span> <span class="noves-notes" id="noves-notes-revisa"></span></h2>
+          <span class="connexio" data-connexio hidden><span class="punt-connexio" aria-hidden="true"></span><span class="text-connexio">No conectado</span></span>
         </div>
         <div class="avis-connexio" data-avis-connexio hidden>
-          <p>Claude encara no ha rebut les teves notes. Escriu-li al xat: <q>mira les meves notes</q></p>
-          <button class="boto petit" data-copia-frase>Copia-ho</button>
+          <p>Claude todavía no ha recibido tus notas. Escríbele en el chat: <q>mira mis notas</q></p>
+          <button class="boto petit" data-copia-frase>Cópialo</button>
         </div>
         <!-- A dalt de tot i gran: és el que més es fa en aquesta estació. -->
         <form class="nota-revisa" id="nova-nota-revisa">
           <div class="cap-nota-revisa">
             <span class="temps-nota" id="temps-nota-revisa">0:00,0</span>
-            <span class="detall">Nota en aquest moment</span>
+            <span class="detall">Nota en este momento</span>
           </div>
-          <textarea id="text-nota-revisa" rows="3" maxlength="4000" placeholder="Què hi canviaries? En escriure, el vídeo s'atura."
-                    aria-label="Nota per a Claude en aquest moment de la versió"></textarea>
+          <textarea id="text-nota-revisa" rows="3" maxlength="4000" placeholder="¿Qué cambiarías? Al escribir, el vídeo se para."
+                    aria-label="Nota para Claude en este momento de la versión"></textarea>
           <div class="peu-nota">
-            <span class="detall">↩ desa · ⇧↩ línia nova</span>
-            <button class="boto principal petit" type="submit">Afegeix la nota</button>
+            <span class="detall">↩ guarda · ⇧↩ línea nueva</span>
+            <button class="boto principal petit" type="submit">Añade la nota</button>
           </div>
         </form>
-        <button class="boto suau ample" id="envia-revisa" hidden>Envia a Claude</button>
+        <button class="boto suau ample" id="envia-revisa" hidden>Envía a Claude</button>
         <div class="llista-revisa" id="llista-revisa"></div>
-        <p class="detall buit-revisa" id="buit-notes-revisa">Atura el vídeo on vulguis canviar alguna cosa i escriu-ho a la caixa de dalt (o prem N). Cada nota guarda el moment i una miniatura.</p>
+        <p class="detall buit-revisa" id="buit-notes-revisa">Para el vídeo donde quieras cambiar algo y escríbelo en la caja de arriba (o pulsa N). Cada nota guarda el momento y una miniatura.</p>
       </aside>
     </div>
   </section>
 
   <div class="divisor" id="divisor-barra" role="separator" aria-orientation="vertical" tabindex="0"
-       aria-label="Amplada de la columna de l'esquerra" title="Arrossega per canviar l'amplada. Doble clic: mida normal."></div>
+       aria-label="Ancho de la columna de la izquierda" title="Arrastra para cambiar el ancho. Doble clic: tamaño normal."></div>
   <div class="divisor" id="divisor-reproductor" role="separator" aria-orientation="vertical" tabindex="0"
-       aria-label="Amplada de la columna del vídeo" title="Arrossega per canviar l'amplada. Doble clic: mida normal."></div>
+       aria-label="Ancho de la columna del vídeo" title="Arrastra para cambiar el ancho. Doble clic: tamaño normal."></div>
   <div class="velo" id="velo" hidden></div>
   <div class="full assistent" id="full-marca" role="dialog" aria-modal="true" aria-labelledby="titol-assistent" hidden>
     <div class="passes-assistent" id="passes-assistent" aria-hidden="true"><i></i><i></i></div>
     <h2 id="titol-assistent"></h2>
     <div id="cos-assistent"></div>
     <div class="botons">
-      <button class="enllac" id="assistent-enrere">Enrere</button>
-      <button class="boto principal" id="assistent-seguent">Següent</button>
+      <button class="enllac" id="assistent-enrere">Atrás</button>
+      <button class="boto principal" id="assistent-seguent">Siguiente</button>
     </div>
   </div>
 
   <!-- L'estil del vídeo: gran, al damunt (com triar un tema), perquè es vegi bé la diferència entre un i l'altre. -->
   <div class="full estils-full" id="full-estil" role="dialog" aria-modal="true" aria-labelledby="titol-estil-video" hidden>
     <div class="cap-full">
-      <h2 id="titol-estil-video">Estil del vídeo</h2>
-      <span class="detall">Un toc canvia els subtítols, el títol, els gràfics i el b-roll, amb els teus colors i lletres.</span>
-      <button class="icona" id="tanca-estil-video" title="Tanca" aria-label="Tanca">
+      <h2 id="titol-estil-video">Estilo del vídeo</h2>
+      <span class="detall">Un toque cambia los subtítulos, el título, los gráficos y el b-roll, con tus colores y letras.</span>
+      <button class="icona" id="tanca-estil-video" title="Cierra" aria-label="Cierra">
         <svg viewBox="0 0 20 20"><path d="m5.5 5.5 9 9m0-9-9 9"/></svg>
       </button>
     </div>
-    <div class="estils-video" id="estils-video" role="radiogroup" aria-label="Estil del vídeo"></div>
+    <div class="estils-video" id="estils-video" role="radiogroup" aria-label="Estilo del vídeo"></div>
     <div class="peu-estils">
-      <p class="detall amb-marca">Amb els teus colors i lletres. <button class="enllac" id="a-colors">Canvia'ls</button></p>
+      <p class="detall amb-marca">Con tus colores y letras. <button class="enllac" id="a-colors">Cámbialos</button></p>
       <div class="caixa-a-tots" id="caixa-a-tots" hidden>
-        <p>Aquest vídeo té un estil diferent dels altres.</p>
-        <button class="enllac" id="estil-com-tots">Torna al dels altres</button>
-        <button class="boto principal" id="estil-a-tots">Fes-lo servir en tots els vídeos</button>
+        <p>Este vídeo tiene un estilo diferente de los otros.</p>
+        <button class="enllac" id="estil-com-tots">Vuelve al de los demás</button>
+        <button class="boto principal" id="estil-a-tots">Úsalo en todos los vídeos</button>
       </div>
     </div>
   </div>
@@ -933,19 +933,19 @@
     <div class="cap-full">
       <h2 id="titol-final">Exporta</h2>
       <span class="detall" id="final-durada"></span>
-      <button class="icona" id="cancella-final" title="Tanca" aria-label="Tanca">
+      <button class="icona" id="cancella-final" title="Cierra" aria-label="Cierra">
         <svg viewBox="0 0 20 20"><path d="m5.5 5.5 9 9m0-9-9 9"/></svg>
       </button>
     </div>
     <div class="opcions-export">
       <button class="opcio-export" id="exporta-esborrany">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
-        <strong>Esborrany</strong><span>Ràpid, per mirar-lo sencer</span>
+        <strong>Borrador</strong><span>Rápido, para mirarlo entero</span>
       </button>
       <div class="opcio-export principal">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/></svg>
-        <strong>Vídeo final</strong><span>A punt per penjar</span>
-        <div class="segmentat" role="radiogroup" aria-label="Qualitat">
+        <strong>Vídeo final</strong><span>Listo para subir</span>
+        <div class="segmentat" role="radiogroup" aria-label="Calidad">
           <label><input type="radio" name="qualitat" value="1080"> 1080</label>
           <label><input type="radio" name="qualitat" value="4k" checked> 4K</label>
         </div>
@@ -956,17 +956,17 @@
     <div class="carpeta-final">
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5a2 2 0 0 1 2-2h3.5l1.8 2h5.7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z"/></svg>
       <span id="final-carpeta"></span>
-      <button class="enllac" id="canvia-carpeta">Canvia…</button>
-      <button class="enllac" id="carpeta-projecte" hidden>Només a la del projecte</button>
+      <button class="enllac" id="canvia-carpeta">Cambia…</button>
+      <button class="enllac" id="carpeta-projecte" hidden>Solo en la del proyecto</button>
     </div>
     <details class="altres-editors">
-      <summary>Per acabar-lo en un altre editor<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
+      <summary>Para acabarlo en otro editor<svg class="xebro-grup" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary>
       <button class="boto" id="exporta-editors">Premiere, Final Cut o DaVinci</button>
-      <label class="opcio-check"><input type="checkbox" id="editors-capa"> Amb els subtítols i els gràfics (tarda uns minuts)</label>
+      <label class="opcio-check"><input type="checkbox" id="editors-capa"> Con los subtítulos y los gráficos (tarda unos minutos)</label>
       <button class="boto" id="exporta-trossos">CapCut o iMovie</button>
     </details>
     <section class="versions" id="seccio-versions" hidden>
-      <h3>Els teus vídeos</h3>
+      <h3>Tus vídeos</h3>
       <div id="versions"></div>
     </section>
   </div>
@@ -975,9 +975,9 @@
        és i el fitxer; després, la paraula on surt. -->
   <div class="full afegeix-peca" id="full-afegeix" role="dialog" aria-modal="true" aria-labelledby="titol-afegeix" hidden>
     <div class="cap-full">
-      <h2 id="titol-afegeix">Afegeix una peça teva</h2>
+      <h2 id="titol-afegeix">Añade una pieza tuya</h2>
       <span class="detall"></span>
-      <button class="icona" id="tanca-afegeix" title="Tanca" aria-label="Tanca">
+      <button class="icona" id="tanca-afegeix" title="Cierra" aria-label="Cierra">
         <svg viewBox="0 0 20 20"><path d="m5.5 5.5 9 9m0-9-9 9"/></svg>
       </button>
     </div>
@@ -985,18 +985,18 @@
       <div class="opcions-export">
         <button class="opcio-export" data-afegeix="sticker">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h5.5z"/><path d="M20 12.5 12.5 20v-4.5a3 3 0 0 1 3-3z"/></svg>
-          <strong>Un sticker</strong><span>Una imatge petita a sobre del vídeo (millor un PNG sense fons)</span>
+          <strong>Un sticker</strong><span>Una imagen pequeña encima del vídeo (mejor un PNG sin fondo)</span>
         </button>
         <button class="opcio-export" data-afegeix="broll">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="m3.5 15 4.5-4 4 3.5 3-2.5 5.5 4.5"/><circle cx="15.5" cy="9" r="1.5"/></svg>
-          <strong>Una imatge o un vídeo</strong><span>Ocupa tota la pantalla una estona</span>
+          <strong>Una imagen o un vídeo</strong><span>Ocupa toda la pantalla un rato</span>
         </button>
       </div>
     </div>
     <div id="afegeix-on" hidden>
       <div class="afegeix-fitxer"><img id="afegeix-mostra" alt="" hidden><span id="afegeix-nom"></span>
-        <button class="enllac" id="afegeix-un-altre">Un altre fitxer</button></div>
-      <p class="detall">Toca la paraula on ha de sortir.</p>
+        <button class="enllac" id="afegeix-un-altre">Otro archivo</button></div>
+      <p class="detall">Toca la palabra donde tiene que salir.</p>
       <div class="frases-afegeix" id="frases-afegeix"></div>
     </div>
   </div>
@@ -1012,8 +1012,8 @@
       <p id="guia-text"></p>
       <div class="guia-accions">
         <span class="guia-pas" id="guia-pas"></span>
-        <button class="enllac" id="guia-salta">Salta</button>
-        <button class="boto principal" id="guia-seguent">Següent</button>
+        <button class="enllac" id="guia-salta">Sáltalo</button>
+        <button class="boto principal" id="guia-seguent">Siguiente</button>
       </div>
     </div>
   </div>

@@ -11,7 +11,7 @@ from motor.projecte import Projecte
 
 
 class AmbKits(unittest.TestCase):
-    """Cada prova té la seva carpeta ~/.tallat de mentida."""
+    """Cada prova té la seva carpeta ~/.tallat-es de mentida."""
 
     def setUp(self):
         self.dir = tempfile.TemporaryDirectory()

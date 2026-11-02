@@ -1,15 +1,15 @@
 """Kits d'estil de cada persona.
 
 Un kit és un estil amb nom: com són els subtítols, el b-roll, els stickers i els talls (i, amb
-les fonts pròpies, la lletra). Cada persona en pot tenir uns quants a ~/.tallat/kits/, fora del
+les fonts pròpies, la lletra). Cada persona en pot tenir uns quants a ~/.tallat-es/kits/, fora del
 repositori, triar-ne un per a cada vídeo i passar-ne un a una altra persona (un .zip).
 
-  ~/.tallat/kits/<kit>/kit.json   l'estil (els valors que hi falten es prenen de l'estil neutre,
+  ~/.tallat-es/kits/<kit>/kit.json   l'estil (els valors que hi falten es prenen de l'estil neutre,
                                   config/brand.example.json)
-  ~/.tallat/kits/<kit>/fonts/     les fonts pròpies del kit
-  ~/.tallat/kits/kits.json        quin és el kit per defecte (el dels vídeos nous)
+  ~/.tallat-es/kits/<kit>/fonts/     les fonts pròpies del kit
+  ~/.tallat-es/kits/kits.json        quin és el kit per defecte (el dels vídeos nous)
 
-El primer cop, l'estil que la persona ja tenia (~/.tallat/brand.json, d'abans dels kits) es
+El primer cop, l'estil que la persona ja tenia (~/.tallat-es/brand.json, d'abans dels kits) es
 converteix en el kit «El meu estil». brand.json no es toca, però ja no es fa servir.
 """
 from __future__ import annotations
@@ -32,13 +32,13 @@ ESTILS_TITOL = CONFIG / "estils_titol.json"
 ESTILS_BROLL = CONFIG / "estils_broll.json"
 ESTILS_VIDEO = CONFIG / "estils_video.json"
 LLETRES = CONFIG / "lletres.json"
-USUARI = Path.home() / ".tallat" / "brand.json"  # l'estil d'abans dels kits: amb ell es fa el primer kit
-KITS = Path.home() / ".tallat" / "kits"
+USUARI = Path.home() / ".tallat-es" / "brand.json"  # l'estil d'abans dels kits: amb ell es fa el primer kit
+KITS = Path.home() / ".tallat-es" / "kits"
 FITXER_KIT = "kit.json"
 INDEX = "kits.json"
-PRIMER_KIT = ("el-meu-estil", "El meu estil")
-INFO_KIT = ("Kit d'estil de tallat. Es canvia des de la pàgina de revisió (o a mà, aquí). "
-            "Els valors que hi falten es prenen de l'estil neutre de tallat.")
+PRIMER_KIT = ("el-meu-estil", "Mi estilo")
+INFO_KIT = ("Kit de estilo de tallat-es. Se cambia desde la página de revisión (o a mano, aquí). "
+            "Los valores que faltan se toman del estilo neutro de tallat.")
 ID_KIT = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$")
 MIDA_MAXIMA_KIT = 60 * 1024 * 1024  # un kit importat (amb les seves fonts), com a màxim
 FORMATS_FONT = {".ttf", ".otf", ".woff", ".woff2"}
@@ -186,7 +186,7 @@ def _slug(text: str) -> str:
 def _nom_valid(nom) -> str:
     nom = " ".join(str(nom or "").split())[:60]
     if not nom:
-        raise ValueError("El kit necessita un nom")
+        raise ValueError("El kit necesita un nombre")
     return nom
 
 
@@ -232,11 +232,11 @@ def fes_per_defecte(kit: str) -> None:
 
 
 def esborra_kit(kit: str) -> Path:
-    """Treu un kit de la llista. No s'esborra de debò: va a ~/.tallat/kits-esborrats, per si de cas."""
+    """Treu un kit de la llista. No s'esborra de debò: va a ~/.tallat-es/kits-esborrats, per si de cas."""
     if not _existeix(kit):
         raise KeyError(kit)
     if kit == kit_per_defecte():
-        raise ValueError("És el kit per defecte. Abans de treure'l, tria'n un altre per defecte.")
+        raise ValueError("Es el kit por defecto. Antes de quitarlo, elige otro por defecto.")
     desti = KITS.parent / "kits-esborrats" / f"{kit}-{time.strftime('%Y%m%d-%H%M%S')}"
     desti.parent.mkdir(parents=True, exist_ok=True)
     (KITS / kit).rename(desti)
@@ -265,23 +265,23 @@ def importa_kit(contingut: bytes) -> str:
     try:
         z = zipfile.ZipFile(io.BytesIO(contingut))
     except zipfile.BadZipFile:
-        raise ValueError("Aquest fitxer no és un kit de tallat (ha de ser el .zip que fa «Exporta»).") from None
+        raise ValueError("Este archivo no es un kit de tallat (tiene que ser el .zip que hace «Exporta»).") from None
     with z:
         fitxers = {i.filename: i for i in z.infolist() if not i.is_dir()}
         if FITXER_KIT not in fitxers:
-            raise ValueError("Aquest .zip no té cap kit.json: no és un kit de tallat.")
+            raise ValueError("Este .zip no tiene ningún kit.json: no es un kit de tallat.")
         if sum(i.file_size for i in fitxers.values()) > MIDA_MAXIMA_KIT:
-            raise ValueError("Aquest kit és massa gran.")
+            raise ValueError("Este kit es demasiado grande.")
         try:
             dades = json.loads(z.read(FITXER_KIT).decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError):
-            raise ValueError("El kit.json d'aquest kit no es pot llegir.") from None
+            raise ValueError("El kit.json de este kit no se puede leer.") from None
         if not isinstance(dades, dict):
-            raise ValueError("El kit.json d'aquest kit no es pot llegir.")
+            raise ValueError("El kit.json de este kit no se puede leer.")
         fonts = {nom[len("fonts/"):]: info for nom, info in fitxers.items()
                  if re.fullmatch(r"fonts/[^/\\:]+", nom) and not nom[len("fonts/"):].startswith(".")
                  and Path(nom).suffix.lower() in FORMATS_FONT}
-        net = {"_info": INFO_KIT, "nom": _nom_valid(dades.get("nom") or "Kit importat")}
+        net = {"_info": INFO_KIT, "nom": _nom_valid(dades.get("nom") or "Kit importado")}
         if any(k["nom"] == net["nom"] for k in kits()):
             net["nom"] = _nom_valid(f"{net['nom']} (importat)")
         for seccio in sorted(EDITABLES):
@@ -473,34 +473,34 @@ def passa_al_kit(estil: dict, kit: str | None = None, path: Path | None = None) 
 def valida(seccio: str, canvis: dict) -> dict:
     """Comprova els canvis que arriben de la pàgina; llança ValueError amb un missatge clar si n'hi ha cap de dolent."""
     if seccio not in EDITABLES:
-        raise ValueError(f"No es pot canviar la secció «{seccio}»")
+        raise ValueError(f"No se puede cambiar la sección «{seccio}»")
     base = _estil_neutre()[seccio]
     net = {}
     for clau, valor in canvis.items():
         if clau not in base:
-            raise ValueError(f"Opció desconeguda: {clau}")
+            raise ValueError(f"Opción desconocida: {clau}")
         defecte = base[clau]
         rangs, opcions = RANGS.get(seccio, {}), OPCIONS.get(seccio, {})
         if defecte is None and clau in COLORS:  # un color que també pot ser «el de sempre» (null)
             if valor is not None and not (isinstance(valor, str) and re.fullmatch(r"#[0-9A-Fa-f]{6}", valor)):
-                raise ValueError(f"{clau} ha de ser un color com #FFD60A")
+                raise ValueError(f"{clau} tiene que ser un color como #FFD60A")
         elif defecte is None and (clau in ("font", "clau_font") or clau.startswith("lletra_")):  # null: la de sempre
             if valor is not None and not (isinstance(valor, str) and NOM_DE_FONT.match(valor)):
-                raise ValueError("Aquest nom de font no és vàlid")
+                raise ValueError("Este nombre de fuente no es válido")
         elif defecte is None:  # camins de fitxers (font pròpia, LUT): no es posen per aquí
             if valor is not None:
-                raise ValueError(f"{clau} no es pot canviar així")
+                raise ValueError(f"{clau} no se puede cambiar así")
         elif isinstance(defecte, list):
             permesos = LLISTES.get(seccio, {}).get(clau, set())
             if not isinstance(valor, list) or not valor or any(v not in permesos for v in valor):
-                raise ValueError(f"{clau} ha de ser una llista amb alguna d'aquestes: {', '.join(sorted(permesos))}")
+                raise ValueError(f"{clau} tiene que ser una lista con alguna de estas: {', '.join(sorted(permesos))}")
             valor = list(dict.fromkeys(valor))
         elif isinstance(defecte, bool):
             if not isinstance(valor, bool):
-                raise ValueError(f"{clau} ha de ser sí o no")
+                raise ValueError(f"{clau} tiene que ser sí o no")
         elif isinstance(defecte, (int, float)):
             if isinstance(valor, bool) or not isinstance(valor, (int, float)):
-                raise ValueError(f"{clau} ha de ser un número")
+                raise ValueError(f"{clau} tiene que ser un número")
             if clau in rangs:
                 a, b = rangs[clau]
                 valor = min(b, max(a, valor))
@@ -510,13 +510,13 @@ def valida(seccio: str, canvis: dict) -> dict:
                 valor = round(float(valor), 4)
         elif isinstance(defecte, str):
             if not isinstance(valor, str):
-                raise ValueError(f"{clau} ha de ser un text")
+                raise ValueError(f"{clau} tiene que ser un texto")
             if clau in COLORS and not re.fullmatch(r"#[0-9A-Fa-f]{6}", valor):
-                raise ValueError(f"{clau} ha de ser un color com #FFD60A")
+                raise ValueError(f"{clau} tiene que ser un color como #FFD60A")
             if clau in opcions and valor not in opcions[clau]:
-                raise ValueError(f"{clau} no pot ser «{valor}»")
+                raise ValueError(f"{clau} no puede ser «{valor}»")
             if clau == "font" and not NOM_DE_FONT.match(valor):
-                raise ValueError("Aquest nom de font no és vàlid")
+                raise ValueError("Este nombre de fuente no es válido")
             valor = valor.strip()[:MIDA_TEXT] if not opcions.get(clau) and clau not in COLORS else valor
         net[clau] = valor
     return net
@@ -565,7 +565,7 @@ def _escampa_marca(dades: dict, canvis: dict) -> None:
 def restableix(seccio: str, path: Path | None = None, kit: str | None = None) -> dict:
     """Torna una secció a l'estil neutre de tallat (amb les notes que expliquen cada opció)."""
     if seccio not in EDITABLES:
-        raise ValueError(f"No es pot canviar la secció «{seccio}»")
+        raise ValueError(f"No se puede cambiar la sección «{seccio}»")
     path = path or ruta(kit)
     dades = _llegeix_json(path)
     abans = dades.get(seccio) if isinstance(dades.get(seccio), dict) else {}
@@ -632,7 +632,7 @@ def baixa_lletra(id_lletra: str, kit: str | None = None, path: Path | None = Non
     servir on diu `seccio` i `clau`: els subtítols, el títol, les paraules destacades o la marca (que
     l'escampa on toca). Torna l'estil d'aquella secció."""
     if (seccio, clau) not in LLOCS_LLETRA:
-        raise ValueError("Secció desconeguda")
+        raise ValueError("Sección desconocida")
     biblioteca = biblioteca_lletres()
     lletra = next((l for l in biblioteca["lletres"] if l["id"] == id_lletra), None)
     if lletra is None:
@@ -656,9 +656,9 @@ def baixa_lletra(id_lletra: str, kit: str | None = None, path: Path | None = Non
             with urllib.request.urlopen(url, timeout=30) as resposta:
                 contingut = resposta.read(5_000_001)
         except (OSError, urllib.error.URLError) as e:
-            raise ConnectionError(f"No he pogut baixar la lletra «{nom}». Comprova la connexió a internet.") from e
+            raise ConnectionError(f"No he podido descargar la letra «{nom}». Comprueba la conexión a internet.") from e
         if not contingut.startswith(b"wOF2") or len(contingut) > 5_000_000:
-            raise ConnectionError(f"La lletra «{nom}» no s'ha baixat bé. Torna-ho a provar.")
+            raise ConnectionError(f"La letra «{nom}» no se ha descargado bien. Vuelve a intentarlo.")
         temporal = desti.with_name(f".{desti.name}.baixant")
         temporal.write_bytes(contingut)
         temporal.replace(desti)
@@ -678,10 +678,10 @@ def desa_font(nom: str, contingut: bytes, path: Path | None = None, kit: str | N
     """Guarda una font pròpia dins del kit (a la seva carpeta fonts/) i la fa servir per als subtítols."""
     origen = Path(nom).name
     if Path(origen).suffix.lower() not in FORMATS_FONT or origen.startswith("."):
-        raise ValueError("La font ha de ser un fitxer .ttf, .otf, .woff o .woff2")
+        raise ValueError("La fuente tiene que ser un archivo .ttf, .otf, .woff o .woff2")
     if not contingut:
-        raise ValueError("El fitxer de la font és buit")
-    familia = _nom_familia(Path(origen).stem) or "La meva font"
+        raise ValueError("El archivo de la fuente está vacío")
+    familia = _nom_familia(Path(origen).stem) or "Mi fuente"
     path = path or ruta(kit)
     (path.parent / "fonts").mkdir(parents=True, exist_ok=True)
     (path.parent / "fonts" / f"{familia}{Path(origen).suffix.lower()}").write_bytes(contingut)
@@ -697,14 +697,14 @@ def afegeix_font(contingut: bytes, nom_fitxer: str, familia: str, pes: str = "40
     sense fer-la servir enlloc encara (això ho fa la marca o l'estil). Torna el fitxer."""
     extensio = Path(nom_fitxer).suffix.lower()
     if extensio not in FORMATS_FONT:
-        raise ValueError("La font ha de ser un fitxer .ttf, .otf, .woff o .woff2")
+        raise ValueError("La fuente tiene que ser un archivo .ttf, .otf, .woff o .woff2")
     if not contingut:
-        raise ValueError("El fitxer de la font és buit")
+        raise ValueError("El archivo de la fuente está vacío")
     familia = _nom_familia(familia)
     if not familia or not NOM_DE_FONT.match(familia):
-        raise ValueError("Aquest nom de lletra no és vàlid")
+        raise ValueError("Este nombre de letra no es válido")
     if not re.fullmatch(r"\d{3}|var", str(pes)):
-        raise ValueError("El gruix ha de ser un número com 400 o «var» (una lletra variable)")
+        raise ValueError("El grosor tiene que ser un número como 400 o «var» (una letra variable)")
     path = path or ruta(kit)
     carpeta = path.parent / "fonts"
     carpeta.mkdir(parents=True, exist_ok=True)

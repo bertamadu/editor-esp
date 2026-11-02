@@ -1,17 +1,59 @@
 {
-  "_info": "Els estils del vídeo: com es veu tot el vídeo d'un sol toc (els subtítols, el títol del ganxo, els gràfics i el b-roll). Cada part és un dels estils fets (estils_subtitols.json, estils_titol.json, estils_broll.json) i, els gràfics, un dels quatre estils (net, mac, scrapbook o editorial). Els colors i les lletres no hi són: són els de la persona (la secció «marca» del kit). Neutres: cap marca de ningú.",
+  "_info": "Los estilos del vídeo: cómo se ve todo el vídeo de un solo toque (los subtítulos, el título gancho, los gráficos y el b-roll). Cada parte es uno de los estilos hechos (estils_subtitols.json, estils_titol.json, estils_broll.json) y, los gráficos, uno de los cuatro estilos (net, mac, scrapbook o editorial). Los colores y las letras no están: son los de la persona (la sección «marca» del kit). Neutros: ninguna marca de nadie.",
   "estils": [
-    {"id": "net", "nom": "Net", "descripcio": "Tranquil i professional: frases curtes que s'encenen, res que destaqui massa.",
-     "subtitols": "net", "titol": "esglao", "grafics": "net", "broll": "targeta"},
-    {"id": "revista", "nom": "Revista", "descripcio": "Com una revista: la frase sencera, titulars en majúscules i les paraules clau grans.",
-     "subtitols": "revista", "titol": "revista", "grafics": "editorial", "broll": "foto"},
-    {"id": "pop", "nom": "Pop", "descripcio": "Amb energia: tres paraules cada cop, la que dius destacada i un títol que salta.",
-     "subtitols": "classic", "titol": "retol", "grafics": "mac", "broll": "partida"},
-    {"id": "suau", "nom": "Suau", "descripcio": "Amable i clar: el text dins d'una caixa, com una nota.",
-     "subtitols": "caixa", "titol": "caixa", "grafics": "net", "broll": "finestra"},
-    {"id": "impacte", "nom": "Impacte", "descripcio": "Una paraula cada cop, gran i de cop, i el títol a màquina d'escriure.",
-     "subtitols": "impacte", "titol": "maquina", "grafics": "editorial", "broll": "pantalla"},
-    {"id": "apilat", "nom": "Apilat", "descripcio": "Les línies s'apilen a l'esquerra, com fan molts creadors, i gràfics juganers.",
-     "subtitols": "apilat", "titol": "esglao", "grafics": "scrapbook", "broll": "carrusel"}
+    {
+      "id": "net",
+      "nom": "Limpio",
+      "descripcio": "Tranquilo y profesional: frases cortas que se encienden, nada que destaque demasiado.",
+      "subtitols": "net",
+      "titol": "esglao",
+      "grafics": "net",
+      "broll": "targeta"
+    },
+    {
+      "id": "revista",
+      "nom": "Revista",
+      "descripcio": "Como una revista: la frase entera, titulares en mayúsculas y las palabras clave grandes.",
+      "subtitols": "revista",
+      "titol": "revista",
+      "grafics": "editorial",
+      "broll": "foto"
+    },
+    {
+      "id": "pop",
+      "nom": "Pop",
+      "descripcio": "Con energía: tres palabras cada vez, la que dices destacada y un título que salta.",
+      "subtitols": "classic",
+      "titol": "retol",
+      "grafics": "mac",
+      "broll": "partida"
+    },
+    {
+      "id": "suau",
+      "nom": "Suave",
+      "descripcio": "Amable y claro: el texto dentro de una caja, como una nota.",
+      "subtitols": "caixa",
+      "titol": "caixa",
+      "grafics": "net",
+      "broll": "finestra"
+    },
+    {
+      "id": "impacte",
+      "nom": "Impacto",
+      "descripcio": "Una palabra cada vez, grande y de golpe, y el título a máquina de escribir.",
+      "subtitols": "impacte",
+      "titol": "maquina",
+      "grafics": "editorial",
+      "broll": "pantalla"
+    },
+    {
+      "id": "apilat",
+      "nom": "Apilado",
+      "descripcio": "Las líneas se apilan a la izquierda, como hacen muchos creadores, y gráficos juguetones.",
+      "subtitols": "apilat",
+      "titol": "esglao",
+      "grafics": "scrapbook",
+      "broll": "carrusel"
+    }
   ]
 }

@@ -74,7 +74,7 @@ def _bloquejat(carpeta: Path):
         t0 = time.time()
         while not _intenta_bloquejar(f):
             if time.time() - t0 > ESPERA_BLOQUEIG:
-                raise TimeoutError("Les notes fa massa que estan bloquejades.")
+                raise TimeoutError("Las notas llevan demasiado tiempo bloqueadas.")
             time.sleep(0.02)
         try:
             yield
@@ -134,13 +134,13 @@ def _troba(notes: list[dict], id_: int) -> dict:
     for n in notes:
         if n["id"] == id_:
             return n
-    raise KeyError(f"No hi ha cap nota {id_}.")
+    raise KeyError(f"No hay ninguna nota {id_}.")
 
 
 def _missatge(de: str, text: str) -> dict:
     text = str(text).strip()
     if not text:
-        raise ValueError("La nota és buida.")
+        raise ValueError("La nota está vacía.")
     return {"de": de, "text": text[:4000], "quan": round(time.time())}
 
 
@@ -171,7 +171,7 @@ def esborra(carpeta: Path, id_: int) -> None:
     def fes(notes):
         nota = _troba(notes, id_)
         if nota["estat"] != "esborrany":
-            raise ValueError("Aquesta nota ja és a Claude.")
+            raise ValueError("Esta nota ya la tiene Claude.")
         notes.remove(nota)
         return nota.get("miniatura")
     esborra_miniatura(carpeta, _canvia(carpeta, fes))
@@ -252,8 +252,8 @@ def respon(carpeta: Path, id_: int, text: str, pregunta: bool = False, cop: int 
     def fes(notes):
         nota = _troba(notes, id_)
         if cop is not None and cop > nota.get("cops", 0):  # una vegada que no ha passat: no es pot deixar encallada
-            raise ValueError(f"La nota {id_} només se t'ha donat {nota.get('cops', 0)} cops: "
-                             f"respon amb {id_per_respondre(nota)}.")
+            raise ValueError(f"La nota {id_} solo se te ha dado {nota.get('cops', 0)} veces: "
+                             f"responde con {id_per_respondre(nota)}.")
         vella = cop is not None and cop != nota.get("cops", 0)
         vistos = nota.get("vistos", len(nota["fil"]))
         noves = any(m["de"] == "persona" for m in nota["fil"][vistos:])
@@ -354,32 +354,32 @@ def text_per_a_claude(nota: dict, durada_mmss, al_video: float | None = None, ca
     `al_video` és el segon del vídeo editat (el que la persona veu sota el vídeo), si se sap. Si la nota és d'una
     versió (Revisa), es diu quina i on és la miniatura (`carpeta`: la de la gravació), perquè Claude la pugui mirar.
     `numero`: el que la persona veu a la pàgina (per l'ordre del vídeo; numeros_pagina), si no és l'id."""
-    on = f"per a tot el reel «{nota['reel']}»" if nota.get("reel") else "per a tot el vídeo"
+    on = f"para todo el reel «{nota['reel']}»" if nota.get("reel") else "para todo el vídeo"
     if nota.get("inici") is not None:
         gravacio = durada_mmss(nota["inici"])
-        on = (f"al {durada_mmss(al_video)} del vídeo, el {gravacio} de la gravació" if al_video is not None
-              else f"al {gravacio} de la gravació, un tros que ara no surt al vídeo")
+        on = (f"en el {durada_mmss(al_video)} del vídeo, el {gravacio} de la grabación" if al_video is not None
+              else f"en el {gravacio} de la grabación, un trozo que ahora no sale en el vídeo")
         if nota.get("cita"):
-            on += f", a «{nota['cita']}»"
+            on += f", en «{nota['cita']}»"
         if nota.get("paraula") is not None:
-            on += f" (paraula {nota['paraula']})"
+            on += f" (palabra {nota['paraula']})"
         if nota.get("reel"):
-            on += f", al reel «{nota['reel']}»"
+            on += f", en el reel «{nota['reel']}»"
     if nota.get("versio"):
-        on += f"; feta mirant l'esborrany {nota['versio']}, al {durada_mmss(nota.get('t_versio') or 0)} d'aquell vídeo"
-    nom = f"Nota {nota['id']}" if numero in (None, nota["id"]) else f"Nota {nota['id']} (a la pàgina, la {numero})"
+        on += f"; hecha mirando el borrador {nota['versio']}, en el {durada_mmss(nota.get('t_versio') or 0)} de aquel vídeo"
+    nom = f"Nota {nota['id']}" if numero in (None, nota["id"]) else f"Nota {nota['id']} (en la página, la {numero})"
     linies = [f"{nom} ({on}):"]
     for m in nota["fil"]:
-        linies.append(f"  {'Tu' if m['de'] == 'claude' else 'La persona'}: {m['text']}")
+        linies.append(f"  {'Tú' if m['de'] == 'claude' else 'La persona'}: {m['text']}")
     if nota.get("reagafada"):
-        linies.append("  (Ja te l'havia donat i no l'has resposta: mira si ja l'havies feta abans de tornar-la a fer.)")
+        linies.append("  (Ya te la había dado y no la has respondido: mira si ya la habías hecho antes de volver a hacerla.)")
     if nota.get("tipus") == "ronda":
-        linies.append("  (És el botó «Demana la ronda següent» del tauler de Vesteix: els vots i les notes de cada peça són a "
-                      "`tallat.py grafics`. Vegeu «El tauler» a les instruccions de tallat.)")
+        linies.append("  (Es el botón «Pide la siguiente ronda» del tablero de Viste: los votos y las notas de cada pieza están en "
+                      "`tallat.py grafics`. Ver «El tablero» en las instrucciones de tallat-es.)")
     if nota.get("miniatura") and carpeta is not None:
-        linies.append(f"  El fotograma que mirava: {Path(carpeta) / MINIATURES / nota['miniatura']}")
+        linies.append(f"  El fotograma que miraba: {Path(carpeta) / MINIATURES / nota['miniatura']}")
     if nota["estat"] == "treballant":
-        linies.append(f"  Per respondre-la: --respon {id_per_respondre(nota)}")
+        linies.append(f"  Para responderla: --respon {id_per_respondre(nota)}")
     if nota.get("projecte"):
-        linies.append(f"  (es fa a --projecte \"{nota['projecte']}\")")
+        linies.append(f"  (se hace en --projecte \"{nota['projecte']}\")")
     return "\n".join(linies)

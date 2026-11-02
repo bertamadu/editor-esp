@@ -33,7 +33,7 @@ class TestEntornPython(unittest.TestCase):
         return subprocess.run(["bash", "-c", guio], env=entorn, capture_output=True, text=True, encoding="utf-8", timeout=60)
 
     def test_un_entorn_a_mitges_no_bloqueja_els_reintents(self):
-        # Revisió de Codex: una instal·lació interrompuda deixava ~/.tallat/venv a mitges i uv ja no en
+        # Revisió de Codex: una instal·lació interrompuda deixava ~/.tallat-es/venv a mitges i uv ja no en
         # volia fer cap de nou: tornar a instal·lar fallava sempre.
         with tempfile.TemporaryDirectory() as d:
             tallat, carpeta = Path(d) / "tallat-casa", Path(d) / "repo"

@@ -205,7 +205,7 @@ def compara(paraules: list[dict], text_editat: str) -> tuple[list[dict], list[st
                 resultat[i]["correccio"] = editades_brutes[j1 + k]
         elif tag in ("replace", "insert"):
             noves = " ".join(editades_brutes[j1:j2])
-            avisos.append(f"No puc afegir paraules que no són a la gravació: «{noves}»")
+            avisos.append(f"No puedo añadir palabras que no están en la grabación: «{noves}»")
     return resultat, avisos
 
 

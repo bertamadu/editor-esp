@@ -1,7 +1,7 @@
 """On són les eines de tallat (les que posa prepara.sh o, a Windows, prepara.ps1) i com trobar-les, i el
 poc que es fa diferent al Mac i a Windows (obrir una carpeta, triar-ne una, trobar un programa).
 
-L'instal·lador posa ffmpeg, ffprobe i Node.js a ~/.tallat/eines, sense tocar el sistema. Perquè tallat
+L'instal·lador posa ffmpeg, ffprobe i Node.js a ~/.tallat-es/eines, sense tocar el sistema. Perquè tallat
 (i HyperFrames) les facin servir, aquesta carpeta va al davant del PATH.
 """
 from __future__ import annotations
@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-TALLAT = Path.home() / ".tallat"
+TALLAT = Path.home() / ".tallat-es"
 WINDOWS = sys.platform == "win32"
 MAC = sys.platform == "darwin"
 EINES = TALLAT / "eines" / "bin"

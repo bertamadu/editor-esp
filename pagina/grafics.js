@@ -728,7 +728,7 @@
       c.append(cap, text, peu);
     } else if (g.tipus === "notes") {
       const barra = element(doc, "div", "tg-notes-barra");
-      barra.append(element(doc, "span", null, "‹ Notes"), element(doc, "span", null, "Fet"));
+      barra.append(element(doc, "span", null, "‹ Notas"), element(doc, "span", null, "OK"));
       const full = element(doc, "div", "tg-notes-full");
       if (g.text) full.append(element(doc, "h3", null, g.text));
       for (const p of g.punts || []) {
@@ -744,7 +744,7 @@
       dades.append(element(doc, "b", null, g.de || ""));
       if (g.text) dades.append(element(doc, "span", null, g.text));
       const boto = element(doc, "span", "tg-seg-boto");
-      boto.append(element(doc, "span", "tg-seg-a", "Segueix"), element(doc, "span", "tg-seg-b", "Seguint ✓"), element(doc, "i", "tg-dit"));
+      boto.append(element(doc, "span", "tg-seg-a", "Seguir"), element(doc, "span", "tg-seg-b", "Siguiendo ✓"), element(doc, "i", "tg-dit"));
       c.append(element(doc, "i", "tg-avatar", inicial(g.de)), dades, boto);
     } else if (g.tipus === "rec") {
       // A tota la zona on pot anar (la mateixa que fa servir colloca).
@@ -779,9 +779,9 @@
         comp.style.height = `${Math.round(Math.max(320, Math.min(900, lliure)))}px`;
         const [a, d] = g.punts || [];
         const fa = foto(a, "tg-ab tg-ab-abans");
-        fa.append(element(doc, "figcaption", null, a?.text || "abans"));
+        fa.append(element(doc, "figcaption", null, a?.text || "antes"));
         const fd = foto(d, "tg-ab tg-ab-despres");
-        fd.append(element(doc, "figcaption", null, d?.text || "després"));
+        fd.append(element(doc, "figcaption", null, d?.text || "después"));
         comp.append(fa, fd, element(doc, "i", "tg-ab-linia"));
         c.append(comp);
       } else {

@@ -6,7 +6,7 @@ i iguala el volum al que fan servir Instagram i TikTok (-14 LUFS), en dues passa
 bombegi. Tot amb filtres d'ffmpeg.
 
 Efectes de so: els fabrica tallat amb codi (cap fitxer de fora, cap llicència). Cada persona els
-pot canviar pels seus posant un fitxer amb el mateix nom a ~/.tallat/sons/ (whoosh.wav, pop.mp3…).
+pot canviar pels seus posant un fitxer amb el mateix nom a ~/.tallat-es/sons/ (whoosh.wav, pop.mp3…).
 Tots els efectes d'un vídeo es barregen en una sola pista (WAV) del llarg del muntatge: la mateixa
 pista sona a la vista prèvia de la pàgina i es barreja al vídeo final.
 """
@@ -24,13 +24,13 @@ from pathlib import Path
 from motor import entorn
 
 MOSTREIG = 48000
-SONS_PROPIS = Path.home() / ".tallat" / "sons"
+SONS_PROPIS = Path.home() / ".tallat-es" / "sons"
 NIVELLS_SOROLL = {"suau": 6, "mitja": 12, "fort": 20}  # quants dB de soroll es treuen
 VOLUM_OBJECTIU = -14  # LUFS, el de les xarxes
 VERSIO_SONS = "1"     # canvia-la si canvia com es fabriquen els sons (la pista es torna a fer)
 
 # Què sona a cada cosa. «pocs»: b-roll, stickers i títol; «molts»: també les paraules destacades.
-NOMS = {"whoosh": "Whoosh", "pop": "Pop", "tecla": "Teclat", "brill": "Brillantor", "tic": "Tic"}
+NOMS = {"whoosh": "Whoosh", "pop": "Pop", "tecla": "Teclado", "brill": "Brillo", "tic": "Tic"}
 MAX_SONS = 200  # els que es posen a mà (estat["sons"])
 
 
@@ -89,10 +89,10 @@ def llegeix_mesura(sortida_ffmpeg: str) -> dict:
     inici = sortida_ffmpeg.rfind("{")
     final = sortida_ffmpeg.rfind("}")
     if inici < 0 or final < inici:
-        raise RuntimeError("No he pogut mesurar el volum de la veu")
+        raise RuntimeError("No he podido medir el volumen de la voz")
     dades = json.loads(sortida_ffmpeg[inici:final + 1])
     if any(not math.isfinite(float(dades[k])) for k in ("input_i", "input_tp", "input_lra", "input_thresh")):
-        raise RuntimeError("La veu és massa fluixa per mesurar-ne el volum")
+        raise RuntimeError("La voz es demasiado floja para medir su volumen")
     return dades
 
 
@@ -192,7 +192,7 @@ def _a_pic(mostres: list[float], pic: float) -> list[float]:
 
 
 def _propi(nom: str) -> Path | None:
-    """El so que la persona ha posat a ~/.tallat/sons/ amb aquest nom, si n'hi ha."""
+    """El so que la persona ha posat a ~/.tallat-es/sons/ amb aquest nom, si n'hi ha."""
     if not SONS_PROPIS.is_dir():
         return None
     return next((p for p in sorted(SONS_PROPIS.iterdir())
@@ -246,15 +246,15 @@ def _lletres_titol(titol: dict, animacio: str) -> list[float]:
 
 # El so de cada gràfic del pla: (so, nom, si també hi és amb «pocs»). Amb «pocs», els de cada punt d'una
 # llista o d'un xat tampoc no hi són.
-SONS_GRAFICS = {"frase": ("whoosh", "Frase", True), "marcador": ("whoosh", "Marcador", True), "llista": ("pop", "Llista", True),
-                "etiqueta": ("pop", "Etiqueta", False), "ratllat": ("whoosh", "Ratllat", True),
-                "crida": ("brill", "Crida", True),
-                "notificacio": ("brill", "Notificació", True), "comentari": ("pop", "Comentari", True),
-                "xat": ("pop", "Xat", True),
-                "numero": ("tic", "Número", True), "progres": ("tic", "Progrés", True), "anotacio": ("tic", "Anotació", False),
+SONS_GRAFICS = {"frase": ("whoosh", "Frase", True), "marcador": ("whoosh", "Rotulador", True), "llista": ("pop", "Lista", True),
+                "etiqueta": ("pop", "Etiqueta", False), "ratllat": ("whoosh", "Tachado", True),
+                "crida": ("brill", "Llamada", True),
+                "notificacio": ("brill", "Notificación", True), "comentari": ("pop", "Comentario", True),
+                "xat": ("pop", "Chat", True),
+                "numero": ("tic", "Número", True), "progres": ("tic", "Progreso", True), "anotacio": ("tic", "Anotación", False),
                 "web": ("whoosh", "Web", True), "ventall": ("pop", "Fotos", True),
-                "segueix": ("brill", "Segueix-me", True), "publicacio": ("pop", "Publicació", True),
-                "notes": ("tecla", "Notes", True), "rec": ("tic", "REC", False), "abans": ("whoosh", "Abans i després", True),
+                "segueix": ("brill", "Sígueme", True), "publicacio": ("pop", "Publicación", True),
+                "notes": ("tecla", "Notas", True), "rec": ("tic", "REC", False), "abans": ("whoosh", "Antes y después", True),
                 "carrusel": ("whoosh", "Carrusel", True)}
 
 
@@ -267,10 +267,10 @@ def esdeveniments(brolls: list[dict], stickers: list[dict], titol: dict | None, 
     llista = []
     if titol:
         if animacio_titol == "maquina":
-            llista.append({"clau": "titol", "nom": "Títol (teclat)", "so": "tecla", "t": titol["inici"],
+            llista.append({"clau": "titol", "nom": "Título (teclado)", "so": "tecla", "t": titol["inici"],
                            "moments": _lletres_titol(titol, animacio_titol)})
         else:
-            llista.append({"clau": "titol", "nom": "Títol", "so": "brill", "t": titol["inici"],
+            llista.append({"clau": "titol", "nom": "Título", "so": "brill", "t": titol["inici"],
                            "moments": [titol["inici"] + 0.05]})
     for b in brolls:
         # El whoosh arriba al màxim just quan entra el b-roll.

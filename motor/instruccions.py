@@ -33,8 +33,8 @@ FITXER = "instruccions.json"
 # Passades per normalitza(), com les paraules de la transcripció (que, per exemple, fa «tallat» → «talat»).
 DESPERTA = {normalitza(w) for w in ("claude", "claud", "clod", "glod", "klaud")}
 # Aquestes també són paraules normals («Clau per entendre-ho…», «un tallat»): només amb una ordre coneguda.
-DESPERTA_AMB_ORDRE = {normalitza(w) for w in ("tallat", "tayat", "codex", "còdex", "códex", "codecs",
-                                               "clau", "clot", "cloud")}
+DESPERTA_AMB_ORDRE = {normalitza(w) for w in ("tallat", "tayat", "tallar", "codex", "códex", "codecs",
+                                               "cloud", "clau", "clot", "clod", "glot")}
 FI_DE_FRASE = re.compile(r"[.?!…]['\"»”]*$")
 PAUSA_INICI = 0.6      # un silenci així abans de «Claude» també compta com a inici de frase
 PAUSA_SENSE_PUNT = 1.0  # sense puntuació, la instrucció acaba en un silenci així
@@ -42,19 +42,20 @@ MAX_PARAULES = 25       # les instruccions són curtes: si no se'n troba el fina
 FINESTRA_REPRESA = 180  # segons enrere on es busca el primer intent d'una frase repetida
 
 TIPUS = [
-    ("talla", ("torno a començar", "tornem a començar", "torno a fer", "comenco de nou", "començo de nou",
-               "talla des d'aqui", "talla d'aqui", "talla aqui", "des d'aqui", "repeteixo", "una altra vegada",
-               "tallem", "talla abans")),
-    ("zoom", ("zoom", "apropa", "acosta", "mes a prop", "pla curt")),
-    ("sticker", ("sticker", "estiquer", "adhesiu", "estiker")),
-    ("broll", ("b-roll", "broll", "be roll", "b roll", "imatge", "imatges", "video de", "clip de", "posa un pla")),
+    ("talla", ("vuelvo a empezar", "volvemos a empezar", "empiezo de nuevo", "empiezo otra vez", "lo vuelvo a hacer",
+               "vuelvo a hacerlo", "corta desde aqui", "corta aqui", "corta", "cortamos", "corta antes",
+               "desde aqui", "repito", "otra vez", "de nuevo", "otra toma")),
+    ("zoom", ("zoom", "acerca", "acercate", "mas cerca", "plano corto", "primer plano")),
+    ("sticker", ("sticker", "estiquer", "estiker", "pegatina", "adhesivo")),
+    ("broll", ("b-roll", "broll", "be roll", "b roll", "bi roll", "imagen", "imagenes", "video de", "clip de",
+               "pon un plano", "recurso")),
 ]
 
 
 def _pla(text: str) -> str:
     """Text en minúscules i sense accents, per buscar-hi paraules clau."""
     t = text.lower().replace("’", "'")
-    for a, b in (("à", "a"), ("è", "e"), ("é", "e"), ("í", "i"), ("ò", "o"), ("ó", "o"), ("ú", "u"),
+    for a, b in (("á", "a"), ("à", "a"), ("è", "e"), ("é", "e"), ("í", "i"), ("ò", "o"), ("ó", "o"), ("ú", "u"),
                  ("ï", "i"), ("ü", "u"), ("ç", "c")):
         t = t.replace(a, b)
     return re.sub(r"\s+", " ", re.sub(r"[^\w' -]", " ", t)).strip()
@@ -62,10 +63,9 @@ def _pla(text: str) -> str:
 
 # Sense «Claude»: només les ordres que gairebé mai no surten parlant d'una altra cosa, i al començament
 # de la frase (a les primeres paraules: «Mira, un sticker d'un mosquit»).
-ORDRES_SENSE_PARAULA = ("sticker", "estiquer", "estiker", "b-roll", "broll", "be roll", "b roll",
-                        "tallem", "talla aqui", "talla d'aqui", "talla des d'aqui", "torno a començar",
-                        "tornem a començar", "començo de nou", "comenco de nou", "fes zoom", "fes un zoom",
-                        "posa un zoom")
+ORDRES_SENSE_PARAULA = ("sticker", "estiquer", "estiker", "pegatina", "b-roll", "broll", "be roll", "b roll",
+                        "bi roll", "cortamos", "corta aqui", "corta desde aqui", "vuelvo a empezar",
+                        "volvemos a empezar", "empiezo de nuevo", "haz zoom", "haz un zoom", "pon un zoom")
 PRIMERES_PARAULES = 5
 
 

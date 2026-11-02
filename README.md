@@ -1,171 +1,29 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/imatges/capcalera-fosca.jpg">
-  <img src=".github/imatges/capcalera.jpg" alt="tallat. Edites el reel en el que et dura un cafè.">
-</picture>
+# tallat-es
 
-tallat és un editor de reels en català que funciona dins de [Claude](https://claude.com/download) o de [Codex](https://openai.com/codex) (el de ChatGPT). Et graves parlant a càmera, li dius «edita aquest vídeo» i el retalles com si retallessis un text: les paraules que treus desapareixen del vídeo. Després hi poses subtítols animats, b-roll i stickers, i l'exportes en vertical, a punt per a Instagram, TikTok o YouTube Shorts.
+Editor de reels **en castellano** que funciona dentro de Claude Code: transcribe el vídeo, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical (9:16). Todo en tu ordenador.
 
-És gratuït, de codi obert i tot passa al teu ordinador.
+Es una **versión modificada** de [tallat](https://github.com/ivetanoro/tallat), de Ivet Anoro (licencia AGPL v3 o posterior). Qué ha cambiado: ver [AVISO.md](AVISO.md).
 
-![La pàgina de tallat, a Edita: a l'esquerra el que cal revisar i el ritme, al mig el text amb paraules ratllades, a la dreta el vídeo amb subtítols i les notes per a Claude.](.github/imatges/1-edita.png)
+## Instalar (como conector local de Claude Code)
 
-*Treus paraules com en un document i el vídeo queda tallat. En taronja, el que tallat ha tret sol; en gris, el que has tret tu.*
-
-## Què fa
-
-- **Edites el vídeo tocant les paraules.** tallat transcriu el que dius en català i et mostra el text en una pàgina del teu ordinador. Selecciones paraules com en un document i prems ⌫: fora del vídeo. Si les tornes a seleccionar i prems ⌫, tornen.
-- **Neteja sola.** Treu els «eh» i els «mmm», et proposa els «vale» i els «o sigui» perquè decideixis tu, i escurça els silencis llargs.
-- **Instruccions de veu mentre graves.** «Claude, torno a començar», «tallat, zoom aquí», «Claude, aquí un b-roll d'un vinil girant», «tallat, sticker d'un cor». tallat les troba a la gravació, les treu del vídeo i les aplica.
-- **Primer muntatge.** D'una gravació llarga, Claude et proposa entre un i cinc reels, cadascun amb el seu ganxo i el seu final.
-- **Subtítols animats i dissenyats.** Divuit estils per començar (Clàssic, Karaoke, Neó, Apilat, Esglaó, Rètol…): línies que s'apilen, paraules destacades enormes i d'un altre color (les tries tu o les tria tallat), alineacions de títol, 18 lletres gratuïtes o la teva, i els teus colors. El que veus a la pàgina és el que surt al vídeo.
-- **B-roll i stickers.** Fitxers teus, o generats amb la intel·ligència artificial d'imatge o vídeo que tinguis connectada a Claude. El b-roll pot tapar tota la pantalla o sortir en una targeta arrodonida, en una finestra petita, com una foto, amb la pantalla partida o en tres targetes seguides.
-- **Canvies l'ordre** dels paràgrafs arrossegant-los.
-- **Títol del ganxo.** Un text dissenyat per als primers segons («#3 canvis / **ser creadora** / nivell fàcil»), que pots escriure tu o et proposa Claude, amb el seu estil: en esglaó, com un rètol, a màquina d'escriure amb el fons enfosquit…
-- **Gràfics que expliquen el que dius.** Frases clau, un marcador fluorescent, el «no és X, és Y» ratllat, llistes, xifres que compten i cercles de progrés, comentaris i publicacions que respons, notes del mòbil, xats, el marc d'una càmera que grava, l'abans i després, fotos en ventall o en carrusel i la crida final («segueix-me»). Tot amb els teus colors i lletres.
-- **Claude te'ls proposa i tu els votes.** A **Vesteix**, totes les peces del vídeo surten en un tauler, cadascuna movent-se tal com quedarà. Hi dius **Sí**, **Potser** o **No** (amb una nota, si vols) i Claude en fa una ronda nova, fins que t'agradi. Hi pots afegir stickers i b-roll teus, i els stickers els arrossegues on vulguis.
-- **Un estil per a tot el vídeo d'un sol toc** (subtítols, títol, gràfics i b-roll: Net, Revista, Pop, Suau, Impacte o Apilat). Cada vídeo té el seu estil, i **⌘Z** ho desfà tot.
-- **Vídeo horitzontal.** Si graves en horitzontal, el pots retallar (se'n queda el centre) o posar-lo sencer, amb el mateix vídeo difuminat a dalt i a baix.
-- **Els teus colors i lletres.** Els tries a la pàgina en 2 passos (o, si vols, Claude te'ls pregunta al xat, a partir d'un reel que t'hauria agradat fer), i els subtítols, el títol, els gràfics i el b-roll els fan servir sols.
-- **Uns quants estils.** Desa el teu estil (lletra, colors, animacions, durada del b-roll…) amb un nom, fes-ne uns quants per a tipus de vídeo diferents, tria'n un per a cada vídeo i passa'l a qui vulguis en un `.zip`.
-- **Recorda el teu gust.** Si dius a Claude «els subtítols, més grans» o «no em treguis mai els *vale*», et pregunta si és per sempre i ho aplica a tots els vídeos següents. Per veure les teves regles, pregunta-li «quines regles tinc?».
-- **Exporta** un esborrany ràpid, la versió final en 1080 o 4K vertical, o un projecte per acabar-lo a Premiere, Final Cut, DaVinci Resolve o CapCut.
-
-![Vesteix: a l'esquerra el que val per a tot el vídeo; al mig, el tauler amb els gràfics que proposa Claude, cadascun amb el seu tros de vídeo i els botons Sí, Potser i No.](.github/imatges/2-vesteix.png)
-
-*A Vesteix, cada gràfic que et proposa Claude es mou tal com quedarà al vídeo. Hi dius Sí, Potser o No, i Claude en fa una ronda nova.*
-
-![Una nota per a Claude sota el vídeo, i la resposta de Claude: ha posat un zoom.](.github/imatges/3-notes.png)
-
-*Deixes notes per a Claude en un moment del vídeo. Claude les fa i et respon.*
-
-## Què necessites
-
-- **Un Mac o un Windows.** S'ha provat en un Mac amb processador Intel; en els Mac nous (M1, M2, M3…) hauria de funcionar igual, però encara no s'hi ha provat. **Windows encara està en proves:** passa les proves automàtiques en un Windows 64 bits, però encara no l'ha fet servir ningú de debò. Allà els vídeos es fan amb el processador i van més lents que al Mac.
-- **L'app de Claude**, amb un pla que inclogui Claude Code (la pestanya **Code**; el més barat és el Pro). **O bé Codex**, d'OpenAI, amb un pla de ChatGPT que l'inclogui.
-- **Uns 5 GB lliures** per a la instal·lació, i espai per als teus vídeos.
-- **Opcional:** [Descript](https://www.descript.com) connectat a Claude. Transcriu millor i conserva el farciment perquè el puguis treure tu. Sense Descript, tallat transcriu al teu ordinador amb WhisperX (més lent).
-- **Opcional:** una intel·ligència artificial d'imatge o vídeo connectada a Claude (Krea, Higgsfield, OpenArt, Adobe Firefly…), si vols que et generi el b-roll. Abans de gastar-ne crèdits, Claude sempre t'ho pregunta.
-
-## Instal·lació (sense terminal)
-
-> **Important:** tallat només funciona a la pestanya **Code** de l'app de Claude (o a Codex), al teu ordinador. Al xat normal (la pestanya **Chat**), a **Cowork** o a claude.ai al navegador, Claude treballa en un ordinador al núvol: no pot instal·lar res al teu ordinador ni baixar el model de veu, i acaba editant el vídeo pel seu compte, sense tallat.
-
-### Opció 1: com a connector de Claude
-
-A l'app de Claude, a la pestanya **Code**, escriu al xat aquestes dues línies (d'una en una):
+En la pestaña **Code** de la app de Claude, escribe:
 
 ```
-/plugin marketplace add ivetanoro/tallat
-/plugin install tallat@tallat
+/plugin marketplace add ~/code/tallat-es
+/plugin install tallat-es@tallat-es
 ```
 
-Després escriu **«instal·la tallat»**.
+Después abre una sesión nueva y escribe **«instala tallat-es»**: Claude descarga lo que hace falta (unos 2-3 GB, 10-20 minutos, todo en `~/.tallat-es`).
 
-### Opció 2: baixant la carpeta
+## Usar
 
-1. En aquesta pàgina de GitHub, clica el botó verd **Code** i després **Download ZIP**. Fes doble clic al fitxer per descomprimir-lo.
-2. A l'app de Claude, ves a la pestanya **Code** i obre la carpeta `tallat` que acabes de descomprimir. La primera vegada et pregunta si confies en aquesta carpeta: digues que sí.
-3. Escriu **«instal·la tallat»**.
+Escribe, por ejemplo: **«Edita este vídeo con tallat-es: ~/Downloads/mi-video.mov»**. Claude transcribe, te abre la página de revisión (Edita · Viste · Revisa) y te guía paso a paso.
 
-### Amb Codex (ChatGPT)
+## Dónde está cada cosa
 
-1. Baixa la carpeta com a l'opció 2 (botó **Code** → **Download ZIP**) i descomprimeix-la.
-2. Obre la carpeta `tallat` amb Codex.
-3. Escriu **«instal·la tallat»**.
+- `~/.tallat-es/`: tus estilos (`kits/`), tus reglas (`gust.json`), tu lista de muletillas (`farciment.txt`), tus sonidos y las herramientas instaladas.
+- La carpeta de cada proyecto: el vídeo, la transcripción, la edición y los exports. Siempre fuera de esta carpeta.
 
-Tot funciona igual que amb Claude. Només canvien els connectors opcionals (Descript i les IA per al b-roll): depèn de si aquests serveis en tenen per a Codex.
+## Licencia
 
-### Com tens les novetats
-
-- **Com a connector:** escriu `/plugin`, ves a **Marketplaces**, tria **tallat** i activa **Enable auto-update**. Així les versions noves t'arriben soles. Si no ho actives, de tant en tant escriu `/plugin marketplace update tallat` i obre una sessió nova.
-- **Si vas baixar la carpeta** (o fas servir Codex): torna-la a baixar, posa-la al lloc de l'antiga i escriu **«instal·la tallat»**. No perds res: les eines, els teus estils i els projectes són fora de la carpeta (a `~/.tallat` i on els tinguis), i la instal·lació només refà el que falta.
-
-### Què fa la instal·lació
-
-Claude baixa i prepara tot el que tallat necessita: ffmpeg (per treballar el vídeo), Python i WhisperX (per transcriure), el model de veu català de Softcatalà, i HyperFrames (per dibuixar els subtítols). Són uns 2-3 GB i 10-20 minuts la primera vegada. Tot va a una carpeta teva, `~/.tallat` (a Windows, `.tallat` dins de la teva carpeta d'usuari), i no et demana mai la contrasenya del Mac. Tu només has de clicar **«Permet»** quan Claude et demani permís per fer alguna cosa.
-
-## Com es fa servir
-
-1. Digues a Claude **«edita aquest vídeo»** i arrossega-hi el vídeo (o escriu on és). Claude el transcriu i t'obre la pàgina de revisió al navegador.
-2. Retalla'l a la pàgina, a **Edita** (la primera de les tres estacions de dalt a l'esquerra: **Edita · Vesteix · Revisa**):
-
-   | Per… | Fes… |
-   |---|---|
-   | escoltar des d'una paraula | clic a la paraula |
-   | treure o recuperar paraules | selecciona-les com en un document (arrossegant, doble clic, ⇧ + clic) i prem ⌫ |
-   | destacar una paraula als subtítols (o deixar de destacar-la) | marca-la (un clic) i prem ⌘B, o **Destaca** a la barreta que surt a sobre |
-   | corregir com s'escriu una paraula | marca-la i prem ↩ (o **Corregeix**, a la barreta); ↩ desa, Esc ho deixa |
-   | canviar l'ordre d'un paràgraf | arrossega'l per la nansa ⠿ de l'esquerra |
-   | desfer / refer | ⌘Z / ⇧⌘Z |
-   | reproduir o aturar | espai |
-   | deixar una nota per a Claude en aquest moment del vídeo | N (o escriu a sota del vídeo) |
-   | amagar la columna de l'esquerra o la del vídeo | ⌃⌘S / ⌥⌘V |
-
-   A la columna de l'esquerra d'**Edita** hi ha **Per revisar** (les instruccions de veu i les paraules que tallat et proposa treure) i el **Ritme** (com de curts vols els silencis).
-3. Ves a **Vesteix** (a dalt a l'esquerra): és on tries com es veu. A l'esquerra, **Tot el vídeo**: l'**Estil** (sis maneres de vestir tot el vídeo d'un sol toc: subtítols, títol, gràfics i b-roll), els **Subtítols** i el **Títol del ganxo** (es retoquen a la dreta), els teus **Colors i lletres** (valen per a tots els vídeos), **Com surt el b-roll** i **La veu i els efectes**. Si el vídeo és horitzontal, també **Vídeo horitzontal**: retallat o sencer, amb el fons difuminat. El que canvies és només d'aquest vídeo; si t'agrada, **Fes-lo servir en tots els vídeos**.
-4. Al mig de **Vesteix** hi ha el **tauler**, amb totes les peces del vídeo per ordre: gràfics, b-roll, stickers, zooms i sons. Toca **Demana propostes a Claude** (o digues-li **«proposa'm gràfics»** al xat) i te'n proposa amb els colors i les lletres del teu estil. Passa per sobre d'una targeta i es mou com quedarà (amb l'altaveu, sona). A cada una digues **Sí**, **Potser** o **No**, i si vols deixa-hi una **nota** («més curta», «més avall»). Quan acabis, toca **Demana la ronda següent**: Claude canvia les que no t'han convençut i en proposa de noves (surten amb l'etiqueta **Nova**). Amb **+ Afegeix** hi poses un sticker, una imatge o un vídeo teu; els stickers els pots arrossegar dins de la targeta, on vulguis que surtin. Quan ho tinguis, **Ja està: mira'l sencer** en fa un esborrany i te'l porta a **Revisa**.
-5. Clica **Exporta** (a dalt) → **Esborrany** i mira'l. El que vulguis canviar, digues-ho a Claude amb el segon, que veus sota el vídeo: «al segon 12, el b-roll és massa llarg». O deixa-li una **nota**: a sota del vídeo, atura'l on vulguis i escriu què vols (o prem **N**). Quan acabis, toca **Envia a Claude**: les fa i et respon a sota de cada nota. Si la pàgina diu «No connectat», escriu-li al xat «mira les meves notes».
-6. Per a les revisions finals, toca **Revisa** (a dalt). Hi veus l'esborrany gran i hi deixes notes, cada una amb la miniatura del seu moment. Envia-les a Claude: les fa i en treu una **versió nova**, que surt sola a Revisa. Així fins que t'agradi.
-7. Quan t'agradi, **Exporta** → **Vídeo final** (1080 o 4K). O, si el vols acabar en un altre editor, **Per acabar-lo en un altre editor**: Premiere, Final Cut o DaVinci, o CapCut o iMovie. Els vídeos que ja has fet també surten a **Exporta**.
-
-En qualsevol moment pots demanar canvis a Claude amb paraules: «treu la primera frase», «fes-me tres reels d'aquesta gravació», «posa-hi un sticker d'una estrella quan dic *genial*».
-
-## Instruccions de veu
-
-Mentre graves, comença la frase amb «Claude» (o amb «tallat», si fas servir Codex o un altre assistent) i digues què vols:
-
-| Dius | Què passa |
-|---|---|
-| «Claude, torno a començar» o «tallat, torno a començar» | La presa bona comença aquí: es treu l'intent d'abans. |
-| «Claude, zoom aquí» | El tros que ve s'apropa una mica. |
-| «Claude, aquí un b-roll d'un vinil girant» | Queda apuntat a la pàgina perquè hi posis (o generis) aquella imatge. |
-| «Claude, sticker d'un cor» | Igual, amb un sticker. |
-
-Les instruccions es treuen soles del vídeo, i a la pàgina decideixes si les acceptes. Amb «tallat» només compten les ordres d'aquesta taula: si dius «un tallat amb llet», no passa res.
-
-**Consell:** fes una petita pausa abans de «Claude» i digues l'ordre d'una tirada. Si te n'oblides i dius només «sticker d'un cor» o «tallem aquí», tallat també ho troba, però com a dubte: no en treu res fins que a la pàgina hi dius que sí.
-
-## On es guarda cada cosa
-
-- **Els teus vídeos i projectes**, on tu diguis, mai dins de la carpeta de tallat.
-- **`~/.tallat/`**, la teva configuració: els teus estils, amb les seves lletres (`kits/`), les regles del teu gust (`gust.json`), la llista de farciment (`farciment.txt`), les biblioteques de b-roll i stickers (`broll/`, `stickers/`) i les eines que s'han instal·lat.
-
-## Privacitat
-
-- Tot es fa al teu ordinador. La pàgina de revisió només es pot obrir des del teu ordinador.
-- Si fas servir Descript, l'àudio es puja al teu compte de Descript per transcriure'l.
-- Si generes b-roll amb intel·ligència artificial, la descripció de la imatge va a aquell servei i gasta crèdits del teu compte.
-
-## Si alguna cosa falla
-
-- Si Claude et diu que «en aquest entorn» no pot baixar el model de veu, que «els servidors estan bloquejats» o et pregunta quina edició vols com si no conegués tallat: estàs al xat normal o a Cowork. Ves a la pestanya **Code** de l'app de Claude i torna-hi a començar (vegeu la instal·lació).
-- Digues a Claude **«comprova tallat»**. Revisa cada peça i et diu què falta.
-- Pots tornar a demanar **«instal·la tallat»** tantes vegades com vulguis: no toca res teu (vídeos, projectes ni configuració), només fa el que falta o el que ha quedat a mitges.
-
-## Per a qui vulgui tocar el codi
-
-- `motor/`: el programa (Python): transcripció, talls, subtítols, export.
-- `pagina/`: la pàgina de revisió (HTML, CSS i JavaScript, sense dependències).
-- `skills/tallat/SKILL.md`: les instruccions que segueix Claude.
-- `config/`: els valors per defecte, neutres (estil, estils de subtítols, farciment, emojis).
-- `proves/`: les proves (`.venv/bin/python -m unittest discover -s proves -t .`).
-- `prepara.sh`: l'instal·lador (a Windows, `prepara.ps1`). `tallat.py comprova`: la revisió de l'equip.
-
-Les regles del projecte són a [CLAUDE.md](CLAUDE.md): tot en català, marca neutra per defecte, cap vídeo dins del repositori i codi escrit de zero.
-
-## Llicència i agraïments
-
-tallat és de codi obert. Copyright © 2026 Ivet Anoro, amb llicència [GNU AGPL v3](LICENSE) (o qualsevol versió posterior). Vol dir:
-
-- Tothom el pot fer servir, estudiar, modificar i compartir, també per guanyar diners amb els vídeos que en surtin.
-- Qui en reparteixi una versió modificada, o l'ofereixi com a servei per internet, n'ha de publicar el codi amb aquesta mateixa llicència. Ningú no pot fer-ne una versió tancada.
-- **Els vídeos que facis amb tallat són teus.** La llicència només afecta el codi de tallat.
-
-Fa servir, sense incloure'ls (s'instal·len a part, cadascun amb la seva llicència):
-
-- [WhisperX](https://github.com/m-bain/whisperX) (BSD-2) i el model [wav2vec2-large-xlsr-catala](https://huggingface.co/softcatala/wav2vec2-large-xlsr-catala) de Softcatalà (Apache 2.0), per saber quan es diu cada paraula; [Whisper large-v3](https://huggingface.co/Systran/faster-whisper-large-v3) (MIT) per transcriure sense Descript.
-- [ffmpeg](https://ffmpeg.org) (de conda-forge) per treballar el vídeo.
-- [HyperFrames](https://github.com/heygen-com/hyperframes) (Apache 2.0) i [GSAP](https://gsap.com) per dibuixar els subtítols i els stickers.
-- [uv](https://github.com/astral-sh/uv) i [micromamba](https://github.com/mamba-org/mamba) per instal·lar-ho tot.
-
-Algunes idees venen del catàleg d'estils de subtítols de HyperFrames i de l'editor [cooked.](https://github.com/nextwork-projects/ai-video-editor-cooked), sense copiar-ne codi.
+GNU AGPL v3 o posterior (archivo `LICENSE`). Original: © Ivet Anoro. Modificaciones de esta copia: ver `AVISO.md`.

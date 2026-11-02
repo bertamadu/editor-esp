@@ -1,6 +1,6 @@
 {
-  "_info": "Estils de subtítols predefinits (neutres). A la pàgina de revisió se'n tria un i després es pot ajustar. No canvien ni la lletra ni la posició.",
-  "_comu": "Valors de partida de tots els estils (cada estil hi posa els seus a sobre): així, triar-ne un no deixa a mitges la disposició d'un altre.",
+  "_info": "Estilos de subtítulos predefinidos (neutros). En la página de revisión se elige uno y después se puede ajustar. No cambian ni la letra ni la posición.",
+  "_comu": "Valores de partida de todos los estilos (cada estilo pone los suyos encima): así, elegir uno no deja a medias la disposición de otro.",
   "comu": {
     "disposicio": "linia",
     "alineacio": "centre",
@@ -16,8 +16,8 @@
   "estils": [
     {
       "id": "classic",
-      "nom": "Clàssic",
-      "descripcio": "Dues o tres paraules, la que sona en groc",
+      "nom": "Clásico",
+      "descripcio": "Dos o tres palabras, la que suena en amarillo",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,
@@ -42,8 +42,8 @@
     },
     {
       "id": "apilat",
-      "nom": "Apilat",
-      "descripcio": "Les línies s'apilen i les paraules importants surten enormes",
+      "nom": "Apilado",
+      "descripcio": "Las líneas se apilan y las palabras importantes salen enormes",
       "valors": {
         "destaca": false,
         "destacat": "color",
@@ -78,8 +78,8 @@
     },
     {
       "id": "escampat",
-      "nom": "Escampat",
-      "descripcio": "Les paraules surten en llocs i mides diferents, com un collage",
+      "nom": "Esparcido",
+      "descripcio": "Las palabras salen en sitios y tamaños diferentes, como un collage",
       "valors": {
         "destaca": false,
         "destacat": "color",
@@ -114,8 +114,8 @@
     },
     {
       "id": "esglao",
-      "nom": "Esglaó",
-      "descripcio": "Una línia a l'esquerra i la següent a la dreta, amb la clau gegant",
+      "nom": "Escalón",
+      "descripcio": "Una línea a la izquierda y la siguiente a la derecha, con la clave gigante",
       "valors": {
         "destaca": false,
         "destacat": "color",
@@ -150,8 +150,8 @@
     },
     {
       "id": "retol",
-      "nom": "Rètol",
-      "descripcio": "Tota la frase de cop, en rosa amb un contorn fosc, al mig",
+      "nom": "Rótulo",
+      "descripcio": "Toda la frase de golpe, en rosa con un contorno oscuro, en medio",
       "valors": {
         "destaca": false,
         "destacat": "color",
@@ -181,7 +181,7 @@
     {
       "id": "titular",
       "nom": "Titular",
-      "descripcio": "Paraula a paraula, grans i juntes, una sota l'altra",
+      "descripcio": "Palabra a palabra, grandes y juntas, una debajo de otra",
       "valors": {
         "destaca": false,
         "destacat": "color",
@@ -214,8 +214,8 @@
     },
     {
       "id": "net",
-      "nom": "Net",
-      "descripcio": "Blanc amb ombra, sense contorn ni color",
+      "nom": "Limpio",
+      "descripcio": "Blanco con sombra, sin contorno ni color",
       "valors": {
         "paraules_per_linia": 4,
         "lletres_per_linia": 22,
@@ -240,8 +240,8 @@
     },
     {
       "id": "una",
-      "nom": "Una paraula",
-      "descripcio": "Una sola paraula gran, en majúscules",
+      "nom": "Una palabra",
+      "descripcio": "Una sola palabra grande, en mayúsculas",
       "valors": {
         "paraules_per_linia": 1,
         "lletres_per_linia": 30,
@@ -267,7 +267,7 @@
     {
       "id": "frase",
       "nom": "Frase",
-      "descripcio": "Tota la frase en dues línies, la que sona destacada",
+      "descripcio": "Toda la frase en dos líneas, la que suena destacada",
       "valors": {
         "paraules_per_linia": 7,
         "lletres_per_linia": 34,
@@ -292,8 +292,8 @@
     },
     {
       "id": "caixa",
-      "nom": "Caixa",
-      "descripcio": "Una caixa de color darrere la paraula que sona",
+      "nom": "Caja",
+      "descripcio": "Una caja de color detrás de la palabra que suena",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,
@@ -319,7 +319,7 @@
     {
       "id": "karaoke",
       "nom": "Karaoke",
-      "descripcio": "Una píndola fosca, i les paraules es van pintant",
+      "descripcio": "Una píldora oscura, y las palabras se van pintando",
       "valors": {
         "paraules_per_linia": 5,
         "lletres_per_linia": 26,
@@ -344,8 +344,8 @@
     },
     {
       "id": "impacte",
-      "nom": "Impacte",
-      "descripcio": "Una paraula gegant a cada cop, que entra de costat",
+      "nom": "Impacto",
+      "descripcio": "Una palabra gigante cada vez, que entra de lado",
       "valors": {
         "paraules_per_linia": 1,
         "lletres_per_linia": 30,
@@ -370,8 +370,8 @@
     },
     {
       "id": "elegant",
-      "nom": "Elegant",
-      "descripcio": "La línia entra fina i es fa gruixuda",
+      "nom": "Elegante",
+      "descripcio": "La línea entra fina y se hace gruesa",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 20,
@@ -397,7 +397,7 @@
     {
       "id": "cortina",
       "nom": "Cortina",
-      "descripcio": "Cada paraula es destapa d'esquerra a dreta",
+      "descripcio": "Cada palabra se destapa de izquierda a derecha",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,
@@ -423,7 +423,7 @@
     {
       "id": "revista",
       "nom": "Revista",
-      "descripcio": "Frase sencera amb la paraula clau gran i de color",
+      "descripcio": "Frase entera con la palabra clave grande y de color",
       "valors": {
         "paraules_per_linia": 7,
         "lletres_per_linia": 34,
@@ -448,8 +448,8 @@
     },
     {
       "id": "neo",
-      "nom": "Neó",
-      "descripcio": "Lletres que brillen com un rètol de neó",
+      "nom": "Neón",
+      "descripcio": "Letras que brillan como un rótulo de neón",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,
@@ -474,8 +474,8 @@
     },
     {
       "id": "degradat",
-      "nom": "Degradat",
-      "descripcio": "Del blanc al color, i la que sona es fa gran",
+      "nom": "Degradado",
+      "descripcio": "Del blanco al color, y la que suena se hace grande",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,
@@ -501,7 +501,7 @@
     {
       "id": "emojis",
       "nom": "Emojis",
-      "descripcio": "Com el clàssic, amb emojis a algunes paraules",
+      "descripcio": "Como el clásico, con emojis en algunas palabras",
       "valors": {
         "paraules_per_linia": 3,
         "lletres_per_linia": 18,

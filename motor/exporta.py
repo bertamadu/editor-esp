@@ -24,7 +24,7 @@ QUALITATS = {
     "4k": (2160, 3840, "45M"),
 }
 # La carpeta on la persona vol els vídeos. TALLAT_PREFERENCIES en fa servir unes altres (les proves).
-PREFERENCIES = Path(os.environ.get("TALLAT_PREFERENCIES") or Path.home() / ".tallat" / "preferencies.json")
+PREFERENCIES = Path(os.environ.get("TALLAT_PREFERENCIES") or Path.home() / ".tallat-es" / "preferencies.json")
 FOS_AUDIO = 0.01  # segons de fos a cada tall, perquè no se sentin clics
 ZOOM = 1.15       # apropament dels trossos amb zoom (instrucció de veu «Claude, zoom aquí»)
 # Cada tros és una entrada d'ffmpeg, i cada entrada guarda uns quants fotogrames a la memòria: amb el
@@ -355,7 +355,7 @@ def _executa(ordre: list[str], durada: float, progres) -> None:
         proces.wait()
         fil.join()
     if proces.returncode != 0:
-        raise RuntimeError("ffmpeg ha fallat:\n" + "".join(errors)[-2000:])
+        raise RuntimeError("ffmpeg ha fallado:\n" + "".join(errors)[-2000:])
 
 
 def exporta(video: Path, trams: list[tuple[float, float]], sortida: Path, qualitat: str,
@@ -368,7 +368,7 @@ def exporta(video: Path, trams: list[tuple[float, float]], sortida: Path, qualit
     `blocs`: els blocs de color dels gràfics (Projecte.blocs) o None; `encaix`: com hi entra un vídeo
     horitzontal (_enquadrament)."""
     if not trams:
-        raise ValueError("No queda cap paraula: no hi ha res per exportar.")
+        raise ValueError("No queda ninguna palabra: no hay nada que exportar.")
     ow, oh, bitrate = QUALITATS[qualitat]
     info = info_video(video)
     enquadrament = _enquadrament(info["amplada"], info["alcada"], ow, oh, encaix)
@@ -414,10 +414,10 @@ def comprova_durades(fitxer: Path, esperada: float, fps: str) -> str | None:
         return None
     marge = 2 / float(Fraction(fps))  # dos fotogrames
     if abs(v - a) > marge:
-        return (f"Al vídeo exportat, la imatge dura {v:.2f} s i el so {a:.2f} s: pot ser que el so vagi "
-                "una mica desplaçat. Mira-ho abans de publicar-lo.")
+        return (f"En el vídeo exportado, la imagen dura {v:.2f} s y el sonido {a:.2f} s: puede que el sonido vaya "
+                "un poco desplazado. Míralo antes de publicarlo.")
     if abs(v - esperada) > max(marge, 0.1):
-        return f"El vídeo exportat dura {v:.2f} s i el muntatge {esperada:.2f} s: mira'l abans de publicar-lo."
+        return f"El vídeo exportado dura {v:.2f} s y el montaje {esperada:.2f} s: míralo antes de publicarlo."
     return None
 
 
@@ -545,7 +545,7 @@ def fes_previa(proxy: Path, trams: list[tuple[float, float]], sortida: Path, tro
     d'un canvi, només es fan els trossos nous, i tot plegat s'encadena sense tornar a comprimir la imatge.
     El so dels trossos va sense comprimir i es comprimeix un sol cop al final (no hi ha petits salts)."""
     if not trams:
-        raise ValueError("No queda cap paraula")
+        raise ValueError("No queda ninguna palabra")
     info = info_video(proxy)
     trossos = trossos or sortida.parent / "trossos"
     trossos.mkdir(parents=True, exist_ok=True)
@@ -577,7 +577,7 @@ def fes_previa(proxy: Path, trams: list[tuple[float, float]], sortida: Path, tro
     try:
         r = subprocess.run(ordre, capture_output=True, text=True, encoding="utf-8", errors="replace")
         if r.returncode != 0:
-            raise RuntimeError("ffmpeg no ha pogut fer la previsualització:\n" + r.stderr[-1500:])
+            raise RuntimeError("ffmpeg no ha podido hacer la previsualización:\n" + r.stderr[-1500:])
         temporal.replace(sortida)
     finally:
         temporal.unlink(missing_ok=True)
@@ -615,7 +615,7 @@ def _fes_trossos(proxy: Path, feina: list, info: dict) -> None:
         try:
             r = subprocess.run(ordre, capture_output=True, text=True, encoding="utf-8", errors="replace")
             if r.returncode != 0:
-                raise RuntimeError("ffmpeg no ha pogut fer la previsualització:\n" + r.stderr[-1500:])
+                raise RuntimeError("ffmpeg no ha podido hacer la previsualización:\n" + r.stderr[-1500:])
             for temporal, nom in sortides:
                 temporal.replace(nom)
         finally:

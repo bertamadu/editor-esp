@@ -35,11 +35,11 @@ def _temps(s: float) -> str:
 
 def guio(paraules: list[dict]) -> str:
     """Transcripció per paràgrafs: [número · inici–final · paraules a–b] text."""
-    linies = ["# Guió per al primer muntatge (tallat)",
-              "# [P número · inici–final · paraules primera–última] text", ""]
+    linies = ["# Guion para el primer montaje (tallat-es)",
+              "# [P número · inicio–final · palabras primera–última] texto", ""]
     for n, g in enumerate(edicio.paragrafs(paraules)):
         linies.append(f"[P{n} · {_temps(g[0]['inici'])}–{_temps(g[-1]['final'])} · "
-                      f"paraules {g[0]['id']}–{g[-1]['id']}] " + " ".join(p["text"] for p in g))
+                      f"palabras {g[0]['id']}–{g[-1]['id']}] " + " ".join(p["text"] for p in g))
     return "\n".join(linies) + "\n"
 
 
@@ -55,7 +55,7 @@ def llegeix_reels(carpeta: Path, paraules: list[dict]) -> tuple[list[dict], list
     try:
         dades = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        return [], [f"reels.json no és JSON vàlid: {e}"]
+        return [], [f"reels.json no es JSON válido: {e}"]
     n = len(paraules)
     reels, errors, vistos = [], [], set()
     for i, r in enumerate(dades.get("reels", [])):
@@ -68,20 +68,20 @@ def llegeix_reels(carpeta: Path, paraules: list[dict]) -> tuple[list[dict], list
             try:
                 a, b = int(rang[0]), int(rang[1])
             except (TypeError, ValueError, IndexError):
-                errors.append(f"{rid}: tros no vàlid {rang!r}")
+                errors.append(f"{rid}: trozo no válido {rang!r}")
                 continue
             if not (0 <= a <= b < n):
-                errors.append(f"{rid}: el tros {a}–{b} surt de la transcripció (0–{n - 1})")
+                errors.append(f"{rid}: el trozo {a}–{b} sale de la transcripción (0–{n - 1})")
                 continue
             repetides = fets.intersection(range(a, b + 1))
             if repetides:
-                errors.append(f"{rid}: el tros {a}–{b} repeteix paraules d'un altre tros "
-                              f"({min(repetides)}–{max(repetides)}); cada paraula només pot sonar una vegada")
+                errors.append(f"{rid}: el trozo {a}–{b} repite palabras de otro trozo "
+                              f"({min(repetides)}–{max(repetides)}); cada palabra solo puede sonar una vez")
                 continue
             fets.update(range(a, b + 1))
             rangs.append((a, b))
         if not rangs:
-            errors.append(f"{rid}: no té cap tros de paraules")
+            errors.append(f"{rid}: no tiene ningún trozo de palabras")
             continue
         reels.append({"id": rid, "titol": r.get("titol", rid), "ganxo": r.get("ganxo", ""),
                       "per_que": r.get("per_que", ""), "paraules": rangs})  # l'ordre és el del muntatge
