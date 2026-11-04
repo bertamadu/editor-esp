@@ -298,6 +298,7 @@ function aplicaTrams(r) {
   if (vista === "directe") { pintaMarques(trams, acum, duradaFinal); recolloca(); }
   if (notesCarregades) pintaNotes();
   pintaVesteix();
+  if (typeof trossosNousLinia === "function") trossosNousLinia();  // la línia de temps (linia.js)
 }
 
 // --- Transcripció ---------------------------------------------------------------------
@@ -1441,6 +1442,7 @@ function bucle() {
   sonaEfectes();
   pintaMarcCapa();
   pintaCarrega();
+  if (typeof mouCapcalLinia === "function") mouCapcalLinia();
   R.v.classList.toggle("zoom", vista === "directe" && !!zoomsTram[Math.min(R.k, trams.length - 1)]);
 }
 
@@ -2779,6 +2781,7 @@ function canviaVista(nova) {
   else if (esborrany) pintaMarques(esborrany.trams || [], esborrany.acum || [], esborrany.durada);
   pintaMarquesNotes();
   pintaTemps();
+  if (typeof pintaLinia === "function") pintaLinia();  // a l'esborrany, la línia de temps no és la seva
 }
 
 async function carregaVersio(nom, aTemps = 0) {

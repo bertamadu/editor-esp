@@ -619,6 +619,8 @@
           <svg viewBox="0 0 20 20"><path d="m12.5 5 4 4-4 4M16 9H8.5a4.5 4.5 0 0 0 0 9H11"/></svg>
         </button>
       </div>
+      <button class="boto" id="commuta-linia" aria-pressed="false" aria-controls="linia"
+              title="Los trozos del vídeo en una pista, para retocarlos a mano">Línea de tiempo</button>
       <div class="espai"></div>
       <div class="feina" id="feina" hidden>
         <span id="feina-text">Montando…</span>
@@ -643,6 +645,42 @@
       <button id="b-corregeix" aria-pressed="false">Corrige <kbd></kbd></button>
       <button id="b-treu"><span id="b-treu-text">Quita</span> <kbd>⌫</kbd></button>
     </div>
+
+    <!-- La línia de temps (linia.js): els trossos del muntatge en una pista, per retocar-los a mà. -->
+    <section class="linia" id="linia" aria-label="Línea de tiempo" hidden>
+      <div class="linia-eines">
+        <button class="boto" id="l-parteix" title="Parte el trozo donde está el cursor (S)">Parte</button>
+        <button class="boto" id="l-treu" title="Quita lo que has marcado (⌫)" disabled>Quita</button>
+        <label class="l-control" id="l-control-tros" hidden title="El volumen de este trozo">
+          <span>Volumen del trozo</span>
+          <input type="range" id="l-volum-tros" min="-20" max="12" step="1">
+          <span class="valor" id="l-volum-tros-text"></span>
+        </label>
+        <div class="espai"></div>
+        <label class="l-control" title="El volumen de toda la voz">
+          <span>Voz</span>
+          <input type="range" id="l-volum-veu" min="-20" max="12" step="1">
+          <span class="valor" id="l-volum-veu-text"></span>
+        </label>
+        <label class="l-control" title="Acércate para ver cada fotograma (también con ⌘ y la rueda)">
+          <span>Zoom</span>
+          <input type="range" id="l-zoom" min="0" max="1" step="0.01" value="0">
+        </label>
+        <button class="icona" id="l-tanca" title="Cierra la línea de tiempo" aria-label="Cierra la línea de tiempo">
+          <svg viewBox="0 0 20 20"><path d="m5.5 5.5 9 9m0-9-9 9"/></svg>
+        </button>
+      </div>
+      <div class="linia-scroll" id="l-scroll" tabindex="0" aria-label="Pista del vídeo">
+        <div class="linia-contingut" id="l-contingut">
+          <canvas id="l-canvas" aria-hidden="true"></canvas>
+          <div class="l-pistes" id="l-pistes"></div>
+          <div class="l-video" id="l-video"></div>
+          <div class="l-capcal" id="l-capcal" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p class="detall l-ajuda" id="l-ajuda">Arrastra los bordes de un trozo para alargarlo o acortarlo. Arrastra dentro de un trozo para marcar un pedazo y quitarlo. Lo rayado son silencios: tócalos para marcarlos.
+        <button class="enllac" id="l-oblida" hidden>Quita todos los retoques a mano</button></p>
+    </section>
   </main>
 
   <section class="reproductor" aria-label="Reproductor">
@@ -1021,5 +1059,6 @@
   <script src="/pagina/subtitols.js"></script>
   <script src="/pagina/grafics.js"></script>
   <script src="/pagina/app.js"></script>
+  <script src="/pagina/linia.js"></script>
 </body>
 </html>

@@ -122,6 +122,7 @@ La marca dice cómo son los vídeos de la persona: sus colores y letras (cada un
    - `paraules` son trozos de ids **incluidos los extremos**, **en el orden en que tienen que sonar**. Puedes cambiar el orden de la grabación si el reel lo pide.
 4. Ejecuta `reels` para validarlo y ver su duración. Corrige los errores que salgan.
    - En la página de revisión, la persona también puede cambiar el orden de los párrafos arrastrándolos por el asa ⠿ (se guarda en `edicio.json` → `ordre`, igual que el de un reel).
+   - Con **Línea de tiempo** (arriba, en Edita) la persona ve los trozos del montaje en una pista, como en CapCut: alarga o acorta un trozo arrastrando sus bordes (por fotogramas), lo parte en el cursor (S), quita un trozo, un silencio o un pedazo marcado (⌫), cambia el volumen de un trozo o de toda la voz y mueve los gráficos en el tiempo. Se guarda en `edicio.json` en segundos de la grabación (`talls_manuals`, `afegits_manuals`, `partits`, `volums`, `volum_veu`) y lo respetan la vista previa, el borrador y el export. No los borres al tocar la edición: si cambias palabras, siguen valiendo.
 5. La persona los ve en la página de revisión (en el desplegable de la columna izquierda) y elige uno, que se abre ya montado. También se puede crear con `reel ID`.
 
 ### Criterios para elegir
