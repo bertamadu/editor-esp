@@ -165,3 +165,30 @@ def inici_de_la_veu(veu: np.ndarray, despres_de: float, fins_a: float) -> float 
     """Simètric: on comença de debò la veu que acaba a «fins_a» (el final de l'últim silenci)."""
     trossos = _trossos_de_silenci(veu, despres_de, fins_a)
     return trossos[-1][1] if trossos else None
+
+
+def forma_d_ona(audio: np.ndarray) -> np.ndarray:
+    """La forma d'ona per a la línia de temps de la pàgina: un nivell de 0 a 255 cada 10 ms (com el mapa de veu).
+    És el pic de cada tros, amb una arrel quadrada perquè la veu fluixa també es vegi; 255 és el 99,5 % més fort."""
+    mida = int(SR * PAS)
+    n = len(audio) // mida
+    if not n:
+        return np.zeros(0, dtype=np.uint8)
+    pics = np.abs(audio[:n * mida].reshape(n, mida)).max(axis=1)
+    sostre = float(np.percentile(pics, 99.5)) or 1.0
+    return (np.sqrt(np.clip(pics / sostre, 0, 1)) * 255).astype(np.uint8)
+
+
+def carrega_ona(carpeta: Path, font: Path) -> np.ndarray:
+    """La forma d'ona, desada a ona.npy (amb ona.json: de quin fitxer és). Es torna a fer si el fitxer canvia."""
+    path, path_meta = carpeta / "ona.npy", carpeta / "ona.json"
+    identitat = _identitat(font)
+    try:
+        if json.loads(path_meta.read_text(encoding="utf-8")).get("font") == identitat and path.exists():
+            return np.load(path)
+    except (OSError, ValueError):
+        pass
+    ona = forma_d_ona(llegeix_audio(font))
+    np.save(path, ona)
+    path_meta.write_text(json.dumps({"font": identitat}, ensure_ascii=False), encoding="utf-8")
+    return ona

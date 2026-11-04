@@ -24,7 +24,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from motor import broll, edicio, editors, entorn, exporta, grafics, marca, muntatge, notes, so, stickers, targetes
-from motor.projecte import EXPORTS, PREVIES, Projecte
+from motor.projecte import EXPORTS, MINIATURES_LINIA, PREVIES, Projecte
 
 PAGINA = Path(__file__).resolve().parent.parent / "pagina"
 MIDA_MAXIMA_FONT = 20 * 1024 * 1024  # una font no passa mai d'uns quants MB
@@ -519,6 +519,14 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
                         **info_marca(),
                         **info_reels(),
                         **instantania()})
+            if ruta == "/api/linia":  # la forma d'ona, el mapa de veu i les miniatures de la línia de temps
+                try:
+                    return self._json(projecte.linia_de_temps())
+                except Exception as e:  # sense so o sense vídeo: la línia de temps es fa sense
+                    traceback.print_exc()
+                    return self._json({"error": str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            if ruta == "/linia/" + MINIATURES_LINIA:
+                return self._fitxer(projecte.arrel / MINIATURES_LINIA)
             if ruta == "/api/feina":
                 return self._json({"feina": feina.info(), "exports": projecte.exports(), **info_carpeta(projecte)})
             if ruta == "/api/novetats":  # la pàgina hi pregunta sovint: hi ha canvis fets des del xat?

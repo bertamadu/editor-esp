@@ -10,14 +10,19 @@
 """
 from __future__ import annotations
 
+import base64
 import bisect
 import hashlib
 import json
+import math
 import os
+import subprocess
 import time
 from collections import Counter
 from fractions import Fraction
 from pathlib import Path
+
+import numpy as np
 
 from motor import broll, edicio, entorn, exporta, grafics, instruccions, marca, neteja, so, stickers, subtitols, targetes
 
@@ -30,6 +35,8 @@ PROXY = "proxy.mp4"
 # Una còpia lleugera per a cada manera d'enquadrar un vídeo horitzontal (motor/exporta.py, ENCAIXOS): cadascuna amb el
 # seu nom, i així no es barregen (ni entre els reels d'una gravació, que les comparteixen).
 PROXIES = {"retalla": PROXY, "difumina": "proxy-difumina.mp4"}
+MINIATURES_LINIA = "miniatures-linia.jpg"  # els fotogrames de la línia de temps (Projecte.miniatures_linia)
+MAXIM_MINIATURES, COLUMNES_MINIATURES, MIDA_MINIATURA = 1200, 60, (54, 96)
 PREVIES = "previa"  # el muntatge en un vídeo continu, per reproduir-lo a la pàgina sense salts
 EXPORTS = "exports"
 KIT_TRIAT = "kit-triat.json"
@@ -164,6 +171,50 @@ class Projecte:
             except Exception:  # sense el vídeo o sense so: escurcem els silencis com abans
                 self._veu = None
         return self._veu
+
+    def linia_de_temps(self) -> dict:
+        """El que dibuixa la línia de temps de la pàgina (en temps de la gravació): la forma d'ona i el mapa de veu,
+        un valor cada 10 ms en base64 (un byte cadascun), i la tira de miniatures."""
+        from motor import veu
+        font = self.proxy if self.proxy.exists() else self.video
+        ona = veu.carrega_ona(self.arrel, font)
+        mapa = self.veu()
+        mapa = np.zeros(0, dtype=np.uint8) if mapa is None else np.asarray(mapa, dtype=np.uint8)
+        return {"pas": veu.PAS, "ona": base64.b64encode(ona.tobytes()).decode(),
+                "veu": base64.b64encode(mapa.tobytes()).decode(), **self.miniatures_linia()}
+
+    def miniatures_linia(self) -> dict:
+        """Una imatge amb un fotograma cada `pas` segons de la gravació (com a molt MAXIM_MINIATURES), en files de
+        COLUMNES_MINIATURES, de la còpia lleugera. Es fa un cop (miniatures-linia.jpg, a la gravació sencera)."""
+        proxy = self.fitxer(PROXY)
+        if not proxy.exists():
+            return {"miniatures": None}
+        durada = self.dades["durada"]
+        pas = max(1.0, math.ceil(durada / MAXIM_MINIATURES))
+        n = max(1, math.ceil(durada / pas))
+        columnes = min(n, COLUMNES_MINIATURES)
+        files = math.ceil(n / columnes)
+        desti = self.arrel / MINIATURES_LINIA
+        meta = desti.with_suffix(".json")
+        clau = f"{proxy.stat().st_size}:{proxy.stat().st_mtime_ns}:{pas}:{MIDA_MINIATURA}"
+        try:
+            al_dia = desti.exists() and json.loads(meta.read_text(encoding="utf-8")).get("clau") == clau
+        except (OSError, ValueError):
+            al_dia = False
+        if not al_dia:
+            w, h = MIDA_MINIATURA
+            temporal = desti.with_name(f".{desti.stem}-{os.getpid()}.jpg")
+            r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(proxy), "-an",
+                                "-vf", f"fps=1/{pas},scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},"
+                                       f"tile={columnes}x{files}", "-frames:v", "1", "-q:v", "5", str(temporal)],
+                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+            if r.returncode != 0 or not temporal.exists():
+                temporal.unlink(missing_ok=True)
+                return {"miniatures": None}
+            temporal.replace(desti)
+            meta.write_text(json.dumps({"clau": clau}), encoding="utf-8")
+        return {"miniatures": {"url": f"/linia/{MINIATURES_LINIA}?v={desti.stat().st_mtime_ns}", "pas": pas,
+                               "columnes": columnes, "amplada": MIDA_MINIATURA[0], "alcada": MIDA_MINIATURA[1]}}
 
     def trams(self) -> list[tuple[float, float]]:
         """Els trossos del muntatge: els de les paraules (edicio.trams) amb els retocs fets a mà a la línia de temps."""
