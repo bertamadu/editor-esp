@@ -646,3 +646,58 @@ class TestRealinea(unittest.TestCase):
             self.assertEqual([(p["text"], p["inici"], p["frase"]) for p in dades["paraules"]],
                              [("Hola,", 0.2, 0), ("què", 1.3, 0), ("tal?", 2.2, 0)])
             self.assertEqual(len(list(d.glob("transcripcio-abans-*.json"))), 1)
+
+
+class TestRetocsAMa(unittest.TestCase):
+    """Els retocs de la línia de temps (edicio.ajusta_a_ma), en segons de la gravació."""
+
+    def trams(self):
+        return [edicio.Tram(1.0, 2.0, (1.01, 2.0)), edicio.Tram(3.0, 4.0)]
+
+    def ajusta(self, **retocs):
+        return edicio.ajusta_a_ma(self.trams(), {**edicio.estat_buit(), **retocs}, fps=10, durada=10)
+
+    def test_sense_retocs_tot_igual(self):
+        self.assertEqual(self.ajusta(), self.trams())
+
+    def test_allargar_i_escurcar_les_vores(self):
+        t = self.ajusta(afegits_manuals=[[0.5, 1.0]], talls_manuals=[[3.7, 4.0]])
+        self.assertEqual(t, [(0.5, 2.0), (3.0, 3.7)])
+        self.assertEqual(t[0].so, (0.5, 2.0))  # el so també comença abans
+
+    def test_un_afegit_que_toca_el_seguent_els_ajunta(self):
+        self.assertEqual(self.ajusta(afegits_manuals=[[2.0, 3.0]]), [(1.0, 4.0)])
+
+    def test_partir_i_treure_un_tros(self):
+        t = self.ajusta(partits=[1.5], talls_manuals=[[1.5, 2.0]])
+        self.assertEqual(t, [(1.0, 1.5), (3.0, 4.0)])
+
+    def test_treure_un_silenci_d_enmig(self):
+        t = self.ajusta(talls_manuals=[[3.2, 3.6]])
+        self.assertEqual(t, [(1.0, 2.0), (3.0, 3.2), (3.6, 4.0)])
+
+    def test_fotogrames_sencers(self):
+        self.assertEqual(self.ajusta(talls_manuals=[[3.74, 4.0]]), [(1.0, 2.0), (3.0, 3.7)])
+
+    def test_volum_per_tros_i_general(self):
+        t = self.ajusta(volums=[[3.0, 4.0, -6]], volum_veu=2)
+        self.assertEqual([edicio.guany_del_tram(x) for x in t], [2.0, -4.0])
+        self.assertEqual(edicio.trams_json(t)[1], [3.0, 4.0, 3.0, 4.0, -4.0])
+
+    def test_retocs_nets(self):
+        e = edicio.retocs_nets({"talls_manuals": [[2, 3], [1, 2.5], "x", [5, 4]], "partits": [1, "a", -1],
+                                "volums": [[1, 2, 99], [1, 2, 0]], "volum_veu": "fort"})
+        self.assertEqual(e["talls_manuals"], [[1.0, 3.0]])
+        self.assertEqual(e["partits"], [1.0])
+        self.assertEqual(e["volums"], [[1.0, 2.0, edicio.VOLUM_MAXIM]])
+        self.assertEqual(e["volum_veu"], 0.0)
+
+
+class TestVolumExport(unittest.TestCase):
+    def test_el_volum_del_tros_va_al_filtre(self):
+        self.assertIn("volume=-4.00dB", exporta._so_del_tros(0, edicio.Tram(0, 1, None, -4)))
+        self.assertNotIn("volume", exporta._so_del_tros(0, edicio.Tram(0, 1)))
+
+    def test_el_volum_general_despres_de_la_neteja(self):
+        f = exporta._filtre([(0, 1)], "scale=1080:1920:flags=lanczos", veu="loudnorm", volum=3)
+        self.assertIn("[ac]loudnorm,volume=3.00dB[aveu]", f)

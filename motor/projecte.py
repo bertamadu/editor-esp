@@ -101,6 +101,7 @@ class Projecte:
             estat["vots"] = edicio.vots_nets(estat.get("vots"))
             estat["ronda"] = edicio.ronda_neta(estat.get("ronda"))
             estat["llocs_stickers"] = edicio.llocs_stickers_nets(estat.get("llocs_stickers"))
+            edicio.retocs_nets(estat)
             estat["encaix"] = estat.get("encaix") if estat.get("encaix") in exporta.ENCAIXOS else "retalla"
             return estat
         if (self.carpeta / EDICIO_TEXT).exists():
@@ -165,10 +166,12 @@ class Projecte:
         return self._veu
 
     def trams(self) -> list[tuple[float, float]]:
-        return edicio.trams(self.paraules(), self.fps, self.dades["durada"],
-                            pausa_maxima=self.estat.get("pausa_maxima"),
-                            pauses_mantingudes=self.estat.get("pauses_mantingudes", []),
-                            ordre=self.estat.get("ordre"), veu=self.veu())
+        """Els trossos del muntatge: els de les paraules (edicio.trams) amb els retocs fets a mà a la línia de temps."""
+        trams = edicio.trams(self.paraules(), self.fps, self.dades["durada"],
+                             pausa_maxima=self.estat.get("pausa_maxima"),
+                             pauses_mantingudes=self.estat.get("pauses_mantingudes", []),
+                             ordre=self.estat.get("ordre"), veu=self.veu())
+        return edicio.ajusta_a_ma(trams, self.estat, self.fps, self.dades["durada"])
 
     def paragrafs(self) -> list[list[int]]:
         """Paràgrafs (ids) en l'ordre en què sonen; en un reel muntat, el que queda fora va al final."""
@@ -471,7 +474,8 @@ class Projecte:
 
     def opcions_so(self, trams) -> dict:
         """El que necessita l'export: la neteja de la veu i la pista d'efectes."""
-        return {"neteja": self.neteja_veu(), "efectes": self.pista_efectes(trams)}
+        return {"neteja": self.neteja_veu(), "efectes": self.pista_efectes(trams),
+                "volum": edicio.volum_net(self.estat.get("volum_veu"))}
 
     # --- Instruccions de veu ------------------------------------------------------
 
@@ -717,8 +721,8 @@ class Projecte:
         """On va (o és) el muntatge d'aquests talls en un sol vídeo (exporta.fes_previa). El nom diu els
         talls (també on comença i acaba el so de cadascun) i la còpia lleugera: si canvien, n'hi ha un altre."""
         proxy = self.proxy
-        empremta = json.dumps([[round(a, 4), round(b, 4), *(round(x, 4) for x in edicio.so_del_tram(t))]
-                               for t in trams for a, b in [t]]) + proxy.name + str(proxy.stat().st_mtime_ns)
+        empremta = json.dumps([[round(a, 4), round(b, 4), *(round(x, 4) for x in edicio.so_del_tram(t)),
+                                edicio.guany_del_tram(t)] for t in trams for a, b in [t]]) + proxy.name + str(proxy.stat().st_mtime_ns)
         return self.carpeta / PREVIES / f"{nom}_{hashlib.sha1(empremta.encode()).hexdigest()[:12]}.mp4"
 
     def font(self, qualitat: str) -> Path:

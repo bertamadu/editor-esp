@@ -1020,6 +1020,7 @@ def _estat_de_json(cos: dict) -> dict:
     estat["estil"] = marca.neteja_estil_video(estat.get("estil"))
     estat["vots"] = edicio.vots_nets(estat.get("vots"))
     estat["llocs_stickers"] = edicio.llocs_stickers_nets(estat.get("llocs_stickers"))
+    edicio.retocs_nets(estat)
     estat["encaix"] = estat.get("encaix") if estat.get("encaix") in exporta.ENCAIXOS else "retalla"
     estat["ronda"] = edicio.ronda_neta(estat.get("ronda"))
     apagats = estat.get("sons_apagats") if isinstance(estat.get("sons_apagats"), list) else []

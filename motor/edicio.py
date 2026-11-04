@@ -19,6 +19,13 @@ L'estat de l'edició es desa a `edicio.json`:
   vots         {clau: {vot, nota, nom, paraula}}  el que la persona diu al tauler de les peces que no són gràfics
                              («broll:ID», «zoom:ID», «so:ID»; vot «si» o «potser»; què és i a quina paraula
                              comença, per a Claude): els gràfics ho porten a dins
+  Els retocs fets a mà a la línia de temps (la pàgina, «Montaje»), en segons de la gravació (no del muntatge):
+  així aguanten encara que després es treguin o es recuperin paraules (ajusta_a_ma).
+  talls_manuals   [[a, b]]       trossos de la gravació que no hi han de ser (un silenci, una vora escurçada)
+  afegits_manuals [[a, b]]       trossos que s'hi han d'afegir: allarguen el tros que toquen (una vora allargada)
+  partits         [t]            on es parteix un tros en dos
+  volums          [[a, b, dB]]   el volum de cada tros (el tros que se solapa més amb [a, b])
+  volum_veu       dB             el volum de tota la veu
 """
 from __future__ import annotations
 
@@ -41,7 +48,8 @@ def estat_buit(pausa_maxima: float | None = PAUSA_MAXIMA) -> dict:
             "correccions": {}, "pausa_maxima": pausa_maxima, "pauses_mantingudes": [],
             "subtitols": True, "ordre": None, "zooms": [], "destacades": {}, "titol": None,
             "sons_apagats": [], "grafics": [], "sons": [], "estil": {}, "ronda": 0, "vots": {}, "llocs_stickers": {},
-            "encaix": "retalla"}
+            "encaix": "retalla", "talls_manuals": [], "afegits_manuals": [], "partits": [], "volums": [],
+            "volum_veu": 0.0}
 
 
 MIDA_NOTA_VOT = 600
@@ -75,6 +83,54 @@ def llocs_stickers_nets(llocs) -> dict:
         if len(sortida) >= 300:
             break
     return sortida
+
+
+MAXIM_RETOCS = 500
+VOLUM_MINIM, VOLUM_MAXIM = -30.0, 12.0  # dB
+
+
+def _segons(n) -> bool:
+    return isinstance(n, (int, float)) and not isinstance(n, bool) and math.isfinite(n)
+
+
+def volum_net(v) -> float:
+    return round(min(VOLUM_MAXIM, max(VOLUM_MINIM, float(v))), 1) if _segons(v) else 0.0
+
+
+def intervals_nets(llista) -> list[list[float]]:
+    """Trossos de la gravació [[a, b]] comprovats, en ordre i sense que se solapin (els que se solapen, junts)."""
+    bons = sorted([round(max(0.0, float(x[0])), 6), round(float(x[1]), 6)]
+                  for x in (llista if isinstance(llista, list) else [])[:MAXIM_RETOCS]
+                  if isinstance(x, (list, tuple)) and len(x) >= 2 and _segons(x[0]) and _segons(x[1]) and x[1] > x[0])
+    sortida = []
+    for a, b in bons:
+        if sortida and a <= sortida[-1][1]:
+            sortida[-1][1] = max(sortida[-1][1], b)
+        else:
+            sortida.append([a, b])
+    return sortida
+
+
+def partits_nets(llista) -> list[float]:
+    return sorted({round(float(t), 6) for t in (llista if isinstance(llista, list) else [])[:MAXIM_RETOCS]
+                   if _segons(t) and t > 0})
+
+
+def volums_nets(llista) -> list[list[float]]:
+    return [[round(float(x[0]), 6), round(float(x[1]), 6), volum_net(x[2])]
+            for x in (llista if isinstance(llista, list) else [])[:MAXIM_RETOCS]
+            if isinstance(x, (list, tuple)) and len(x) >= 3 and all(_segons(n) for n in x[:3]) and x[1] > x[0]
+            and volum_net(x[2]) != 0]
+
+
+def retocs_nets(estat: dict) -> dict:
+    """Els retocs de la línia de temps de l'estat, comprovats (també si algú ha escrit edicio.json a mà)."""
+    estat["talls_manuals"] = intervals_nets(estat.get("talls_manuals"))
+    estat["afegits_manuals"] = intervals_nets(estat.get("afegits_manuals"))
+    estat["partits"] = partits_nets(estat.get("partits"))
+    estat["volums"] = volums_nets(estat.get("volums"))
+    estat["volum_veu"] = volum_net(estat.get("volum_veu"))
+    return estat
 
 
 def ronda_neta(ronda) -> int:
@@ -231,9 +287,10 @@ class Tram(tuple):
     El vídeo no es pot tallar enmig d'un fotograma, però el so sí: així no es perd res del que es queda
     ni se sent res del que s'ha tret (el bocí de fotograma de més queda en silenci, motor/exporta.py)."""
 
-    def __new__(cls, inici: float, final: float, so: tuple[float, float] | None = None):
+    def __new__(cls, inici: float, final: float, so: tuple[float, float] | None = None, guany: float = 0.0):
         tram = super().__new__(cls, (inici, final))
         tram.so = tuple(so) if so else (inici, final)
+        tram.guany = guany  # dB: el volum d'aquest tros (els retocs de la línia de temps, ajusta_a_ma)
         return tram
 
 
@@ -242,10 +299,21 @@ def so_del_tram(tram) -> tuple[float, float]:
     return getattr(tram, "so", None) or (tram[0], tram[1])
 
 
+def guany_del_tram(tram) -> float:
+    """El volum del tros, en dB (0: com és a la gravació)."""
+    return getattr(tram, "guany", 0.0) or 0.0
+
+
+def amb_guany(tram, guany: float):
+    """El mateix tros amb un altre volum."""
+    return Tram(tram[0], tram[1], so_del_tram(tram), round(guany, 2))
+
+
 def trams_json(trams) -> list[list[float]]:
-    """Els trossos per a la pàgina: [inici, final, inici del so, final del so]. Amb el so: un canvi que només
-    toca el so (els fotogrames són els mateixos) també ha de refer la vista prèvia (revisió de Codex)."""
-    return [[t[0], t[1], *so_del_tram(t)] for t in trams]
+    """Els trossos per a la pàgina: [inici, final, inici del so, final del so] i, si no sona com a la gravació, el
+    volum (dB). Amb el so: un canvi que només toca el so (els fotogrames són els mateixos) també ha de refer la
+    vista prèvia (revisió de Codex)."""
+    return [[t[0], t[1], *so_del_tram(t), *([guany_del_tram(t)] if guany_del_tram(t) else [])] for t in trams]
 
 
 def cap_endins(trams, fps: float) -> list:
@@ -402,3 +470,66 @@ def trams(paraules: list[dict], fps: float, durada: float, marge: float = MARGE,
         ajustats.append([fa, fb, so_a, so_b, tanca_a, tanca_b])
     return [Tram(round(fa / fps, 6), round(fb / fps, 6), (round(sa, 6), round(sb, 6)))
             for fa, fb, sa, sb, _, _ in ajustats]
+
+
+def ajusta_a_ma(trams, estat: dict, fps: float, durada: float) -> list:
+    """Els trossos amb els retocs fets a mà a la línia de temps (vegeu el principi del fitxer). Tot es compta en
+    fotogrames sencers de la gravació, com trams(). Primer s'allarga cada tros amb el que s'hi ha afegit (i, si
+    ara toca el següent, s'hi ajunta), després es parteix on s'ha partit i, al final, es treu el que s'ha tret.
+    Un retoc que ja no toca cap tros (s'han tret les paraules d'aquell tros) no fa res."""
+    afegits, talls = estat.get("afegits_manuals") or [], estat.get("talls_manuals") or []
+    partits, volums = estat.get("partits") or [], estat.get("volums") or []
+    general = volum_net(estat.get("volum_veu"))
+    if not (afegits or talls or partits or volums or general):
+        return list(trams)
+    fot = lambda t: round(t * fps)  # noqa: E731 (segons → fotograma)
+    dur = math.floor(durada * fps + 1e-6)
+    # [fa, fb, so_a, so_b, tocat]: els fotogrames, el so (en segons) i si un afegit l'ha allargat
+    llista = [[fot(t[0]), fot(t[1]), *so_del_tram(t), False] for t in trams]
+    for x, y in afegits:
+        fx, fy = max(0, fot(x)), min(dur, fot(y))
+        t = next((t for t in llista if fx <= t[1] and fy >= t[0]), None)
+        if t is None or fy <= fx:
+            continue
+        if fx < t[0]:
+            t[0], t[2] = fx, fx / fps
+        if fy > t[1]:
+            t[1], t[3] = fy, fy / fps
+        t[4] = True
+    junts = []
+    for t in llista:  # un tros allargat que ara se solapa amb el següent (seguit a la gravació): un sol tros
+        if junts and (t[4] or junts[-1][4]) and junts[-1][0] <= t[0] <= junts[-1][1]:
+            junts[-1][1], junts[-1][3] = max(junts[-1][1], t[1]), max(junts[-1][3], t[3])
+            continue
+        junts.append(t)
+    for p in partits:
+        fp = fot(p)
+        for k, t in enumerate(junts):
+            if t[0] < fp < t[1]:
+                junts[k:k + 1] = [[t[0], fp, t[2], min(t[3], fp / fps), t[4]], [fp, t[1], max(t[2], fp / fps), t[3], t[4]]]
+                break
+    for x, y in talls:
+        fx, fy = fot(x), fot(y)
+        if fy <= fx:
+            continue
+        nous = []
+        for t in junts:
+            if fy <= t[0] or fx >= t[1]:
+                nous.append(t)
+                continue
+            if fx > t[0]:
+                nous.append([t[0], fx, t[2], min(t[3], fx / fps), t[4]])
+            if fy < t[1]:
+                nous.append([fy, t[1], max(t[2], fy / fps), t[3], t[4]])
+        junts = nous
+
+    def guany(fa, fb):
+        a, b = fa / fps, fb / fps
+        millor, solapa = 0.0, 0.0
+        for x, y, db in volums:
+            s = min(b, y) - max(a, x)
+            if s > solapa:
+                millor, solapa = db, s
+        return millor + general
+    return [Tram(round(fa / fps, 6), round(fb / fps, 6), (round(sa, 6), round(sb, 6)), round(guany(fa, fb), 2))
+            for fa, fb, sa, sb, _ in junts if fb - fa >= 1 and sb > sa]

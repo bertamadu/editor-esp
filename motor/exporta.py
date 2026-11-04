@@ -15,7 +15,7 @@ from fractions import Fraction
 from pathlib import Path
 
 from motor import grafics, so, targetes
-from motor.edicio import so_del_tram
+from motor.edicio import amb_guany, guany_del_tram, so_del_tram
 
 QUALITATS = {
     # nom: (amplada, alçada, bitrate de vídeo)
@@ -173,7 +173,9 @@ def _so_del_tros(i: int, tram) -> str:
     # El fos mai no passa de la finestra (abans tenia un mínim d'1 ms, i en una finestra més curta se'n
     # sortia, revisió de Codex). Temps al microsegon: amb quatre decimals podia quedar alguna mostra fora.
     fos = max(1e-6, min(FOS_AUDIO, (final - inici) / 4))
-    return (f"[{i}:a]asetpts=PTS-STARTPTS,afade=t=in:st={inici:.6f}:d={fos:.6f},"
+    guany = guany_del_tram(tram)  # el volum del tros, retocat a mà a la línia de temps
+    volum = f",volume={guany:.2f}dB" if guany else ""
+    return (f"[{i}:a]asetpts=PTS-STARTPTS{volum},afade=t=in:st={inici:.6f}:d={fos:.6f},"
             f"afade=t=out:st={max(inici, final - fos):.6f}:d={fos:.6f}[a{i}];")
 
 
@@ -230,7 +232,7 @@ def _filtre(trams: list[tuple[float, float]], enquadrament: str, capa: bool = Fa
             zooms: list[bool] | None = None, mida: tuple[int, int] | None = None,
             brolls: list[dict] | None = None, peces: list[dict] | None = None,
             veu: str | None = None, efectes: bool = False, blocs: list[dict] | None = None,
-            fps: str = "30", base: bool = False) -> str:
+            fps: str = "30", base: bool = False, volum: float = 0.0) -> str:
     """Cada tros és una entrada pròpia (ja retallada amb -ss/-t); aquí només s'uneixen. Amb `base`, la
     primera entrada ja és el muntatge sencer, enquadrat (fet a lots, _munta_lots) i no hi ha la resta.
 
@@ -271,7 +273,9 @@ def _filtre(trams: list[tuple[float, float]], enquadrament: str, capa: bool = Fa
         parts.append(f"[{n_base + len(brolls) + n_peces}:v]scale={mida_sortida}:flags=lanczos,format=yuva444p[capa];")
         parts.append("[vba][capa]overlay=0:0:format=yuv444:eof_action=pass,format=yuv420p[vout];")
     # El so: la veu (neta, si toca) i, a sobre, els efectes; un limitador perquè res no saturi.
-    parts.append(f"[ac]{veu or 'anull'}[aveu];")
+    # `volum`: el de tota la veu (dB), després de la neteja: la neteja iguala el volum i se'l menjaria.
+    filtres_veu = [f for f in (veu, f"volume={volum:.2f}dB" if volum else None) if f]
+    parts.append(f"[ac]{','.join(filtres_veu) or 'anull'}[aveu];")
     if efectes:
         entrada = n_base + len(brolls) + n_peces + (1 if capa else 0)
         parts.append(f"[{entrada}:a]aresample=48000[aef];")
@@ -361,14 +365,20 @@ def _executa(ordre: list[str], durada: float, progres) -> None:
 def exporta(video: Path, trams: list[tuple[float, float]], sortida: Path, qualitat: str,
             progres=None, capa: Path | None = None, zooms: list[bool] | None = None,
             brolls: list[dict] | None = None, neteja: str | None = None, efectes: Path | None = None,
-            blocs: list[dict] | None = None, encaix: str = "retalla") -> Path:
+            blocs: list[dict] | None = None, encaix: str = "retalla", volum: float = 0.0) -> Path:
     """`brolls`: [{"fitxer": Path, "inici": segons del muntatge, "durada": segons}], ja disposats
     amb `targetes.disposa` (si no ho estan, van a pantalla sencera). `neteja`: el nivell de la
     neteja de la veu (motor/so.py) o None; `efectes`: la pista d'efectes de so (WAV) o None;
     `blocs`: els blocs de color dels gràfics (Projecte.blocs) o None; `encaix`: com hi entra un vídeo
-    horitzontal (_enquadrament)."""
+    horitzontal (_enquadrament); `volum`: el de tota la veu, en dB (ja és dins del de cada tros, Tram.guany)."""
     if not trams:
         raise ValueError("No queda ninguna palabra: no hay nada que exportar.")
+    if neteja and volum:
+        # La neteja iguala el volum de la veu: el de tota la veu va després (_filtre), i a cada tros només hi
+        # queda el seu (la diferència amb els altres trossos sí que es manté).
+        trams = [amb_guany(t, guany_del_tram(t) - volum) for t in trams]
+    else:
+        volum = 0.0
     ow, oh, bitrate = QUALITATS[qualitat]
     info = info_video(video)
     enquadrament = _enquadrament(info["amplada"], info["alcada"], ow, oh, encaix)
@@ -393,7 +403,8 @@ def exporta(video: Path, trams: list[tuple[float, float]], sortida: Path, qualit
         filtre = Path(temporal) / "filtre.txt"
         filtre.write_text(_filtre(trams, enquadrament, capa=capa is not None, zooms=zooms,
                                   mida=(info["amplada"], info["alcada"]), brolls=brolls, peces=peces,
-                                  veu=veu, efectes=efectes is not None, blocs=blocs, fps=info["fps"], base=base),
+                                  veu=veu, efectes=efectes is not None, blocs=blocs, fps=info["fps"], base=base,
+                                  volum=volum),
                           encoding="utf-8")
         _exporta(entrades, total, sortida, qualitat, info, filtre, brolls, peces, capa, progres, efectes)
     return sortida
@@ -591,6 +602,8 @@ def _nom_tros(origen: str, tram) -> str:
     i el so del tros. Amb el mateix tall, el mateix fitxer."""
     sa, sb = so_del_tram(tram)
     clau = f"{origen}|{tram[0]:.6f}|{tram[1]:.6f}|{sa:.6f}|{sb:.6f}"
+    if guany_del_tram(tram):  # sense: el nom de sempre (els trossos ja fets serveixen)
+        clau += f"|{guany_del_tram(tram):.2f}"
     return f"tros_{hashlib.sha1(clau.encode()).hexdigest()[:16]}.mov"
 
 
