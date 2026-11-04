@@ -146,6 +146,7 @@ function pintaLinia() {
   const panell = $("#linia");
   if (!panell || !L.obert || !P) return;
   panell.classList.toggle("apagada", vista !== "directe");
+  $("#l-esborrany").hidden = vista === "directe";
   if (!L.ona) { carregaLinia(); }
   calculaPxs();
   const llista = llistaLinia();
