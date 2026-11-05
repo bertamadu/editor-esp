@@ -2,8 +2,8 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "tallat-es",
   "owner": {
-    "name": "Ivet Anoro (original); copia personal en castellano",
-    "url": "https://github.com/ivetanoro"
+    "name": "Berta Madueño (versión modificada de tallat, de Ivet Anoro)",
+    "url": "https://github.com/bertamadu"
   },
   "metadata": {
     "description": "tallat-es: versión en castellano (modificada) de tallat, el editor de reels de código abierto que funciona dentro de Claude."

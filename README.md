@@ -4,12 +4,12 @@ Editor de reels **en castellano** que funciona dentro de Claude Code: transcribe
 
 Es una **versión modificada** de [tallat](https://github.com/ivetanoro/tallat), de Ivet Anoro (licencia AGPL v3 o posterior). Qué ha cambiado: ver [AVISO.md](AVISO.md).
 
-## Instalar (como conector local de Claude Code)
+## Instalar (como conector de Claude Code)
 
 En la pestaña **Code** de la app de Claude, escribe:
 
 ```
-/plugin marketplace add ~/code/tallat-es
+/plugin marketplace add bertamadu/tallat-es
 /plugin install tallat-es@tallat-es
 ```
 

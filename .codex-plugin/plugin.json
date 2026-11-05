@@ -5,8 +5,8 @@
     "name": "Ivet Anoro",
     "url": "https://github.com/ivetanoro"
   },
-  "homepage": "https://github.com/ivetanoro/tallat",
-  "repository": "https://github.com/ivetanoro/tallat",
+  "homepage": "https://github.com/bertamadu/tallat-es",
+  "repository": "https://github.com/bertamadu/tallat-es",
   "description": "Editor de reels en castellano, por palabras: transcribe, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical. Todo en este ordenador. Versión en castellano, modificada, de tallat (Ivet Anoro).",
   "license": "AGPL-3.0-or-later",
   "keywords": [
