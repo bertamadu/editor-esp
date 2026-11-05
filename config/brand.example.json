@@ -1,5 +1,5 @@
 {
-  "_info": "Estilo por defecto de tallat-es (neutro). Tus kits de estilo están en ~/.tallat-es/kits/: cámbialos allí (o en la página de revisión), no aquí.",
+  "_info": "Estilo por defecto de editor-esp (neutro). Tus kits de estilo están en ~/.tallat-es/kits/: cámbialos allí (o en la página de revisión), no aquí.",
   "talls": {
     "_pausa_maxima": "Segundos de silencio máximo entre palabras en los proyectos nuevos (0,25 corta más rápido; 0,5 deja respirar).",
     "pausa_maxima": 0.35
@@ -147,7 +147,7 @@
     "neteja": true,
     "_soroll": "Cuánto ruido de fondo se quita: «suau», «mitja» o «fort» (cuanto más fuerte, más riesgo de que la voz suene rara).",
     "soroll": "suau",
-    "_efectes": "Efectos de sonido: «cap», «pocs» (b-roll, stickers y título) o «molts» (también las palabras destacadas). Los hace tallat-es; los puedes cambiar por los tuyos en ~/.tallat-es/sons/.",
+    "_efectes": "Efectos de sonido: «cap», «pocs» (b-roll, stickers y título) o «molts» (también las palabras destacadas). Los hace editor-esp; los puedes cambiar por los tuyos en ~/.tallat-es/sons/.",
     "efectes": "pocs",
     "_volum_efectes": "Volumen de los efectos, de 0 a 1.",
     "volum_efectes": 0.5

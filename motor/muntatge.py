@@ -1,6 +1,6 @@
 """Primer muntatge automàtic: d'una gravació llarga en surten diversos reels.
 
-El «cervell» és l'assistent (Claude Code, Codex…), seguint skills/tallat/SKILL.md:
+El «cervell» és l'assistent (Claude Code, Codex…), seguint skills/editor-esp/SKILL.md:
 1. `guio()` escriu la transcripció per paràgrafs, amb números i temps, perquè Claude la llegeixi.
 2. Claude escriu `reels.json` al projecte: per a cada reel, quins trossos de paraules es queden.
 3. `llegeix_reels()` ho valida i en calcula la durada.
@@ -35,7 +35,7 @@ def _temps(s: float) -> str:
 
 def guio(paraules: list[dict]) -> str:
     """Transcripció per paràgrafs: [número · inici–final · paraules a–b] text."""
-    linies = ["# Guion para el primer montaje (tallat-es)",
+    linies = ["# Guion para el primer montaje (editor-esp)",
               "# [P número · inicio–final · palabras primera–última] texto", ""]
     for n, g in enumerate(edicio.paragrafs(paraules)):
         linies.append(f"[P{n} · {_temps(g[0]['inici'])}–{_temps(g[-1]['final'])} · "

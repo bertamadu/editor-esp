@@ -1,6 +1,6 @@
 """B-roll: plans de recurs que tapen la imatge un moment mentre la veu continua.
 
-tallat no depèn de cap IA: només necessita un fitxer. Pot venir de:
+editor-esp no depèn de cap IA: només necessita un fitxer. Pot venir de:
 - un fitxer propi pujat des de la pàgina de revisió (vídeo o imatge);
 - la biblioteca de la persona, `~/.tallat-es/broll/`;
 - una IA d'imatge o vídeo que la persona tingui connectada a Claude (Krea, Higgsfield…):

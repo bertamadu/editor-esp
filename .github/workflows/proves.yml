@@ -1,4 +1,4 @@
-# Proves de tallat en un Windows de GitHub: s'instal·la de zero amb prepara.ps1 (com ho faria una persona
+# Proves de editor-esp en un Windows de GitHub: s'instal·la de zero amb prepara.ps1 (com ho faria una persona
 # nova) i es passen totes les proves. Es fa a cada canvi pujat i quan es demana a mà (Actions → Run).
 name: Proves
 
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Instal·la tallat de zero (prepara.sh)
+      - name: Instal·la editor-esp de zero (prepara.sh)
         run: ./prepara.sh
 
       - name: Proves
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Instal·la tallat de zero (prepara.ps1)
+      - name: Instal·la editor-esp de zero (prepara.ps1)
         run: powershell -ExecutionPolicy Bypass -File prepara.ps1
 
       - name: Proves

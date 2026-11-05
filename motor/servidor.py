@@ -183,7 +183,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
     # Seguretat: el servidor només escolta aquest Mac, però una web oberta al navegador podria
     # intentar enviar-li peticions. Per això: només s'accepten els noms 127.0.0.1 i localhost
     # (contra el «DNS rebinding»), i les peticions que canvien coses han de portar un codi que
-    # només coneix la pàgina de tallat (es crea cada cop que s'engega el servidor).
+    # només coneix la pàgina de editor-esp (es crea cada cop que s'engega el servidor).
     token = secrets.token_urlsafe(24)
     amfitrions = {f"127.0.0.1:{port}", f"localhost:{port}"}
     origens = {f"http://{a}" for a in amfitrions}
@@ -640,7 +640,7 @@ def crea_servidor(inicial: Projecte, port: int) -> ThreadingHTTPServer:
             if cos.get("accio") == "projecte":
                 exporta.tria_carpeta_exports(None)
             else:
-                triada = entorn.tria_carpeta("¿Dónde quieres guardar los vídeos que exportes con tallat-es?")
+                triada = entorn.tria_carpeta("¿Dónde quieres guardar los vídeos que exportes con editor-esp?")
                 if triada is None:  # ha cancel·lat
                     return self._json({"cancelado": True, **info_carpeta(projecte)})
                 exporta.tria_carpeta_exports(triada)

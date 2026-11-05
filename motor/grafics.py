@@ -42,7 +42,7 @@ Tipus:
                es vol, un peu de foto a «text»), que surten una a una; «text»: un títol; amaga els subtítols
 
 Les imatges (de la web i del ventall) es desen al projecte, a CARPETA_IMATGES, amb un nom fet del seu
-contingut. Al pla, «imatge» és aquest nom (o, quan Claude envia el pla, el camí d'un fitxer, que tallat
+contingut. Al pla, «imatge» és aquest nom (o, quan Claude envia el pla, el camí d'un fitxer, que editor-esp
 copia al projecte). Mentre no tenen imatge, la web i el ventall no surten al vídeo.
 
 Amb `bloc: true` (per defecte, a la web i al ventall), mentre surt el gràfic el fons es fa d'un color de la marca, el vídeo es fa petit (amb

@@ -1,4 +1,4 @@
-﻿# tallat-es · prepara este Windows para usar tallat-es (lo que hace prepara.sh en el Mac). Versión modificada de tallat.
+﻿# editor-esp · prepara este Windows para usar editor-esp (lo que hace prepara.sh en el Mac). Versión modificada de editor-esp.
 #
 #   powershell -ExecutionPolicy Bypass -File prepara.ps1                instala lo que falte (se puede volver a ejecutar)
 #   powershell -ExecutionPolicy Bypass -File prepara.ps1 -AmbWhisper    también el modelo de transcripción (3 GB)
@@ -7,7 +7,7 @@
 #   .tallat-es\bin      micromamba i uv (els instal·ladors)
 #   .tallat-es\eines    ffmpeg i Node.js (de conda-forge)
 #   .tallat-es\python   Python 3.11
-#   .tallat-es\venv     l'entorn de Python de tallat (WhisperX i companyia); .venv n'és un enllaç (junction)
+#   .tallat-es\venv     l'entorn de Python de editor-esp (WhisperX i companyia); .venv n'és un enllaç (junction)
 # A més, HyperFrames hi baixa el navegador amb què dibuixa els subtítols, i WhisperX el model de veu castellà.
 param([switch]$AmbWhisper)
 
@@ -31,7 +31,7 @@ function Pas($text) { Write-Host ""; Write-Host "▸ $text" }
 function Fet($text) { Write-Host "  ✓ $text" }
 function Falla($text) { Write-Host ""; Write-Host "✗ $text"; exit 1 }
 
-if (-not [Environment]::Is64BitOperatingSystem) { Falla "tallat-es necesita un Windows de 64 bits." }
+if (-not [Environment]::Is64BitOperatingSystem) { Falla "editor-esp necesita un Windows de 64 bits." }
 
 # Els camins, sempre literals (-LiteralPath): amb -Path, una carpeta com «Pau[1]» es llegiria com un patró.
 function Hi-Es($cami) { return Test-Path -LiteralPath $cami }
@@ -71,7 +71,7 @@ function Falla-Amb($text) {
 }
 
 [IO.Directory]::CreateDirectory($BIN) | Out-Null
-Write-Host "Preparando tallat-es en $CARPETA"
+Write-Host "Preparando editor-esp en $CARPETA"
 Write-Host "(la primera vez descarga unos 2-3 GB y puede tardar 10-20 minutos)"
 
 Pas "1/6 · Instalador de paquetes (micromamba)"
@@ -107,7 +107,7 @@ if (-not (Hi-Es $UV)) {
   Esborra $dins; Esborra $zip
 }
 # L'entorn va a .tallat-es\venv i .venv n'és un enllaç (una «junction», que a Windows no demana permisos): si
-# tallat s'actualitza, només cal refer l'enllaç. Si ja hi havia un .venv de debò, es queda on és.
+# editor-esp s'actualitza, només cal refer l'enllaç. Si ja hi havia un .venv de debò, es queda on és.
 $VENV = Join-Path $TALLAT "venv"
 $enllac = Get-Item -Force -ErrorAction SilentlyContinue -LiteralPath (Join-Path $CARPETA ".venv")
 if ($enllac -and -not $enllac.LinkType) { $VENV = $enllac.FullName }

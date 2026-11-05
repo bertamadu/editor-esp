@@ -37,8 +37,8 @@ KITS = Path.home() / ".tallat-es" / "kits"
 FITXER_KIT = "kit.json"
 INDEX = "kits.json"
 PRIMER_KIT = ("el-meu-estil", "Mi estilo")
-INFO_KIT = ("Kit de estilo de tallat-es. Se cambia desde la página de revisión (o a mano, aquí). "
-            "Los valores que faltan se toman del estilo neutro de tallat.")
+INFO_KIT = ("Kit de estilo de editor-esp. Se cambia desde la página de revisión (o a mano, aquí). "
+            "Los valores que faltan se toman del estilo neutro de editor-esp.")
 ID_KIT = re.compile(r"^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$")
 MIDA_MAXIMA_KIT = 60 * 1024 * 1024  # un kit importat (amb les seves fonts), com a màxim
 FORMATS_FONT = {".ttf", ".otf", ".woff", ".woff2"}
@@ -260,16 +260,16 @@ def empaqueta_kit(kit: str) -> tuple[str, bytes]:
 
 
 def importa_kit(contingut: bytes) -> str:
-    """Afegeix un kit d'un .zip (fet amb «Exporta»). Només se'n agafa el que tallat entén: les opcions
+    """Afegeix un kit d'un .zip (fet amb «Exporta»). Només se'n agafa el que editor-esp entén: les opcions
     vàlides de l'estil i les fonts. La resta (camins de fitxers, opcions estranyes) es deixa estar."""
     try:
         z = zipfile.ZipFile(io.BytesIO(contingut))
     except zipfile.BadZipFile:
-        raise ValueError("Este archivo no es un kit de tallat (tiene que ser el .zip que hace «Exporta»).") from None
+        raise ValueError("Este archivo no es un kit de editor-esp (tiene que ser el .zip que hace «Exporta»).") from None
     with z:
         fitxers = {i.filename: i for i in z.infolist() if not i.is_dir()}
         if FITXER_KIT not in fitxers:
-            raise ValueError("Este .zip no tiene ningún kit.json: no es un kit de tallat.")
+            raise ValueError("Este .zip no tiene ningún kit.json: no es un kit de editor-esp.")
         if sum(i.file_size for i in fitxers.values()) > MIDA_MAXIMA_KIT:
             raise ValueError("Este kit es demasiado grande.")
         try:
@@ -563,7 +563,7 @@ def _escampa_marca(dades: dict, canvis: dict) -> None:
 
 
 def restableix(seccio: str, path: Path | None = None, kit: str | None = None) -> dict:
-    """Torna una secció a l'estil neutre de tallat (amb les notes que expliquen cada opció)."""
+    """Torna una secció a l'estil neutre de editor-esp (amb les notes que expliquen cada opció)."""
     if seccio not in EDITABLES:
         raise ValueError(f"No se puede cambiar la sección «{seccio}»")
     path = path or ruta(kit)
@@ -582,7 +582,7 @@ def restableix(seccio: str, path: Path | None = None, kit: str | None = None) ->
 # la persona, «La Meva Lletra.otf». Així el kit es pot passar a algú amb les lletres i tot.
 
 def biblioteca_lletres() -> dict:
-    """Les lletres gratuïtes que tallat pot baixar (config/lletres.json)."""
+    """Les lletres gratuïtes que editor-esp pot baixar (config/lletres.json)."""
     return json.loads(LLETRES.read_text(encoding="utf-8"))
 
 
@@ -693,7 +693,7 @@ def desa_font(nom: str, contingut: bytes, path: Path | None = None, kit: str | N
 
 def afegeix_font(contingut: bytes, nom_fitxer: str, familia: str, pes: str = "400", cursiva: bool = False,
                  path: Path | None = None, kit: str | None = None) -> Path:
-    """Desa una lletra pròpia al kit amb el nom que entén tallat («Família__pes.ttf», amb «-cursiva»),
+    """Desa una lletra pròpia al kit amb el nom que entén editor-esp («Família__pes.ttf», amb «-cursiva»),
     sense fer-la servir enlloc encara (això ho fa la marca o l'estil). Torna el fitxer."""
     extensio = Path(nom_fitxer).suffix.lower()
     if extensio not in FORMATS_FONT:

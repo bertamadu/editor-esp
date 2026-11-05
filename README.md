@@ -1,4 +1,4 @@
-# tallat-es
+# editor-esp
 
 Editor de reels **en castellano** que funciona dentro de Claude Code: transcribe el vídeo, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical (9:16). Todo en tu ordenador.
 
@@ -10,14 +10,14 @@ En la pestaña **Code** de la app de Claude, escribe:
 
 ```
 /plugin marketplace add bertamadu/tallat-es
-/plugin install tallat-es@tallat-es
+/plugin install editor-esp@editor-esp
 ```
 
-Después abre una sesión nueva y escribe **«instala tallat-es»**: Claude descarga lo que hace falta (unos 2-3 GB, 10-20 minutos, todo en `~/.tallat-es`).
+Después abre una sesión nueva y escribe **«instala editor-esp»**: Claude descarga lo que hace falta (unos 2-3 GB, 10-20 minutos, todo en `~/.tallat-es`).
 
 ## Usar
 
-Escribe, por ejemplo: **«Edita este vídeo con tallat-es: ~/Downloads/mi-video.mov»**. Claude transcribe, te abre la página de revisión (Edita · Viste · Revisa) y te guía paso a paso.
+Escribe, por ejemplo: **«Edita este vídeo con editor-esp: ~/Downloads/mi-video.mov»**. Claude transcribe, te abre la página de revisión (Edita · Viste · Revisa) y te guía paso a paso.
 
 ## Dónde está cada cosa
 

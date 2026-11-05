@@ -1,6 +1,6 @@
 """Stickers: imatges (PNG amb fons transparent) que apareixen animades un moment.
 
-Com el b-roll, tallat no depèn de cap IA: la persona té la seva biblioteca a
+Com el b-roll, editor-esp no depèn de cap IA: la persona té la seva biblioteca a
 `~/.tallat-es/stickers/`, en puja des de la pàgina de revisió o, si té una IA d'imatges
 connectada a Claude, Claude n'hi genera un i el registra amb `tallat.py sticker`.
 """

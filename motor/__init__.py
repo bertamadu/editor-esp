@@ -1,1 +1,1 @@
-"""Motor de tallat: transcripció, edició per paraules i export amb ffmpeg."""
+"""Motor de editor-esp: transcripció, edició per paraules i export amb ffmpeg."""

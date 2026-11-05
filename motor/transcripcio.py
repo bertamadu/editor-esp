@@ -1,4 +1,4 @@
-"""Transcripció en castellà amb marques de temps per paraula (tallat-es, versió modificada de tallat).
+"""Transcripció en castellà amb marques de temps per paraula (editor-esp, versió modificada de editor-esp).
 
 Dues fonts del text:
 - un SRT (p. ex. exportat de Descript): és la més ràpida i la més fidel (conserva el farciment).
@@ -20,7 +20,7 @@ import unicodedata
 from pathlib import Path
 
 IDIOMA = "es"
-# Model de veu castellà per alinear les paraules (de Hugging Face, com el català de Softcatalà a tallat).
+# Model de veu castellà per alinear les paraules (de Hugging Face, com el català de Softcatalà a editor-esp).
 MODEL_ALINEADOR = "jonatasgrosman/wav2vec2-large-xlsr-53-spanish"
 DISPOSITIU = "cpu"
 

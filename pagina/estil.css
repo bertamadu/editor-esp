@@ -1,4 +1,4 @@
-/* tallat · pàgina de revisió.
+/* editor-esp · pàgina de revisió.
    Marca neutra: tipografia i colors del sistema (San Francisco al Mac).
    Espais en una escala de 4 px; mides de lletra en rem perquè segueixin la mida de
    text que tingui configurada cada persona. L'espaiat entre lletres es deixa en
@@ -392,7 +392,7 @@ body.movent, body.movent * { cursor: grabbing !important; }
 .p.aprox:not(.fora) { text-decoration: underline dotted var(--text-2, currentColor); text-underline-offset: 3px; }
 .p.corregida { box-shadow: inset 0 -2px 0 var(--accent); }
 /* Les destacades sempre es veuen (no només en un mode): les que tries tu, en negreta, com fa ⌘B en un
-   document; les que tria tallat sol, una mica més gruixudes (n'hi ha moltes, i en negreta carregaven el text). */
+   document; les que tria editor-esp sol, una mica més gruixudes (n'hi ha moltes, i en negreta carregaven el text). */
 .p.clau { font-weight: 500; }
 .p.clau.clau-teva, .editor.clau { font-weight: 700; }
 .p.clau.fora { font-weight: inherit; }

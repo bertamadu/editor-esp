@@ -1,4 +1,4 @@
-/* tallat · subtítols animats.
+/* editor-esp · subtítols animats.
  *
  * El mateix codi dibuixa els subtítols a la vista prèvia de la pàgina de revisió i al
  * vídeo final (dins d'una composició de HyperFrames): el que es veu és el que surt.

@@ -375,7 +375,7 @@ def text_per_a_claude(nota: dict, durada_mmss, al_video: float | None = None, ca
         linies.append("  (Ya te la había dado y no la has respondido: mira si ya la habías hecho antes de volver a hacerla.)")
     if nota.get("tipus") == "ronda":
         linies.append("  (Es el botón «Pide la siguiente ronda» del tablero de Viste: los votos y las notas de cada pieza están en "
-                      "`tallat.py grafics`. Ver «El tablero» en las instrucciones de tallat-es.)")
+                      "`tallat.py grafics`. Ver «El tablero» en las instrucciones de editor-esp.)")
     if nota.get("miniatura") and carpeta is not None:
         linies.append(f"  El fotograma que miraba: {Path(carpeta) / MINIATURES / nota['miniatura']}")
     if nota["estat"] == "treballant":

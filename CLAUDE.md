@@ -1,6 +1,6 @@
-# tallat-es
+# editor-esp
 
-Versión en castellano (modificada) de **tallat**, el editor de reels de Ivet Anoro que funciona dentro de Claude Code. Código abierto con licencia AGPL v3 (archivo LICENSE; ver AVISO.md).
+Versión en castellano (modificada) de **editor-esp**, el editor de reels de Ivet Anoro que funciona dentro de Claude Code. Código abierto con licencia AGPL v3 (archivo LICENSE; ver AVISO.md).
 
 ## Reglas del proyecto
 - Toda la interfaz, los mensajes y la documentación que ve la persona, en castellano. Los nombres internos (órdenes, claves, variables, comentarios del código) se quedan en catalán, como en el original, para poder comparar con tallat.

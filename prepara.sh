@@ -1,5 +1,5 @@
 #!/bin/bash
-# tallat-es · prepara este Mac para usar tallat-es (versión en castellano, modificada, de tallat de Ivet Anoro).
+# editor-esp · prepara este Mac para usar editor-esp (versión en castellano, modificada, de editor-esp de Ivet Anoro).
 #
 #   ./prepara.sh                 instala lo que falte (se puede volver a ejecutar: solo hace lo necesario)
 #   ./prepara.sh --amb-whisper   también descarga el modelo de transcripción (3 GB), por si no usas Descript
@@ -8,7 +8,7 @@
 #   ~/.tallat-es/bin      micromamba i uv (els instal·ladors)
 #   ~/.tallat-es/eines    ffmpeg i Node.js (de conda-forge)
 #   ~/.tallat-es/python   Python 3.11
-#   ~/.tallat-es/venv     l'entorn de Python de tallat (WhisperX i companyia); .venv n'és un enllaç
+#   ~/.tallat-es/venv     l'entorn de Python de editor-esp (WhisperX i companyia); .venv n'és un enllaç
 # A més, HyperFrames hi baixa el navegador amb què dibuixa els subtítols, i WhisperX el model de veu castellà.
 set -euo pipefail
 
@@ -31,7 +31,7 @@ falla() { printf '\n✗ %s\n' "$1" >&2; exit 1; }
 case "$(uname -s)-$(uname -m)" in
   Darwin-x86_64) MAMBA_ARQ="osx-64"; UV_ARQ="x86_64-apple-darwin" ;;
   Darwin-arm64) MAMBA_ARQ="osx-arm64"; UV_ARQ="aarch64-apple-darwin" ;;
-  *) falla "tallat-es de momento solo funciona en Mac (este ordenador es $(uname -s) $(uname -m))." ;;
+  *) falla "editor-esp de momento solo funciona en Mac (este ordenador es $(uname -s) $(uname -m))." ;;
 esac
 
 # Baixa un fitxer i en comprova la suma (sha256) amb la que publica qui el fa.
@@ -47,7 +47,7 @@ baixa_i_comprova() {
 }
 
 mkdir -p "$BIN"
-echo "Preparando tallat-es en $CARPETA"
+echo "Preparando editor-esp en $CARPETA"
 echo "(la primera vez descarga unos 2-3 GB y puede tardar 10-20 minutos)"
 
 pas "1/6 · Instalador de paquetes (micromamba)"
@@ -71,7 +71,7 @@ if [ ! -x "$BIN/uv" ]; then
   tar -xzf "$BIN/uv.tar.gz" -C "$BIN" --strip-components 1
   rm -f "$BIN/uv.tar.gz"
 fi
-# L'entorn va a ~/.tallat-es/venv i .venv n'és un enllaç: si tallat s'actualitza (o és un connector de
+# L'entorn va a ~/.tallat-es/venv i .venv n'és un enllaç: si editor-esp s'actualitza (o és un connector de
 # Claude, que es reinstal·la a cada versió), només cal refer l'enllaç. Si ja hi havia un .venv de
 # debò (instal·lacions d'abans), es queda on és.
 VENV="$TALLAT/venv"
@@ -135,9 +135,9 @@ if [ "$AMB_WHISPER" = 1 ]; then
   fet "modelo de transcripción (large-v3)"
 fi
 
-# Si ya usas tallat (en catalán), tus estilos (kits) se copian la primera vez. El original no se toca.
+# Si ya usas editor-esp (en catalán), tus estilos (kits) se copian la primera vez. El original no se toca.
 if [ -d "$HOME/.tallat/kits" ] && [ ! -e "$TALLAT/kits" ]; then
-  cp -R "$HOME/.tallat/kits" "$TALLAT/kits" && fet "tus estilos de tallat, copiados"
+  cp -R "$HOME/.tallat/kits" "$TALLAT/kits" && fet "tus estilos de editor-esp, copiados"
 fi
 
 printf '\nComprobación final:\n'

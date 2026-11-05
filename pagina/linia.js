@@ -1,4 +1,4 @@
-// tallat-es · la línia de temps de la pàgina de revisió (com la d'un editor de vídeo: CapCut, Premiere).
+// editor-esp · la línia de temps de la pàgina de revisió (com la d'un editor de vídeo: CapCut, Premiere).
 //
 // Els trossos del muntatge en una pista, amb els fotogrames i la forma d'ona, i a sobre les pistes dels gràfics,
 // el b-roll i els stickers. Es poden allargar i escurçar els trossos (amb precisió de fotograma), partir-los,

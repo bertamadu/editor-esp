@@ -1,4 +1,4 @@
-"""Un projecte de tallat: una carpeta (fora del repositori) amb tota la feina d'un vídeo.
+"""Un projecte de editor-esp: una carpeta (fora del repositori) amb tota la feina d'un vídeo.
 
   transcripcio.json   paraules amb els seus temps (no es toca després de transcriure)
   edicio.json         què es treu, què es proposa, correccions i pauses
@@ -621,7 +621,7 @@ class Projecte:
         if not ins.get("pagina"):
             raise ValueError("Este b-roll viene de una instrucción de voz: descártala")
         for clau in ("fitxer", "original"):
-            # Només els fitxers que tallat hi ha posat (a broll/ o a stickers/ del projecte): un instruccions.json
+            # Només els fitxers que editor-esp hi ha posat (a broll/ o a stickers/ del projecte): un instruccions.json
             # tocat a mà o d'un altre lloc no ha de poder fer esborrar res més.
             desti = (base / ins[clau]).resolve() if isinstance(ins.get(clau), str) and ins[clau] else None
             if desti and any((base / c).resolve() in desti.parents for c in (broll.CARPETA, stickers.CARPETA)):
@@ -833,7 +833,7 @@ def mapa_muntatge(trams):
 
 
 def _poda(carpeta: Path, patro: str, guarda: int = 0) -> None:
-    """Esborra els fitxers fets per tallat que ja no calen (en guarda els `guarda` més nous)."""
+    """Esborra els fitxers fets per editor-esp que ja no calen (en guarda els `guarda` més nous)."""
     if not carpeta.is_dir():
         return
     for vell in sorted(carpeta.glob(patro), key=lambda f: f.stat().st_mtime, reverse=True)[guarda:]:

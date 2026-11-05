@@ -1,13 +1,13 @@
 {
-  "name": "tallat-es",
-  "version": "0.9.0-es.1",
+  "name": "editor-esp",
+  "version": "0.9.0-esp.1",
   "author": {
     "name": "Ivet Anoro",
     "url": "https://github.com/ivetanoro"
   },
-  "homepage": "https://github.com/bertamadu/tallat-es",
-  "repository": "https://github.com/bertamadu/tallat-es",
-  "description": "Editor de reels en castellano, por palabras: transcribe, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical. Todo en este ordenador. Versión en castellano, modificada, de tallat (Ivet Anoro).",
+  "homepage": "https://github.com/bertamadu/editor-esp",
+  "repository": "https://github.com/bertamadu/editor-esp",
+  "description": "Editor de reels en castellano, por palabras: transcribe, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical. Todo en este ordenador. Con línea de tiempo. Versión modificada de editor-esp, de Ivet Anoro.",
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "vídeo",
@@ -20,12 +20,12 @@
     "./skills/"
   ],
   "interface": {
-    "displayName": "tallat-es",
+    "displayName": "editor-esp",
     "shortDescription": "Edita tus reels en castellano tocando las palabras",
     "category": "Media",
     "defaultPrompt": [
-      "Instala tallat-es.",
-      "Edita este vídeo con tallat-es."
+      "Instala editor-esp.",
+      "Edita este vídeo con editor-esp."
     ]
   }
 }

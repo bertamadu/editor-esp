@@ -1,7 +1,7 @@
-"""On són les eines de tallat (les que posa prepara.sh o, a Windows, prepara.ps1) i com trobar-les, i el
+"""On són les eines de editor-esp (les que posa prepara.sh o, a Windows, prepara.ps1) i com trobar-les, i el
 poc que es fa diferent al Mac i a Windows (obrir una carpeta, triar-ne una, trobar un programa).
 
-L'instal·lador posa ffmpeg, ffprobe i Node.js a ~/.tallat-es/eines, sense tocar el sistema. Perquè tallat
+L'instal·lador posa ffmpeg, ffprobe i Node.js a ~/.tallat-es/eines, sense tocar el sistema. Perquè editor-esp
 (i HyperFrames) les facin servir, aquesta carpeta va al davant del PATH.
 """
 from __future__ import annotations
@@ -30,7 +30,7 @@ def carpetes_eines() -> list[Path]:
 
 
 def prepara() -> None:
-    """Posa les eines de tallat al davant del PATH (si l'instal·lador les ha posat)."""
+    """Posa les eines de editor-esp al davant del PATH (si l'instal·lador les ha posat)."""
     # Al davant de tot, encara que ja hi fossin més enrere (darrere d'un ffmpeg o un Node antics que
     # guanyarien). A Windows, els camins es comparen sense majúscules (revisió de Codex).
     nostres = [str(c) for c in (*carpetes_eines(), INSTAL_LADORS) if c.is_dir()]
@@ -101,7 +101,7 @@ def llista_de_lletres() -> None:
     """WhisperX porta matplotlib, que el primer cop fa la llista de lletres del Mac amb system_profiler.
     En un Mac ocupat o amb moltes lletres, system_profiler s'atura a mitges sense la llista, matplotlib
     peta i WhisperX no arrenca. La fem sense system_profiler: n'hi ha prou amb les carpetes de lletres
-    (tallat no dibuixa res amb matplotlib). Queda desada i els altres cops ja no es fa.
+    (editor-esp no dibuixa res amb matplotlib). Queda desada i els altres cops ja no es fa.
     S'ha de cridar abans d'importar WhisperX."""
     import subprocess
     import sys

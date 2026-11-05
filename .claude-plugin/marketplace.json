@@ -1,16 +1,16 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "tallat-es",
+  "name": "editor-esp",
   "owner": {
-    "name": "Berta Madueño (versión modificada de tallat, de Ivet Anoro)",
+    "name": "Berta Madueño (versión modificada de editor-esp, de Ivet Anoro)",
     "url": "https://github.com/bertamadu"
   },
   "metadata": {
-    "description": "tallat-es: versión en castellano (modificada) de tallat, el editor de reels de código abierto que funciona dentro de Claude."
+    "description": "editor-esp: editor de reels en castellano que funciona dentro de Claude. Versión modificada de editor-esp, de Ivet Anoro."
   },
   "plugins": [
     {
-      "name": "tallat-es",
+      "name": "editor-esp",
       "source": "./",
       "description": "Editor de reels en castellano, por palabras: transcribe, quita las muletillas, propone reels, pone subtítulos, b-roll y stickers, y exporta en vertical.",
       "category": "media",
@@ -22,7 +22,7 @@
         "edición"
       ],
       "skills": [
-        "./skills/tallat-es"
+        "./skills/editor-esp"
       ]
     }
   ]

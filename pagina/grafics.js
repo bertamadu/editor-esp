@@ -1,4 +1,4 @@
-/* tallat · els gràfics del pla: frase clau, marcador, etiqueta, ratllat, llista, crida, segueix-me, notificació,
+/* editor-esp · els gràfics del pla: frase clau, marcador, etiqueta, ratllat, llista, crida, segueix-me, notificació,
  * comentari, publicació, xat, notes, número, progrés, anotació, REC, web (una captura dins d'una finestra), ventall
  * (unes quantes fotos), abans i després i carrusel.
  *

@@ -1,4 +1,4 @@
-# Dependències de tallat (Python 3.11).
+# Dependències de editor-esp (Python 3.11).
 # Versions fixades perquè funcioni també en Macs Intel (torch 2.2.2 és l'última amb paquets per a Intel).
 torch==2.2.2
 torchaudio==2.2.2

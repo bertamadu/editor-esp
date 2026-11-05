@@ -1,10 +1,10 @@
-# Lista de muletillas de tallat-es.
+# Lista de muletillas de editor-esp.
 # Una expresión por línea (puede ser de más de una palabra). Las mayúsculas, la puntuación
 # y las letras alargadas no cuentan: «Mmmm…» es lo mismo que «mmm».
 # Puedes editar tu copia en ~/.tallat-es/farciment.txt
 
 [treu]
-# Sonidos de duda: tallat-es los quita solo (se pueden recuperar)
+# Sonidos de duda: editor-esp los quita solo (se pueden recuperar)
 eh
 ehm
 em
@@ -15,7 +15,7 @@ uh
 um
 
 [proposa]
-# Palabras que a veces son muletilla y a veces no: tallat-es solo las propone
+# Palabras que a veces son muletilla y a veces no: editor-esp solo las propone
 ah
 este
 o sea

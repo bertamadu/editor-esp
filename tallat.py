@@ -1,4 +1,4 @@
-"""tallat: editor de reels en català, per paraules.
+"""editor-esp: editor de reels en català, per paraules.
 
 Ús (la primera vegada: ./prepara.sh, que instal·la tot el que cal):
   python tallat.py comprova                           (revisa que l'ordinador tingui tot el que cal)
@@ -162,7 +162,7 @@ def ordre_compara_temps(args) -> None:
     if r["grans"]:
         print("Dónde más difieren (escúchalo para saber cuál acierta):")
         for g in r["grans"]:
-            print(f"  {minuts_i_segons(g['nostre'])}  «{g['text']}»: tallat {g['nostre']:.2f} s, SRT {g['srt']:.2f} s")
+            print(f"  {minuts_i_segons(g['nostre'])}  «{g['text']}»: editor-esp {g['nostre']:.2f} s, SRT {g['srt']:.2f} s")
 
 
 def minuts_i_segons(t: float) -> str:
@@ -288,7 +288,7 @@ def ordre_instruccions(args) -> None:
     projecte = _carrega(args)
     trobades = projecte.detecta_instruccions()
     projecte.desa()
-    _mostra_instruccions(trobades) if trobades else print("No he encontrado ninguna instrucción «Claude, …» ni «tallat, …».")
+    _mostra_instruccions(trobades) if trobades else print("No he encontrado ninguna instrucción «Claude, …».")
 
 
 def ordre_afegeix(args) -> None:
@@ -379,7 +379,7 @@ def ordre_exporta(args) -> None:
 
 
 def ordre_comprova(args) -> None:
-    print("Comprobando tallat-es…")
+    print("Comprobando editor-esp…")
     resultats = comprova.comprovacions()
     print(comprova.informe(resultats))
     if any(estat == "error" for estat, _, _ in resultats):
@@ -845,7 +845,7 @@ def ordre_destaca(args) -> None:
     print("  " + "  ".join(f"{i}:{text}" for i, text in claus))
     triades = sorted(destacades.items())
     if triades:
-        print("Elegidas a mano (el resto las elige tallat): "
+        print("Elegidas a mano (el resto las elige editor-esp): "
               + ", ".join(f"{i} {'sí' if v else 'no'}" for i, v in triades))
     if not projecte.estil_subtitols().get("clau_grans"):
         print("Aviso: el kit de este vídeo no hace más grandes las palabras destacadas. "
@@ -922,7 +922,7 @@ def ordre_kit(args) -> None:
 def main() -> None:
     sys.stdout.reconfigure(line_buffering=True)  # que els missatges surtin al moment
     entorn.prepara()  # les eines que ha instal·lat prepara.sh (ffmpeg, Node), al davant del PATH
-    p = argparse.ArgumentParser(prog="tallat", description="Editor de reels en castellano, por palabras (tallat-es, versión modificada de tallat).")
+    p = argparse.ArgumentParser(prog="editor-esp", description="Editor de reels en castellano, por palabras (editor-esp, versión modificada de editor-esp).")
     sub = p.add_subparsers(dest="ordre", required=True)
 
     t = sub.add_parser("transcriu", help="Transcribe un vídeo con tiempo por palabra")
@@ -958,7 +958,7 @@ def main() -> None:
     e.add_argument("--projecte", required=True)
     e.set_defaults(func=ordre_estat)
 
-    ins = sub.add_parser("instruccions", help="Detecta las instrucciones de voz «Claude, …» o «tallat, …»")
+    ins = sub.add_parser("instruccions", help="Detecta las instrucciones de voz «Claude, …»")
     ins.add_argument("--projecte", required=True)
     ins.set_defaults(func=ordre_instruccions)
 
@@ -997,7 +997,7 @@ def main() -> None:
     x.add_argument("--sense-subtitols", action="store_true", help="Exporta sin subtítulos")
     x.set_defaults(func=ordre_exporta)
 
-    co = sub.add_parser("comprova", help="Revisa que el ordenador tenga todo lo que necesita tallat-es")
+    co = sub.add_parser("comprova", help="Revisa que el ordenador tenga todo lo que necesita editor-esp")
     co.set_defaults(func=ordre_comprova)
 
     ed = sub.add_parser("editors", help="Prepara el montaje para acabarlo en Premiere, Final Cut, DaVinci o CapCut")
@@ -1098,7 +1098,7 @@ def main() -> None:
     de.add_argument("--projecte", required=True)
     de.add_argument("--si", type=int, nargs="+", metavar="ID", help="Palabras que tienen que salir destacadas")
     de.add_argument("--no", type=int, nargs="+", metavar="ID", help="Palabras que no tienen que salir destacadas")
-    de.add_argument("--automatic", action="store_true", help="Olvida las elegidas a mano: las elige todas tallat")
+    de.add_argument("--automatic", action="store_true", help="Olvida las elegidas a mano: las elige todas editor-esp")
     de.set_defaults(func=ordre_destaca)
 
     no = sub.add_parser("notes", help="Las notas que la persona deja en la página para el asistente")

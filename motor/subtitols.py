@@ -313,7 +313,7 @@ def composicio(linies: list[dict], estil: dict, durada: float, fonts: list[dict]
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width={amplada}, height={alcada}" />
-    <title>Subtítols · tallat</title>
+    <title>Subtítols · editor-esp</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@{VERSIO_GSAP}/dist/gsap.min.js"></script>
     <script src="subtitols.js"></script>
     <script src="grafics.js"></script>

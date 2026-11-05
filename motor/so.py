@@ -5,7 +5,7 @@ treu una mica de «caixa» als greus i dona claredat a la veu, suavitza les «s�
 i iguala el volum al que fan servir Instagram i TikTok (-14 LUFS), en dues passades perquè no
 bombegi. Tot amb filtres d'ffmpeg.
 
-Efectes de so: els fabrica tallat amb codi (cap fitxer de fora, cap llicència). Cada persona els
+Efectes de so: els fabrica editor-esp amb codi (cap fitxer de fora, cap llicència). Cada persona els
 pot canviar pels seus posant un fitxer amb el mateix nom a ~/.tallat-es/sons/ (whoosh.wav, pop.mp3…).
 Tots els efectes d'un vídeo es barregen en una sola pista (WAV) del llarg del muntatge: la mateixa
 pista sona a la vista prèvia de la pàgina i es barreja al vídeo final.
@@ -382,7 +382,7 @@ def empremta(efectes: list[dict], durada: float, volum: float) -> str:
 
 
 def mostra_efecte(nom: str, carpeta: Path) -> Path:
-    """Un efecte sol (per escoltar-lo a la pàgina), tal com sonarà: el de tallat o el propi."""
+    """Un efecte sol (per escoltar-lo a la pàgina), tal com sonarà: el de editor-esp o el propi."""
     empremta_nom = hashlib.sha1((nom + empremta_sons()).encode()).hexdigest()[:8]
     desti = carpeta / f"so-{nom}-{empremta_nom}.wav"
     if not desti.exists():

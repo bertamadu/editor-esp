@@ -58,7 +58,7 @@ def _rotacio(stream: dict) -> int:
 
 
 def treu_rotacio(fitxer: Path) -> None:
-    """Els fotogrames que fa tallat ja surten drets, però l'ffmpeg 7.1 hi copia l'etiqueta «gira'l 90°»
+    """Els fotogrames que fa editor-esp ja surten drets, però l'ffmpeg 7.1 hi copia l'etiqueta «gira'l 90°»
     del vídeo de l'iPhone, i els reproductors el tornaven a girar (el vídeo sortia de costat). Si hi
     és, es treu, sense tornar a codificar res."""
     fitxer = Path(fitxer)
